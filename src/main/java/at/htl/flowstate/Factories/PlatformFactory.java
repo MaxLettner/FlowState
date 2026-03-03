@@ -10,13 +10,10 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-
 public class PlatformFactory implements EntityFactory {
 
     @Spawns("platform")
-    public Entity newPlatform (SpawnData data) {
-        //var texture = FXGL.texture("Brick.png");
-
+    public Entity newPlatform(SpawnData data) {
         Color color = data.get("color");
         double w = data.get("width");
         double h = data.get("height");
@@ -25,10 +22,9 @@ public class PlatformFactory implements EntityFactory {
         platPhysics.setBodyType(BodyType.STATIC);
 
         return FXGL.entityBuilder(data)
-                .at(data.getX(), data.getY())
                 .viewWithBBox(new Rectangle(w, h, color))
                 .with(platPhysics)
                 .collidable()
-                .buildAndAttach();
+                .build(); // No buildAndAttach() here!
     }
 }

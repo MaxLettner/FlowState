@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 
@@ -19,25 +20,31 @@ public class PlayerComponent extends Component {
     private int coyoteTimer = 0;
     private double currentRunningFrames = 0;
 
-
     @Override
     public void onAdded() {
-        // This links the physics component from the entity to this variable
         physics = entity.getComponent(PhysicsComponent.class);
     }
 
     @Override
     public void onUpdate(double tpf) {
         updateGroundState();
+        keepOnScreen();
     }
 
-    public void moveRight() {
-        move(1);
+    private void keepOnScreen() {
+        double viewX = FXGL.getGameScene().getViewport().getX();
+
+        // Don't let player walk left of the current screen edge
+        if (entity.getX() < viewX) {
+            entity.setX(viewX);
+            if (physics.getVelocityX() < 0) {
+                physics.setVelocityX(0);
+            }
+        }
     }
 
-    public void moveLeft() {
-        move(-1);
-    }
+    public void moveRight() { move(1); }
+    public void moveLeft() { move(-1); }
 
     public void stop() {
         currentRunningFrames = 0;
@@ -48,18 +55,12 @@ public class PlayerComponent extends Component {
         double speed = (MAX_MOVE_SPEED / 100.0) * (START_MOVE_SPEED_PCT + ((100.0 - START_MOVE_SPEED_PCT) / 100.0) * (currentRunningFrames / MAX_SPEED_FRAMES) * 100.0);
 
         if (isGrounded) {
-            if (currentRunningFrames < MAX_SPEED_FRAMES) {
-                currentRunningFrames++;
-            }
+            if (currentRunningFrames < MAX_SPEED_FRAMES) currentRunningFrames++;
         } else {
-            if (currentRunningFrames > MAX_SPEED_THRESHOLD) {
-                currentRunningFrames -= 0.5;
-            }
+            if (currentRunningFrames > MAX_SPEED_THRESHOLD) currentRunningFrames -= 0.5;
         }
 
         physics.setVelocityX(speed * direction);
-
-        checkPlayerBounds(direction);
     }
 
     public void jump() {
@@ -79,8 +80,6 @@ public class PlayerComponent extends Component {
 
     private void updateGroundState() {
         boolean wasGrounded = isGrounded;
-
-        // Check if vertical velocity is near zero
         isGrounded = Math.abs(physics.getVelocityY()) < 0.1;
 
         if (wasGrounded && !isGrounded) {
@@ -90,13 +89,6 @@ public class PlayerComponent extends Component {
             jumpConsumed = false;
         } else if (coyoteTimer > 0) {
             coyoteTimer--;
-        }
-    }
-
-    private void checkPlayerBounds(int direction) {
-        if (getEntity().getX() < 0 && direction < 0) {
-            getEntity().setX(0);
-            physics.setVelocityX(0);
         }
     }
 }
