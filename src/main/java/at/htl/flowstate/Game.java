@@ -10,6 +10,7 @@ import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -109,7 +110,18 @@ public class Game extends GameApplication {
         );
     }
 
+    @Override
+    protected void onUpdate(double tpf) {
+        checkIfPlayerFell();
+    }
+
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void checkIfPlayerFell(){
+        if(player.getY() > WINDOW_HEIGHT + WINDOW_HEIGHT*0.1) {
+            getGameController().exit();
+        }
     }
 }

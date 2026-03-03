@@ -19,6 +19,7 @@ public class PlayerComponent extends Component {
     private int coyoteTimer = 0;
     private double currentRunningFrames = 0;
 
+
     @Override
     public void onAdded() {
         // This links the physics component from the entity to this variable
