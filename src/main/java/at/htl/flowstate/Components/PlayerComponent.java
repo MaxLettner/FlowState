@@ -57,6 +57,8 @@ public class PlayerComponent extends Component {
         }
 
         physics.setVelocityX(speed * direction);
+
+        checkPlayerBounds(direction);
     }
 
     public void jump() {
@@ -87,6 +89,13 @@ public class PlayerComponent extends Component {
             jumpConsumed = false;
         } else if (coyoteTimer > 0) {
             coyoteTimer--;
+        }
+    }
+
+    private void checkPlayerBounds(int direction) {
+        if (getEntity().getX() < 0 && direction < 0) {
+            getEntity().setX(0);
+            physics.setVelocityX(0);
         }
     }
 }
