@@ -1,4 +1,4 @@
-package at.htl.flowstate;
+package at.htl.flowstate.Components;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;

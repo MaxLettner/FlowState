@@ -1,11 +1,12 @@
 package at.htl.flowstate;
 
+import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Factories.PlatformFactory;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
@@ -19,18 +20,18 @@ public class Game extends GameApplication {
 
     private Entity player;
 
-    private final int WINDOW_WIDTH = 1960;
-    private final int WINDOW_HEIGHT = 1080; //FXGL.getAppHeight()
+    private final double WINDOW_WIDTH = 1960;
+    private final double WINDOW_HEIGHT = 1080; //FXGL.getAppHeight()
     private final double PLAYER_W = 40;
     private final double PLAYER_H = 80;
     private final double FLOOR_H = 40;
 
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setTitle("FXGL Game");
-        settings.setVersion("0.2.2");
-        settings.setWidth(WINDOW_WIDTH);
-        settings.setHeight(WINDOW_HEIGHT);
+        settings.setTitle("FlowState");
+        settings.setVersion("0.2.3");
+        settings.setWidth((int)WINDOW_WIDTH);
+        settings.setHeight((int)WINDOW_HEIGHT);
     }
 
     @Override
@@ -72,6 +73,8 @@ public class Game extends GameApplication {
     protected void initGame() {
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
 
+        getGameWorld().addEntityFactory(new PlatformFactory());
+
         // 1. Setup Player Physics
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
@@ -88,21 +91,22 @@ public class Game extends GameApplication {
                 .buildAndAttach();
 
         // 3. Build Platforms
-        createPlatform(0, WINDOW_HEIGHT - FLOOR_H, WINDOW_WIDTH, FLOOR_H, Color.BROWN);
-        createPlatform(300, WINDOW_HEIGHT - 200, 200, FLOOR_H, Color.RED);
-        createPlatform(800, WINDOW_HEIGHT - 340, 200, FLOOR_H, Color.RED);
-    }
+        spawn("platform", new SpawnData(0, WINDOW_HEIGHT - FLOOR_H)
+                .put("color", Color.BROWN)
+                .put("width", WINDOW_WIDTH)
+                .put("height", FLOOR_H)
+        );
 
-    private Entity createPlatform(double x, double y, double w, double h, Color color) {
-        PhysicsComponent platPhysics = new PhysicsComponent();
-        platPhysics.setBodyType(BodyType.STATIC);
-
-        return entityBuilder()
-                .at(x, y)
-                .viewWithBBox(new Rectangle(w, h, color))
-                .with(platPhysics)
-                .collidable()
-                .buildAndAttach();
+        spawn("platform", new SpawnData(300, 850)
+                .put("color", Color.RED)
+                .put("width", 200.0)
+                .put("height", FLOOR_H)
+        );
+        spawn("platform", new SpawnData(600, 550)
+                .put("color", Color.RED)
+                .put("width", 200.0)
+                .put("height", FLOOR_H)
+        );
     }
 
     public static void main(String[] args) {
