@@ -103,7 +103,7 @@ public class Game extends GameApplication {
                 .with(platPhysics)
                 .collidable()
                 .buildAndAttach();
-    }
+    }//this is a change
 
     public static void main(String[] args) {
         launch(args);
