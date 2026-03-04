@@ -4,11 +4,14 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.level.tiled.TiledMap;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,7 +23,7 @@ public class Game extends GameApplication {
     private Entity player;
 
     private final int WINDOW_WIDTH = 1960;
-    private final int WINDOW_HEIGHT = 1080; //FXGL.getAppHeight()
+    private final int WINDOW_HEIGHT = 1080; // FXGL.getAppHeight()
     private final double PLAYER_W = 40;
     private final double PLAYER_H = 80;
     private final double FLOOR_H = 40;
@@ -41,28 +44,37 @@ public class Game extends GameApplication {
     @Override
     protected void initInput() {
         getInput().addAction(new UserAction("Left") {
-            @Override protected void onAction() {
+            @Override
+            protected void onAction() {
                 player.getComponent(PlayerComponent.class).moveLeft();
             }
-            @Override protected void onActionEnd() {
+
+            @Override
+            protected void onActionEnd() {
                 player.getComponent(PlayerComponent.class).stop();
             }
         }, KeyCode.A);
 
         getInput().addAction(new UserAction("Right") {
-            @Override protected void onAction() {
+            @Override
+            protected void onAction() {
                 player.getComponent(PlayerComponent.class).moveRight();
             }
-            @Override protected void onActionEnd() {
+
+            @Override
+            protected void onActionEnd() {
                 player.getComponent(PlayerComponent.class).stop();
             }
         }, KeyCode.D);
 
         getInput().addAction(new UserAction("Jump") {
-            @Override protected void onActionBegin() {
+            @Override
+            protected void onActionBegin() {
                 player.getComponent(PlayerComponent.class).jump();
             }
-            @Override protected void onActionEnd() {
+
+            @Override
+            protected void onActionEnd() {
                 player.getComponent(PlayerComponent.class).stopJump();
             }
         }, KeyCode.W);
@@ -91,6 +103,15 @@ public class Game extends GameApplication {
         createPlatform(0, WINDOW_HEIGHT - FLOOR_H, WINDOW_WIDTH, FLOOR_H, Color.BROWN);
         createPlatform(300, WINDOW_HEIGHT - 200, 200, FLOOR_H, Color.RED);
         createPlatform(800, WINDOW_HEIGHT - 340, 200, FLOOR_H, Color.RED);
+
+        // 4. Load test asset
+        ImageView testasset = FXGL.texture("testasset.png");
+
+        Entity e = FXGL.entityBuilder()
+                .at(100, 100)
+                .view(testasset)
+                .with(new PhysicsComponent())
+                .buildAndAttach();
     }
 
     private Entity createPlatform(double x, double y, double w, double h, Color color) {
@@ -103,7 +124,7 @@ public class Game extends GameApplication {
                 .with(platPhysics)
                 .collidable()
                 .buildAndAttach();
-    }//this is a change
+    }
 
     public static void main(String[] args) {
         launch(args);
