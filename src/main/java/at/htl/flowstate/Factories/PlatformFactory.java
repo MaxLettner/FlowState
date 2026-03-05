@@ -25,6 +25,6 @@ public class PlatformFactory implements EntityFactory {
                 .viewWithBBox(new Rectangle(w, h, color))
                 .with(platPhysics)
                 .collidable()
-                .build(); // No buildAndAttach() here!
+                .build();
     }
 }

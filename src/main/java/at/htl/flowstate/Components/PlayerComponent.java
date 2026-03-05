@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 
@@ -34,7 +35,7 @@ public class PlayerComponent extends Component {
     private void keepOnScreen() {
         double viewX = FXGL.getGameScene().getViewport().getX();
 
-        // Don't let player walk left of the current screen edge
+        //dont let player walk left of the current screen edge
         if (entity.getX() < viewX) {
             entity.setX(viewX);
             if (physics.getVelocityX() < 0) {

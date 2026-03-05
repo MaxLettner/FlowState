@@ -24,19 +24,43 @@ public class Game extends GameApplication {
     private Entity player;
     private final double WINDOW_WIDTH = 1920;
     private final double WINDOW_HEIGHT = 1080;
-    private final double FLOOR_H = 40;
 
-    // Endless logic
+    //the floor of each ground segment fills from its top surface all the way
+    //down to DEEP_FLOOR, which is twice the window height — well off-screen,
+    //so the player never sees the bottom edge.
+    private final double DEEP_FLOOR = WINDOW_HEIGHT * 2;
+
+    //terrain parameters
+    private final double BASE_Y = 950;  //the base level the terrain hovers around
+    private final double MIN_Y = 800;  //highest the terrain can rise
+    private final double MAX_Y = 1000; //lowest the terrain can sink before it's a wall
+
+    //pit parameters
+    private final double PIT_CHANCE = 0.06;  //6% chance each segment
+    private final double PIT_MIN_WIDTH = 160;
+    private final double PIT_MAX_WIDTH = 280;
+
+    //how far ahead the world is generated
+    private final double SPAWN_DISTANCE = 1400;
+
+    //generation state
     private double lastGeneratedX = 0;
-    private double lastGeneratedY = 950;
-    private final double SPAWN_DISTANCE = 1200;
+    private double currentY = BASE_Y; // current terrain surface height
+
+    // Terrain drift — gives hills their momentum so they rise and fall naturally
+    // rather than randomly jumping around every segment.
+    // Positive drift = terrain going lower (downhill), negative = going higher (uphill).
+    private double terrainDrift = 0;
+
+    // How many more segments the current slope should continue before reconsidering
+    private int slopeSegmentsLeft = 0;
 
     @Override
     protected void initSettings(GameSettings settings) {
         settings.setTitle("FlowState Endless");
-        settings.setVersion("0.3.1");
-        settings.setWidth((int)WINDOW_WIDTH);
-        settings.setHeight((int)WINDOW_HEIGHT);
+        settings.setVersion("0.4.0");
+        settings.setWidth((int) WINDOW_WIDTH);
+        settings.setHeight((int) WINDOW_HEIGHT);
     }
 
     @Override
@@ -67,79 +91,154 @@ public class Game extends GameApplication {
         getGameWorld().addEntityFactory(new PlatformFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
 
-        // 1. Setup Player
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().friction(0).density(1.0f));
         physics.setOnPhysicsInitialized(() -> physics.getBody().setFixedRotation(true));
 
         player = entityBuilder()
-                .at(300, WINDOW_HEIGHT - 200)
+                .at(300, BASE_Y - 150)
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
                 .with(new PlayerComponent())
                 .collidable()
                 .buildAndAttach();
 
-        // 2. Initial Floor
-        spawn("platform", new SpawnData(0, WINDOW_HEIGHT - FLOOR_H)
-                .put("color", Color.BROWN)
-                .put("width", WINDOW_WIDTH * 1.2)
-                .put("height", FLOOR_H));
+        //long flat starting floor so the player lands comfortably
+        spawnGroundSegment(0, BASE_Y, WINDOW_WIDTH * 1.5);
+        lastGeneratedX = WINDOW_WIDTH * 1.5;
+        currentY       = BASE_Y;
 
-        lastGeneratedX = WINDOW_WIDTH * 1.2;
-
-        // 3. Viewport setup
-        getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int)WINDOW_HEIGHT);
+        getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
     }
 
     @Override
     protected void onUpdate(double tpf) {
         if (player.getY() > WINDOW_HEIGHT + 100) {
             getGameController().exit();
-            lastGeneratedY = 950;
         }
-
         updateCamera();
         generateLevel();
         cleanupPlatforms();
     }
 
+    //─────CAMERA──────────────────────────────────────────────────────────────────
+
     private void updateCamera() {
-        double currentVpX = getGameScene().getViewport().getX();
-
-        // Threshold is 3/4 (75%) of the screen width
-        double threshold = currentVpX + (WINDOW_WIDTH * 0.75);
-
-        // Move the camera only if the player pushes past the threshold
+        double vpX       = getGameScene().getViewport().getX();
+        double threshold = vpX + WINDOW_WIDTH * 0.75;
         if (player.getX() > threshold) {
-            getGameScene().getViewport().setX(player.getX() - (WINDOW_WIDTH * 0.75));
+            getGameScene().getViewport().setX(player.getX() - WINDOW_WIDTH * 0.75);
         }
     }
+
+    //───GENERATION──────────────────────────────────────────────────────────────
 
     private void generateLevel() {
-        if (player.getX() + SPAWN_DISTANCE > lastGeneratedX) {
-            double width = FXGLMath.random(200, 500);
-            double x = lastGeneratedX + FXGLMath.random(50, 350);
-            double y = lastGeneratedY + FXGLMath.random(-200, 200);
-
-            // Boundary checks for vertical spawn height
-            if(y < 300) y += FXGLMath.random(100, 250);
-            if(y > 950) y -= FXGLMath.random(100, 250);
-
-            spawn("platform", new SpawnData(x, y)
-                    .put("color", Color.RED)
-                    .put("width", width)
-                    .put("height", FLOOR_H));
-
-            lastGeneratedX = x + width;
-            lastGeneratedY = y;
+        while (player.getX() + SPAWN_DISTANCE > lastGeneratedX) {
+            spawnNextSegment();
         }
     }
 
+    private void spawnNextSegment() {
+        //pit
+        if (Math.random() < PIT_CHANCE) {
+            double pitWidth = FXGLMath.random((int) PIT_MIN_WIDTH, (int) PIT_MAX_WIDTH);
+            lastGeneratedX += pitWidth;
+            //terrain after a pit snaps back toward BASE_Y
+            //EXPERIMENTAL MAY BE CHANGED
+            currentY      = snapToward(currentY, BASE_Y, 60);
+            terrainDrift  = 0;
+            slopeSegmentsLeft = 0;
+            return;
+        }
+
+        //segment witdh
+        double segmentW = FXGLMath.random(180, 420);
+
+        //update slope
+        currentY = nextTerrainY(segmentW);
+
+        spawnGroundSegment(lastGeneratedX, currentY, segmentW);
+        lastGeneratedX += segmentW;
+    }
+
+    /**
+     *Computes the next terrain Y using a momentum based drift system
+     *
+     *the terrain has a drift value that represents how fast and in which
+     *direction it is currently sloping the drift persists for several segments
+     *before randomly being reconsidered, producing smooth hills and valleys
+     *rather than chaotic random noise
+     *
+     *most of the time the drift is tiny (relatively flat) sometimes a bigger
+     *slope kicks in for a hill or valley
+     */
+    private double nextTerrainY(double segmentW) {
+        if (slopeSegmentsLeft <= 0) {
+            //pick a new slope direction and length
+            //70% of the time: nearly flat
+            //30% of the time: a real slope
+            double roll = Math.random();
+
+            if (roll < 0.70) {
+                //nearly flat
+                terrainDrift      = FXGLMath.random(-12, 12) + (BASE_Y - currentY) * 0.05;
+                slopeSegmentsLeft = FXGLMath.random(3, 7);
+            } else if (roll < 0.90) {
+                //gentle slope
+                terrainDrift      = FXGLMath.random(-30, 30);
+                slopeSegmentsLeft = FXGLMath.random(4, 9);
+            } else {
+                //hill or valley
+                terrainDrift      = FXGLMath.random(-60, 60);
+                slopeSegmentsLeft = FXGLMath.random(3, 6);
+            }
+
+            //if near a boundary slope back towards BASE_Y
+            if (currentY < MIN_Y + 30)  terrainDrift = Math.abs(terrainDrift);  // force downward (higher Y)
+            if (currentY > MAX_Y - 30)  terrainDrift = -Math.abs(terrainDrift); // force upward (lower Y)
+        }
+
+        slopeSegmentsLeft--;
+
+        double newY = currentY + terrainDrift;
+
+        //hard clamp
+        newY = Math.max(MIN_Y, Math.min(MAX_Y, newY));
+
+        return newY;
+    }
+
+    /**
+     *spawns a single ground segment: a solid rectangle whose top surface is at
+     *the given Y and whose bottom extends to DEEP_FLOOR
+     *this way no matter how the camera angles the player never sees the bottom
+     */
+    private void spawnGroundSegment(double x, double y, double width) {
+        double height = DEEP_FLOOR - y;
+        spawn("platform", new SpawnData(x, y)
+                .put("color", Color.SADDLEBROWN)
+                .put("width", width)
+                .put("height", height));
+    }
+
+    // ───HELPERS───────────────────────────────────────────────────────────────
+
+    /**moves value toward target by at most maxStep*/
+    private double snapToward(double value, double target, double maxStep) {
+        double diff = target - value;
+        if (Math.abs(diff) <= maxStep) return target;
+        return value + Math.signum(diff) * maxStep;
+    }
+
+    /**
+     *removes entities that have scrolled far off the left edge
+     *500px buffer keeps Box2D stable for anything still on screen
+     */
     private void cleanupPlatforms() {
         double viewX = getGameScene().getViewport().getX();
-        List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 2000);
+        List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
         toRemove.forEach(Entity::removeFromWorld);
     }
 
