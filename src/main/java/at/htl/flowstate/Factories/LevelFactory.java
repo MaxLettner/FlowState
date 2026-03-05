@@ -10,7 +10,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class LevelFactory implements EntityFactory {
+public class PlatformFactory implements EntityFactory {
 
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
@@ -26,18 +26,5 @@ public class LevelFactory implements EntityFactory {
                 .with(platPhysics)
                 .collidable()
                 .build();
-    }
-
-    @Spawns("chest")
-    public Entity newChest(SpawnData data) {
-        Color color = data.get("color");
-        double w = data.get("width");
-        double h = data.get("height");
-
-        return FXGL.entityBuilder(data)
-                .viewWithBBox(new Rectangle(w, h, color))
-                .collidable()
-                .zIndex(-1)
-                .buildAndAttach();
     }
 }
