@@ -26,14 +26,14 @@ public class Game extends GameApplication {
     private final double WINDOW_HEIGHT = 1080;
 
     //the floor of each ground segment fills from its top surface all the way
-    //down to DEEP_FLOOR, which is twice the window height — well off-screen,
-    //so the player never sees the bottom edge.
-    private final double DEEP_FLOOR = WINDOW_HEIGHT * 2;
+    //down to DEEP_FLOOR which is twice the window height well off-screen
+    //so the player never sees the bottom edge
+    private final double DEEP_FLOOR = WINDOW_HEIGHT * 1.5;
 
     //terrain parameters
     private final double BASE_Y = 950;  //the base level the terrain hovers around
     private final double MIN_Y = 800;  //highest the terrain can rise
-    private final double MAX_Y = 1000; //lowest the terrain can sink before it's a wall
+    private final double MAX_Y = 1000; //lowest the terrain can sink before its a wall
 
     //pit parameters
     private final double PIT_CHANCE = 0.06;  //6% chance each segment
@@ -45,14 +45,15 @@ public class Game extends GameApplication {
 
     //generation state
     private double lastGeneratedX = 0;
-    private double currentY = BASE_Y; // current terrain surface height
+    private double currentY = BASE_Y; //current terrain surface height
 
-    // Terrain drift — gives hills their momentum so they rise and fall naturally
-    // rather than randomly jumping around every segment.
-    // Positive drift = terrain going lower (downhill), negative = going higher (uphill).
+    //terrain drift gives hills their momentum so they rise and fall naturally
+    //rather than randomly jumping around every segment.
+    //positive drift = terrain going lower = downhill
+    //negative drift = going higher = uphill
     private double terrainDrift = 0;
 
-    // How many more segments the current slope should continue before reconsidering
+    //how many more segments the current slope should continue before reconsidering
     private int slopeSegmentsLeft = 0;
 
     @Override
@@ -104,7 +105,7 @@ public class Game extends GameApplication {
                 .collidable()
                 .buildAndAttach();
 
-        //long flat starting floor so the player lands comfortably
+        //long flat starting floor
         spawnGroundSegment(0, BASE_Y, WINDOW_WIDTH * 1.5);
         lastGeneratedX = WINDOW_WIDTH * 1.5;
         currentY       = BASE_Y;
@@ -132,7 +133,7 @@ public class Game extends GameApplication {
         }
     }
 
-    //───GENERATION──────────────────────────────────────────────────────────────
+    //───GENERATION───────────────────────────────────────────────────────────────
 
     private void generateLevel() {
         while (player.getX() + SPAWN_DISTANCE > lastGeneratedX) {
@@ -183,15 +184,15 @@ public class Game extends GameApplication {
 
             if (roll < 0.70) {
                 //nearly flat
-                terrainDrift      = FXGLMath.random(-12, 12) + (BASE_Y - currentY) * 0.05;
+                terrainDrift = FXGLMath.random(-12, 12) + (BASE_Y - currentY) * 0.05;
                 slopeSegmentsLeft = FXGLMath.random(3, 7);
             } else if (roll < 0.90) {
                 //gentle slope
-                terrainDrift      = FXGLMath.random(-30, 30);
+                terrainDrift = FXGLMath.random(-30, 30);
                 slopeSegmentsLeft = FXGLMath.random(4, 9);
             } else {
                 //hill or valley
-                terrainDrift      = FXGLMath.random(-60, 60);
+                terrainDrift = FXGLMath.random(-60, 60);
                 slopeSegmentsLeft = FXGLMath.random(3, 6);
             }
 
