@@ -3,6 +3,7 @@ module at.htl.flowstate {
     requires javafx.fxml;
 
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens at.htl.flowstate to com.almasb.fxgl.core;
     exports at.htl.flowstate;
