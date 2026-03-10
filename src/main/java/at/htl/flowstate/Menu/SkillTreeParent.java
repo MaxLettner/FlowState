@@ -57,7 +57,7 @@ public abstract class SkillTreeParent extends FXGLMenu {
 
 
     protected Button createButton(String name) {
-        Button button = new Button(name + "Skilltree");
+        Button button = new Button(name);
         button.setPrefWidth(nodeSize * 2);
         button.setPrefHeight(nodeSize / 2);
         button.setStyle("-fx-font-size: 18px; -fx-background-color: #444; -fx-text-fill: white;");
