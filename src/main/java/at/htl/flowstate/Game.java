@@ -1,7 +1,7 @@
 package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
-import at.htl.flowstate.Factories.PlatformFactory;
+import at.htl.flowstate.Factories.LevelFactory;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.List;
-import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -94,7 +93,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame() {
-        getGameWorld().addEntityFactory(new PlatformFactory());
+        getGameWorld().addEntityFactory(new LevelFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
 
         PhysicsComponent physics = new PhysicsComponent();
@@ -231,13 +230,11 @@ public class Game extends GameApplication {
         int rand = FXGLMath.random(0,2);
 
         switch(rand) {
-            case 0: spawnChest();break;
+            case 0: spawnChestStructure();break;
         }
     }
 
-    private void spawnChest() {
-
-        System.out.println(1);
+    private void spawnChestStructure() {
 
         FXGL.entityBuilder(new SpawnData(lastGeneratedX+10, currentY-50))
                 .viewWithBBox(new Rectangle(80.0, 50.0, Color.RED))
