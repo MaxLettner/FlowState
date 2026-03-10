@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -59,6 +60,9 @@ public class Game extends GameApplication {
 
     //how many more segments the current slope should continue before reconsidering
     private int slopeSegmentsLeft = 0;
+
+    //list containing all chests on the map so it can be checked whether the player is inside
+    private List<Entity> chests = new ArrayList<>();
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -231,19 +235,28 @@ public class Game extends GameApplication {
 
         switch(rand) {
             case 0: spawnChestStructure();break;
+            case 1: spawnChallengeStructure();break;
         }
     }
 
     private void spawnChestStructure() {
 
-        FXGL.entityBuilder(new SpawnData(lastGeneratedX+10, currentY-50))
-                .viewWithBBox(new Rectangle(80.0, 50.0, Color.RED))
-                .zIndex(-1)
-                .buildAndAttach();
-
+        spawnChest(lastGeneratedX+10, currentY-50);
         spawnGroundSegment(lastGeneratedX, currentY, 100);
-
         lastGeneratedX += 100;
+    }
+
+    private void spawnChallengeStructure() {
+
+        spawnAirPlatform(lastGeneratedX, currentY - 200, 50, 50);
+        spawnAirPlatform(lastGeneratedX + 200, currentY - 400, 50, 50);
+        spawnAirPlatform(lastGeneratedX, currentY - 600, 50, 50);
+        spawnAirPlatform(lastGeneratedX + 200, currentY - 800, 100, 50);
+
+        spawnChest(lastGeneratedX + 210, currentY - 850);
+
+        spawnGroundSegment(lastGeneratedX, currentY, 400);
+        lastGeneratedX += 400;
     }
 
     //-----HELPERS-----
@@ -264,6 +277,20 @@ public class Game extends GameApplication {
                 .put("color", Color.SADDLEBROWN)
                 .put("width", width)
                 .put("height", height));
+    }
+
+    private void spawnAirPlatform(double x, double y, double width, double height) {
+        spawn("platform", new SpawnData(x, y)
+                .put("color", Color.SADDLEBROWN)
+                .put("width", width)
+                .put("height", height));
+    }
+
+    private void spawnChest(double x, double y) {
+        chests.add(spawn("chest", new SpawnData(x, y)
+                .put("color", Color.RED)
+                .put("width", 80.0)
+                .put("height", 50.0)));
     }
 
     public static void main(String[] args) { launch(args); }
