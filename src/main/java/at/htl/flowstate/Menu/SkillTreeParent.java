@@ -20,7 +20,7 @@ public abstract class SkillTreeParent extends FXGLMenu {
     protected final int nodeSize = 100;
     protected final VBox root;
 
-    public SkillTreeParent(MenuType menuType) {
+    public SkillTreeParent(MenuType menuType, String titleText) {
         super(menuType);
 
         // Root container
@@ -28,7 +28,7 @@ public abstract class SkillTreeParent extends FXGLMenu {
         root.setAlignment(Pos.CENTER);
 
         // Title
-        Text title = new Text("Skill Tree");
+        Text title = new Text(titleText);
         title.setFill(Color.WHITE);
         title.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
         
