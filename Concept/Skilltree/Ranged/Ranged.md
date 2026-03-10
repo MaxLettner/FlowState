@@ -2,4 +2,3 @@
 [[Crossbow]]
 [[Trident]]
 
-[[Dexterity]]
