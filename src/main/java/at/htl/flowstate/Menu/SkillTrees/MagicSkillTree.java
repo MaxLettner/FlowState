@@ -1,12 +1,11 @@
-package at.htl.flowstate.Menu;
+package at.htl.flowstate.Menu.SkillTrees;
 
+import at.htl.flowstate.Menu.SkillTreeParent;
 import com.almasb.fxgl.app.scene.MenuType;
-
 import javafx.scene.control.Button;
 
-public class SkillTree extends SkillTreeParent {
-
-    public SkillTree() {
+public class MagicSkillTree extends SkillTreeParent {
+    public MagicSkillTree() {
         super(MenuType.GAME_MENU);
 
         Button magicSkilLTreeBTN = createButton("Magic");
@@ -17,6 +16,6 @@ public class SkillTree extends SkillTreeParent {
         });
 
         root.getChildren().addAll(magicSkilLTreeBTN, meeleSkillTreeBTN);
-    }
 
+    }
 }
