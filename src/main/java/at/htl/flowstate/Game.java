@@ -2,7 +2,7 @@ package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.PlatformFactory;
-import at.htl.flowstate.Menu.MenuFactory;
+import at.htl.flowstate.Factories.PlatformFactory;
 import at.htl.flowstate.Menu.SkillTree;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -51,6 +51,7 @@ public class Game extends GameApplication {
             }
         });
 
+
     }
 
     @Override
@@ -60,6 +61,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initInput() {
+
         getInput().addAction(new UserAction("Left") {
             @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveLeft(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
@@ -74,6 +76,9 @@ public class Game extends GameApplication {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
+        onKeyDown(KeyCode.I, () -> {
+            getGameController().gotoGameMenu();
+        });
     }
 
     @Override

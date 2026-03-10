@@ -4,8 +4,10 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 
+import com.almasb.fxgl.input.UserAction;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -46,6 +48,13 @@ public class SkillTree extends FXGLMenu {
                 .repeatInfinitely()
                 .scale(root)
                 .buildAndPlay();
+
+        getInput().addAction(new UserAction("Close Skill Tree") {
+            @Override
+            protected void onActionBegin() {
+                getController().gotoPlay();
+            }
+        }, KeyCode.I);
     }
 
     private Button createSkillButton(String name, int level) {
@@ -72,4 +81,5 @@ public class SkillTree extends FXGLMenu {
     public void onUpdate(double tpf) {
         // Called every frame if you want animations or dynamic updates
     }
+
 }
