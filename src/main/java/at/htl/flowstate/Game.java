@@ -5,6 +5,7 @@ import at.htl.flowstate.Factories.PlatformFactory;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -37,9 +39,11 @@ public class Game extends GameApplication {
     private final double MAX_Y = 1000; //lowest the terrain can sink before its a wall
 
     //pit parameters
-    private final double PIT_CHANCE = 0.06;  //6% chance each segment
+    private final double PIT_CHANCE = 0.06;  //in decimal
     private final double PIT_MIN_WIDTH = 160;
     private final double PIT_MAX_WIDTH = 280;
+
+    private final double STRUCTURE_CHANCE = 0.5;
 
     //how far ahead the world is generated
     private final double SPAWN_DISTANCE = 1400;
@@ -49,7 +53,7 @@ public class Game extends GameApplication {
     private double currentY = BASE_Y; //current terrain surface height
 
     //terrain drift gives hills their momentum so they rise and fall naturally
-    //rather than randomly jumping around every segment.
+    //rather than randomly jumping around every segment
     //positive drift = terrain going lower = downhill
     //negative drift = going higher = uphill
     private double terrainDrift = 0;
@@ -59,8 +63,8 @@ public class Game extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setTitle("FlowState Endless");
-        settings.setVersion("0.4.0");
+        settings.setTitle("FlowState");
+        settings.setVersion("0.4.1");
         settings.setWidth((int) WINDOW_WIDTH);
         settings.setHeight((int) WINDOW_HEIGHT);
     }
@@ -124,17 +128,17 @@ public class Game extends GameApplication {
         cleanupPlatforms();
     }
 
-    //─────CAMERA──────────────────────────────────────────────────────────────────
+    //-----CAMERA-----
 
     private void updateCamera() {
-        double vpX       = getGameScene().getViewport().getX();
+        double vpX = getGameScene().getViewport().getX();
         double threshold = vpX + WINDOW_WIDTH * 0.75;
         if (player.getX() > threshold) {
             getGameScene().getViewport().setX(player.getX() - WINDOW_WIDTH * 0.75);
         }
     }
 
-    //───GENERATION───────────────────────────────────────────────────────────────
+    //-----GENERATON-----
 
     private void generateLevel() {
         while (player.getX() + SPAWN_DISTANCE > lastGeneratedX) {
@@ -147,11 +151,13 @@ public class Game extends GameApplication {
         if (Math.random() < PIT_CHANCE) {
             double pitWidth = FXGLMath.random((int) PIT_MIN_WIDTH, (int) PIT_MAX_WIDTH);
             lastGeneratedX += pitWidth;
-            //terrain after a pit snaps back toward BASE_Y
-            //EXPERIMENTAL MAY BE CHANGED
-            currentY      = snapToward(currentY, BASE_Y, 60);
-            terrainDrift  = 0;
+            terrainDrift = 0;
             slopeSegmentsLeft = 0;
+            return;
+        }
+
+        if(Math.random() < STRUCTURE_CHANCE) {
+            spawnStructure();
             return;
         }
 
@@ -198,8 +204,8 @@ public class Game extends GameApplication {
             }
 
             //if near a boundary slope back towards BASE_Y
-            if (currentY < MIN_Y + 30)  terrainDrift = Math.abs(terrainDrift);  // force downward (higher Y)
-            if (currentY > MAX_Y - 30)  terrainDrift = -Math.abs(terrainDrift); // force upward (lower Y)
+            if (currentY < MIN_Y + 30)  terrainDrift = Math.abs(terrainDrift);  //force downward (higher Y)
+            if (currentY > MAX_Y - 30)  terrainDrift = -Math.abs(terrainDrift); //force upward (lower Y)
         }
 
         slopeSegmentsLeft--;
@@ -217,22 +223,33 @@ public class Game extends GameApplication {
      *the given Y and whose bottom extends to DEEP_FLOOR
      *this way no matter how the camera angles the player never sees the bottom
      */
-    private void spawnGroundSegment(double x, double y, double width) {
-        double height = DEEP_FLOOR - y;
-        spawn("platform", new SpawnData(x, y)
-                .put("color", Color.SADDLEBROWN)
-                .put("width", width)
-                .put("height", height));
+
+
+    //-----STRUCTURES-----
+
+    private void spawnStructure() {
+        int rand = FXGLMath.random(0,2);
+
+        switch(rand) {
+            case 0: spawnChest();break;
+        }
     }
 
-    // ───HELPERS───────────────────────────────────────────────────────────────
+    private void spawnChest() {
 
-    /**moves value toward target by at most maxStep*/
-    private double snapToward(double value, double target, double maxStep) {
-        double diff = target - value;
-        if (Math.abs(diff) <= maxStep) return target;
-        return value + Math.signum(diff) * maxStep;
+        System.out.println(1);
+
+        FXGL.entityBuilder(new SpawnData(lastGeneratedX+10, currentY-50))
+                .viewWithBBox(new Rectangle(80.0, 50.0, Color.RED))
+                .zIndex(-1)
+                .buildAndAttach();
+
+        spawnGroundSegment(lastGeneratedX, currentY, 100);
+
+        lastGeneratedX += 100;
     }
+
+    //-----HELPERS-----
 
     /**
      *removes entities that have scrolled far off the left edge
@@ -242,6 +259,14 @@ public class Game extends GameApplication {
         double viewX = getGameScene().getViewport().getX();
         List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
         toRemove.forEach(Entity::removeFromWorld);
+    }
+
+    private void spawnGroundSegment(double x, double y, double width) {
+        double height = DEEP_FLOOR - y;
+        spawn("platform", new SpawnData(x, y)
+                .put("color", Color.SADDLEBROWN)
+                .put("width", width)
+                .put("height", height));
     }
 
     public static void main(String[] args) { launch(args); }
