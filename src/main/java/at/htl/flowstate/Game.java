@@ -43,7 +43,7 @@ public class Game extends GameApplication {
     private final double PIT_MIN_WIDTH = 160;
     private final double PIT_MAX_WIDTH = 280;
 
-    private final double STRUCTURE_CHANCE = 0.5;
+    private final double STRUCTURE_CHANCE = 0.05;
 
     //how far ahead the world is generated
     private final double SPAWN_DISTANCE = 1400;
