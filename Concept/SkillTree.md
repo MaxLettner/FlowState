@@ -1,0 +1,4 @@
+
+[[Magic]]
+[[Meele]]
+[[Ranged]]

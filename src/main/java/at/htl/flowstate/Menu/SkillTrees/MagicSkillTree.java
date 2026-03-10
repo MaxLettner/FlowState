@@ -8,14 +8,13 @@ public class MagicSkillTree extends SkillTreeParent {
     public MagicSkillTree() {
         super(MenuType.GAME_MENU);
 
-        Button magicSkilLTreeBTN = createButton("Magic");
-        Button meeleSkillTreeBTN = createButton("Meele");
+        Button arcaneSkillTree = createButton("Arcane");
+        Button enchantingSkillTree = createButton("Enchanting");
+        Button elementalSkillTree = createButton("Elemental");
 
-        magicSkilLTreeBTN.setOnAction(e -> {
-            System.out.println("Opening Magic Skill Tree");
-        });
+        
 
-        root.getChildren().addAll(magicSkilLTreeBTN, meeleSkillTreeBTN);
+        root.getChildren().addAll(arcaneSkillTree, enchantingSkillTree, elementalSkillTree);
 
     }
 }
