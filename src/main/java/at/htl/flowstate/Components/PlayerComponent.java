@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components;
 
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -33,6 +34,16 @@ public class PlayerComponent extends Component {
     private int coyoteTimer = 0;
     private double  currentRunningFrames = 0;
     private int lastMoveDirection = 0;
+
+    //STATS
+    private double health = 100;
+    private double maxHealth = 100;
+    private double mana = 100;
+    private double maxMana = 100;
+    private double strength = 100;
+    private double dexterity = 100;
+    private double level = 0;
+    private double skillPoints = 0;
 
     @Override
     public void onAdded() {
@@ -144,4 +155,24 @@ public class PlayerComponent extends Component {
             coyoteTimer--;
         }
     }
+
+    //-----Getters-----
+
+
+    public double getMana() {
+        return mana;
+    }
+
+    public double getMaxMana() {
+        return maxMana;
+    }
+
+    public double getHealth() {
+        return health;
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
+    }
+
 }

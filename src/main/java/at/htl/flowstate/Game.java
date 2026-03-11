@@ -10,6 +10,7 @@ import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import com.almasb.fxgl.ui.ProgressBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,6 +26,9 @@ public class Game extends GameApplication {
 
     private final double WINDOW_WIDTH = 1920;
     private final double WINDOW_HEIGHT = 1080;
+
+    private ProgressBar hpBar;
+    private ProgressBar mpBar;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -59,6 +63,9 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame() {
+        hpBar = new ProgressBar();
+        mpBar = new ProgressBar();
+
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
 
@@ -78,6 +85,9 @@ public class Game extends GameApplication {
                 .buildAndAttach();
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
+
+        initHealthBar();
+        initManaBar();
     }
 
     @Override
@@ -88,6 +98,9 @@ public class Game extends GameApplication {
         updateCamera();
         levelGeneration.generateLevel(player.getX());
         cleanupPlatforms();
+
+        hpBar.setCurrentValue(player.getComponent(PlayerComponent.class).getHealth());
+        mpBar.setCurrentValue(player.getComponent(PlayerComponent.class).getMana());
     }
 
     //-----CAMERA-----
@@ -110,6 +123,34 @@ public class Game extends GameApplication {
         double viewX = getGameScene().getViewport().getX();
         List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
         toRemove.forEach(Entity::removeFromWorld);
+    }
+
+    private void initHealthBar () {
+        hpBar.setMinValue(0);
+        hpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
+
+        hpBar.setFill(Color.RED);
+        hpBar.setHeight(15);
+        hpBar.setWidth(300);
+
+        hpBar.setLayoutX(WINDOW_WIDTH * 0.82);
+        hpBar.setLayoutY(50);
+
+        addUINode(hpBar);
+    }
+
+    private void initManaBar () {
+        mpBar.setMinValue(0);
+        mpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
+
+        mpBar.setFill(Color.BLUE);
+        mpBar.setHeight(15);
+        mpBar.setWidth(300);
+
+        mpBar.setLayoutX(WINDOW_WIDTH * 0.82);
+        mpBar.setLayoutY(80);
+
+        addUINode(mpBar);
     }
 
     public static void main(String[] args) { launch(args); }
