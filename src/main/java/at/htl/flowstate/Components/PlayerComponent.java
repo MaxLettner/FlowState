@@ -22,7 +22,7 @@ public class PlayerComponent extends Component {
 
     private static final double PLAYER_WIDTH = 40.0;
     private static final double PLAYER_HEIGHT = 80.0;
-    private static final double STEP_HEIGHT = 30.0;
+    private static final double STEP_HEIGHT = 20.0;
     private static final double STEP_LOOK_AHEAD = 12.0;
     //after snapping push the player this many px forward so the ledge face
     //is no longer in the way next frame breaking the snap feedback loop
