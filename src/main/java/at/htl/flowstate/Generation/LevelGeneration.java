@@ -108,15 +108,21 @@ public class LevelGeneration {
 
             if (roll < 0.70) {
                 //nearly flat
-                terrainDrift = FXGLMath.random(-12, 12) + (BASE_Y - currentY) * 0.05;
+                int drift =FXGLMath.random(-12, 12);
+                if(drift < 3 && drift > -3) drift = 0;
+                terrainDrift = drift + (BASE_Y - currentY) * 0.05;
                 slopeSegmentsLeft = FXGLMath.random(3, 7);
             } else if (roll < 0.90) {
                 //gentle slope
-                terrainDrift = FXGLMath.random(-30, 30);
+                int drift = FXGLMath.random(-30, 30);
+                if(drift < 3 && drift > -3) drift = 0;
+                terrainDrift = drift;
                 slopeSegmentsLeft = FXGLMath.random(4, 9);
             } else {
                 //hill or valley
-                terrainDrift = FXGLMath.random(-60, 60);
+                int drift = FXGLMath.random(-60, 60);
+                if(drift < 3 && drift > -3) drift = 0;
+                terrainDrift = drift;
                 slopeSegmentsLeft = FXGLMath.random(3, 6);
             }
 
