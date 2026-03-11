@@ -3,8 +3,10 @@ package at.htl.flowstate;
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
+import at.htl.flowstate.Menu.SkillTree;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
@@ -55,6 +57,9 @@ public class Game extends GameApplication {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
+        onKeyDown(KeyCode.I, () -> {
+            FXGL.getSceneService().pushSubScene(new SkillTree());
+        });
     }
 
     @Override
