@@ -1,0 +1,1 @@
+Steals Health based on outputted DMG 

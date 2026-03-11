@@ -1,5 +1,9 @@
 
 
-[[One Handed]]
-[[Two Handed]]
-[[Spear]]
+[[Swords]]
+[[Fisticuff]]
+[[Leather]]
+
+
+[[Strength]]
+
