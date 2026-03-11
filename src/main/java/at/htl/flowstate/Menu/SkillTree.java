@@ -20,14 +20,17 @@ public class SkillTree extends SkillTreeParent {
         magicSkilLTreeBTN.setOnAction(e -> {
             getController().gotoPlay();
             FXGL.runOnce(() -> FXGL.getSceneService().pushSubScene(new MagicSkillTree()), Duration.millis(50));
+            skillList.unlockSkill(SkillType.MAGIC);
         });
         meeleSkillTreeBTN.setOnAction(e -> {
             getController().gotoPlay();
             FXGL.runOnce(() -> FXGL.getSceneService().pushSubScene(new MeeleSkillTree()), Duration.millis(50));
+            skillList.unlockSkill(SkillType.MEELE);
         });
         rangedSkillTreeBTN.setOnAction(e -> {
             getController().gotoPlay();
             FXGL.runOnce(() -> FXGL.getSceneService().pushSubScene(new RangedSkillTree()), Duration.millis(50));
+            skillList.unlockSkill(SkillType.RANGED);
         });
 
         root.getChildren().addAll(magicSkilLTreeBTN, meeleSkillTreeBTN, rangedSkillTreeBTN);

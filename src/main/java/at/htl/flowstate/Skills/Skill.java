@@ -3,14 +3,21 @@ package at.htl.flowstate.Skills;
 public class Skill {
         private String name;
         private String description;
-        private int levelRequirement;
+        private Requirements requirements;
         private boolean isUnlocked;
         private SkillType type;
 
-        public Skill(String name, String description, int levelRequirement, SkillType type) {
-            this.name = name;
+        public Skill(String description, Requirements requirements, SkillType type) {
+            this.name = type.getName();
             this.description = description;
-            this.levelRequirement = levelRequirement;
+            this.requirements = requirements;
+            this.isUnlocked = false;
+            this.type = type;
+        }
+        public Skill(String description, int meeleReq, int rangedReq, int magicReq, SkillType type) {
+            this.name = type.getName();
+            this.description = description;
+            this.requirements = new Requirements(meeleReq, rangedReq, magicReq);
             this.isUnlocked = false;
             this.type = type;
         }
@@ -23,8 +30,8 @@ public class Skill {
             return description;
         }
 
-        public int getLevelRequirement() {
-            return levelRequirement;
+        public Requirements getRequirements() {
+            return requirements;
         }
 
         public boolean isUnlocked() {

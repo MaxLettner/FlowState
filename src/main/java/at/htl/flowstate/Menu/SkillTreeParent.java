@@ -1,5 +1,8 @@
 package at.htl.flowstate.Menu;
 
+import at.htl.flowstate.Skills.Skill;
+import at.htl.flowstate.Skills.SkillList;
+import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
@@ -20,8 +23,12 @@ public abstract class SkillTreeParent extends FXGLMenu {
     protected final int nodeSize = 100;
     protected final VBox root;
 
+    protected SkillList skillList;
+
     public SkillTreeParent(MenuType menuType, String titleText) {
         super(menuType);
+
+        skillList = SkillList.getInstance();
 
         // Root container
         root = new VBox(20);
@@ -69,6 +76,43 @@ public abstract class SkillTreeParent extends FXGLMenu {
         // Click action
 
         return button;
+    }
+
+    protected Button createSkillButton(SkillType skillType) {
+        Skill skill = skillList.getSkill(skillType);
+        Button button = new Button(skillType.getName());
+        button.setPrefWidth(nodeSize * 2);
+        button.setPrefHeight(nodeSize / 2);
+
+        updateSkillButtonStyle(button, skill);
+
+        button.setOnMouseEntered(e -> button.setStyle(button.getStyle() + "-fx-opacity: 0.8;"));
+        button.setOnMouseExited(e -> button.setStyle(button.getStyle().replace("-fx-opacity: 0.8;", "")));
+
+        button.setOnAction(e -> {
+
+            skillList.unlockSkill(skillType);
+
+            updateSkillButtonStyle(button, skill);
+
+        });
+
+        return button;
+    }
+
+    private void updateSkillButtonStyle(Button button, Skill skill) {
+        if (skill.isUnlocked()) {
+            button.setStyle("-fx-font-size: 18px; -fx-background-color: #2a7a2a; -fx-text-fill: white;");
+        } else {
+            button.setStyle("-fx-font-size: 18px; -fx-background-color: #444; -fx-text-fill: white;");
+        }
+    }
+
+    private void debugOutputSkillList(){
+        System.out.println("Current Skill List:");
+        for (Skill skill : skillList.getSkills()) {
+            System.out.println("- " + skill.getName() + ": " + (skill.isUnlocked() ? "Unlocked" : "Locked"));
+        }
     }
 
     @Override
