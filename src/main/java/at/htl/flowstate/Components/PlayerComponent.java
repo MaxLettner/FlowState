@@ -36,14 +36,17 @@ public class PlayerComponent extends Component {
     private int lastMoveDirection = 0;
 
     //STATS
-    private double health = 100;
+    private double health = 0;
     private double maxHealth = 100;
-    private double mana = 100;
+    private double mana = 0;
     private double maxMana = 100;
     private double strength = 100;
     private double dexterity = 100;
     private double level = 0;
     private double skillPoints = 0;
+
+    private final double HEAL_PERCENTAGE = 0.01; //healing per second
+    private final double MANA_PERCENTAGE = 0.05; //mana regen per second
 
     @Override
     public void onAdded() {
@@ -57,6 +60,8 @@ public class PlayerComponent extends Component {
         if (isGrounded && lastMoveDirection != 0) {
             tryStep(lastMoveDirection);
         }
+
+        regenerate(tpf);
     }
 
     private void tryStep(int direction) {
@@ -93,6 +98,19 @@ public class PlayerComponent extends Component {
             physics.setVelocityX(savedVelX);
             physics.setVelocityY(0);
             return;
+        }
+    }
+
+    private void regenerate(double tpf) {
+        if(mana < maxMana) {
+            mana += maxMana * (MANA_PERCENTAGE * tpf);
+        } else if (mana > maxMana) {
+            mana = maxMana;
+        }
+        if(health < maxHealth) {
+            health += maxHealth * (HEAL_PERCENTAGE * tpf);
+        } else if (health > maxHealth) {
+            health = maxHealth;
         }
     }
 

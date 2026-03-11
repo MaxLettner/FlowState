@@ -129,7 +129,7 @@ public class Game extends GameApplication {
         hpBar.setMinValue(0);
         hpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
 
-        hpBar.setFill(Color.RED);
+        hpBar.setFill(Color.web("#921616"));
         hpBar.setHeight(15);
         hpBar.setWidth(300);
 
@@ -143,14 +143,16 @@ public class Game extends GameApplication {
         mpBar.setMinValue(0);
         mpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
 
-        mpBar.setFill(Color.BLUE);
+        mpBar.setFill(Color.web("#2300d5"));
         mpBar.setHeight(15);
         mpBar.setWidth(300);
+        mpBar.setLabelVisible(false);
 
         mpBar.setLayoutX(WINDOW_WIDTH * 0.82);
         mpBar.setLayoutY(80);
 
         addUINode(mpBar);
+
     }
 
     public static void main(String[] args) { launch(args); }
