@@ -95,12 +95,9 @@ public class Game extends GameApplication {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
-        getInput().addAction(new UserAction("Open Skill Tree") {
-            @Override
-            protected void onActionBegin() {
-                FXGL.getGameController().gotoGameMenu();
-            }
-        }, KeyCode.I);
+        onKeyDown(KeyCode.I, () -> {
+            FXGL.getSceneService().pushSubScene(new SkillTree());
+        });
 
     }
 
