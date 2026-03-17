@@ -14,21 +14,23 @@ public class EnemyComponent extends Component {
     private Entity player;
     private PhysicsComponent physics;
 
-    private static final double MOVE_SPEED         = 250.0;
-    private static final double JUMP_FORCE         = 600.0;
-    private static final double STEP_HEIGHT        = 20.0;
-    private static final double STEP_LOOK_AHEAD    = 12.0;
+    private static final double MOVE_SPEED = 250.0;
+    private static final double JUMP_FORCE = 600.0;
+    private static final double STEP_HEIGHT = 20.0;
+    private static final double STEP_LOOK_AHEAD = 12.0;
     private static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
-    private static final double JUMP_LOOK_AHEAD    = 30.0;
-    private static final double MAX_JUMP_HEIGHT    = 300.0;
+    private static final double JUMP_LOOK_AHEAD = 30.0;
+    private static final double MAX_JUMP_HEIGHT = 300.0;
 
-    private static final double ENEMY_WIDTH  = 40.0;
+    private static final double ENEMY_WIDTH = 40.0;
     private static final double ENEMY_HEIGHT = 80.0;
 
-    private boolean isGrounded   = false;
+    private static final double DAMAGE = 10.0;
+
+    private boolean isGrounded = false;
     private boolean jumpConsumed = false;
 
-    private double health    = 100;
+    private double health = 100;
     private double maxHealth = 100;
 
     public EnemyComponent(Entity player) {
@@ -45,6 +47,7 @@ public class EnemyComponent extends Component {
     public void onUpdate(double tpf) {
         updateGroundState();
         chasePlayer();
+        checkHitPlayer();
     }
 
     private void chasePlayer() {
@@ -60,12 +63,12 @@ public class EnemyComponent extends Component {
     }
 
     private void tryStep(int direction) {
-        double feetY       = entity.getY() + ENEMY_HEIGHT;
+        double feetY = entity.getY() + ENEMY_HEIGHT;
         double leadingEdge = direction > 0 ? entity.getX() + ENEMY_WIDTH : entity.getX();
 
         for (Entity platform : getStaticPlatforms()) {
-            double platTop   = platform.getY();
-            double platLeft  = platform.getX();
+            double platTop = platform.getY();
+            double platLeft = platform.getX();
             double platRight = platform.getX() + platform.getWidth();
 
             boolean adjacent = direction > 0
@@ -88,12 +91,12 @@ public class EnemyComponent extends Component {
     private void tryJump(int direction) {
         if (jumpConsumed) return;
 
-        double feetY       = entity.getY() + ENEMY_HEIGHT;
+        double feetY = entity.getY() + ENEMY_HEIGHT;
         double leadingEdge = direction > 0 ? entity.getX() + ENEMY_WIDTH : entity.getX();
 
         for (Entity platform : getStaticPlatforms()) {
-            double platTop   = platform.getY();
-            double platLeft  = platform.getX();
+            double platTop = platform.getY();
+            double platLeft = platform.getX();
             double platRight = platform.getX() + platform.getWidth();
 
             boolean ahead = direction > 0
@@ -111,6 +114,19 @@ public class EnemyComponent extends Component {
         }
     }
 
+    private void checkHitPlayer() {
+        // manual overlap since physics collision between enemy and player is disabled
+        double ex = entity.getX(), ey = entity.getY();
+        double px = player.getX(), py = player.getY();
+
+        boolean overlapX = ex < px + ENEMY_WIDTH  && ex + ENEMY_WIDTH  > px;
+        boolean overlapY = ey < py + ENEMY_HEIGHT && ey + ENEMY_HEIGHT > py;
+
+        if (overlapX && overlapY) {
+            player.getComponent(PlayerComponent.class).takeDamage(DAMAGE);
+        }
+    }
+
     private void updateGroundState() {
         isGrounded = Math.abs(physics.getVelocityY()) < 0.1;
         if (isGrounded) jumpConsumed = false;
@@ -124,6 +140,6 @@ public class EnemyComponent extends Component {
         });
     }
 
-    public double getHealth()    { return health; }
+    public double getHealth() { return health; }
     public double getMaxHealth() { return maxHealth; }
 }

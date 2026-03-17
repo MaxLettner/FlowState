@@ -27,12 +27,12 @@ public class Game extends GameApplication {
     private Entity player;
     private LevelGeneration levelGeneration;
 
-    private final double WINDOW_WIDTH  = 1920;
+    private final double WINDOW_WIDTH = 1920;
     private final double WINDOW_HEIGHT = 1080;
 
     private static final short CATEGORY_TERRAIN = 0x0001;
-    private static final short CATEGORY_PLAYER  = 0x0002;
-    private static final short CATEGORY_ENEMY   = 0x0004;
+    private static final short CATEGORY_PLAYER = 0x0002;
+    private static final short CATEGORY_ENEMY = 0x0004;
 
     private ProgressBar hpBar;
     private ProgressBar mpBar;
@@ -53,18 +53,18 @@ public class Game extends GameApplication {
     @Override
     protected void initInput() {
         getInput().addAction(new UserAction("Left") {
-            @Override protected void onAction()    { player.getComponent(PlayerComponent.class).moveLeft(); }
+            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveLeft(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
         }, KeyCode.A);
 
         getInput().addAction(new UserAction("Right") {
-            @Override protected void onAction()    { player.getComponent(PlayerComponent.class).moveRight(); }
+            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveRight(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
         }, KeyCode.D);
 
         getInput().addAction(new UserAction("Jump") {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
-            @Override protected void onActionEnd()   { player.getComponent(PlayerComponent.class).stopJump(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
 
         onKeyDown(KeyCode.I, () -> {
@@ -84,7 +84,7 @@ public class Game extends GameApplication {
 
         FixtureDef playerFd = new FixtureDef().friction(0).density(1.0f);
         playerFd.getFilter().categoryBits = CATEGORY_PLAYER;
-        playerFd.getFilter().maskBits     = CATEGORY_TERRAIN;
+        playerFd.getFilter().maskBits = CATEGORY_TERRAIN;
 
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
@@ -101,8 +101,9 @@ public class Game extends GameApplication {
 
         FixtureDef enemyFd = new FixtureDef().friction(0).density(1.0f);
         enemyFd.getFilter().categoryBits = CATEGORY_ENEMY;
-        enemyFd.getFilter().maskBits     = CATEGORY_TERRAIN;
+        enemyFd.getFilter().maskBits = CATEGORY_TERRAIN;
 
+        //only momentariy
         PhysicsComponent pc = new PhysicsComponent();
         pc.setBodyType(BodyType.DYNAMIC);
         pc.setFixtureDef(enemyFd);
@@ -114,6 +115,7 @@ public class Game extends GameApplication {
                 .with(new EnemyComponent(player))
                 .collidable()
                 .buildAndAttach();
+        //
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
@@ -137,7 +139,7 @@ public class Game extends GameApplication {
     //-----CAMERA-----
 
     private void updateCamera() {
-        double vpX       = getGameScene().getViewport().getX();
+        double vpX = getGameScene().getViewport().getX();
         double threshold = vpX + WINDOW_WIDTH * 0.75;
         if (player.getX() > threshold) {
             getGameScene().getViewport().setX(player.getX() - WINDOW_WIDTH * 0.75);
@@ -147,8 +149,8 @@ public class Game extends GameApplication {
     //-----HELPERS-----
 
     private void cleanupPlatforms() {
-        double viewX           = getGameScene().getViewport().getX();
-        List<Entity> toRemove  = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
+        double viewX = getGameScene().getViewport().getX();
+        List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
         toRemove.forEach(Entity::removeFromWorld);
     }
 

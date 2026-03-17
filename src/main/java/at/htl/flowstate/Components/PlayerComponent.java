@@ -25,6 +25,7 @@ public class PlayerComponent extends Component {
     private static final double PLAYER_HEIGHT = 80.0;
     private static final double STEP_HEIGHT = 20.0;
     private static final double STEP_LOOK_AHEAD = 12.0;
+
     //after snapping push the player this many px forward so the ledge face
     //is no longer in the way next frame breaking the snap feedback loop
     private static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
@@ -39,9 +40,9 @@ public class PlayerComponent extends Component {
     private int lastMoveDirection = 0;
 
     //STATS
-    private double health = 0;
+    private double health = 100;
     private double maxHealth = 100;
-    private double mana = 0;
+    private double mana = 100;
     private double maxMana = 100;
     private double strength = 100;
     private double dexterity = 100;
@@ -131,7 +132,7 @@ public class PlayerComponent extends Component {
     }
 
     public void moveRight() { lastMoveDirection =  1; move( 1); }
-    public void moveLeft()  { lastMoveDirection = -1; move(-1); }
+    public void moveLeft() { lastMoveDirection = -1; move(-1); }
 
     public void stop() {
         lastMoveDirection = 0;
