@@ -15,7 +15,7 @@ import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
 public class RangedEnemyComponent extends EnemyComponent {
 
     private static final double ATTACK_INTERVAL = 2.0;
-    private static final double PROJECTILE_SPEED = 600;
+    private static final double PROJECTILE_SPEED = 800;
     private static final double GRAVITY = 800; //must match Game.java initPhysics
 
     private boolean inAttackMode = false;
