@@ -1,7 +1,7 @@
 package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
-import at.htl.flowstate.Factories.PlatformFactory;
+import at.htl.flowstate.Factories.LevelFactory;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
@@ -88,7 +88,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame() {
-        getGameWorld().addEntityFactory(new PlatformFactory());
+        getGameWorld().addEntityFactory(new LevelFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
 
         PhysicsComponent physics = new PhysicsComponent();
