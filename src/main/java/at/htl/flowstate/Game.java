@@ -1,5 +1,6 @@
 package at.htl.flowstate;
 
+import at.htl.flowstate.Components.EnemyComponent;
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
@@ -26,8 +27,12 @@ public class Game extends GameApplication {
     private Entity player;
     private LevelGeneration levelGeneration;
 
-    private final double WINDOW_WIDTH = 1920;
+    private final double WINDOW_WIDTH  = 1920;
     private final double WINDOW_HEIGHT = 1080;
+
+    private static final short CATEGORY_TERRAIN = 0x0001;
+    private static final short CATEGORY_PLAYER  = 0x0002;
+    private static final short CATEGORY_ENEMY   = 0x0004;
 
     private ProgressBar hpBar;
     private ProgressBar mpBar;
@@ -48,19 +53,20 @@ public class Game extends GameApplication {
     @Override
     protected void initInput() {
         getInput().addAction(new UserAction("Left") {
-            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveLeft(); }
+            @Override protected void onAction()    { player.getComponent(PlayerComponent.class).moveLeft(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
         }, KeyCode.A);
 
         getInput().addAction(new UserAction("Right") {
-            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveRight(); }
+            @Override protected void onAction()    { player.getComponent(PlayerComponent.class).moveRight(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
         }, KeyCode.D);
 
         getInput().addAction(new UserAction("Jump") {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
+            @Override protected void onActionEnd()   { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
+
         onKeyDown(KeyCode.I, () -> {
             FXGL.getSceneService().pushSubScene(new SkillTree());
         });
@@ -74,18 +80,38 @@ public class Game extends GameApplication {
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
 
+        levelGeneration = new LevelGeneration();
+
+        FixtureDef playerFd = new FixtureDef().friction(0).density(1.0f);
+        playerFd.getFilter().categoryBits = CATEGORY_PLAYER;
+        playerFd.getFilter().maskBits     = CATEGORY_TERRAIN;
+
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
-        physics.setFixtureDef(new FixtureDef().friction(0).density(1.0f));
+        physics.setFixtureDef(playerFd);
         physics.setOnPhysicsInitialized(() -> physics.getBody().setFixedRotation(true));
-
-        levelGeneration = new LevelGeneration();
 
         player = entityBuilder()
                 .at(300, levelGeneration.getBaseY() - 150)
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
                 .with(new PlayerComponent())
+                .collidable()
+                .buildAndAttach();
+
+        FixtureDef enemyFd = new FixtureDef().friction(0).density(1.0f);
+        enemyFd.getFilter().categoryBits = CATEGORY_ENEMY;
+        enemyFd.getFilter().maskBits     = CATEGORY_TERRAIN;
+
+        PhysicsComponent pc = new PhysicsComponent();
+        pc.setBodyType(BodyType.DYNAMIC);
+        pc.setFixtureDef(enemyFd);
+
+        entityBuilder()
+                .at(300, levelGeneration.getBaseY() - 150)
+                .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
+                .with(pc)
+                .with(new EnemyComponent(player))
                 .collidable()
                 .buildAndAttach();
 
@@ -111,7 +137,7 @@ public class Game extends GameApplication {
     //-----CAMERA-----
 
     private void updateCamera() {
-        double vpX = getGameScene().getViewport().getX();
+        double vpX       = getGameScene().getViewport().getX();
         double threshold = vpX + WINDOW_WIDTH * 0.75;
         if (player.getX() > threshold) {
             getGameScene().getViewport().setX(player.getX() - WINDOW_WIDTH * 0.75);
@@ -120,17 +146,13 @@ public class Game extends GameApplication {
 
     //-----HELPERS-----
 
-    /**
-     *removes entities that have scrolled far off the left edge
-     *500px buffer keeps Box2D stable for anything still on screen
-     */
     private void cleanupPlatforms() {
-        double viewX = getGameScene().getViewport().getX();
-        List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
+        double viewX           = getGameScene().getViewport().getX();
+        List<Entity> toRemove  = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
         toRemove.forEach(Entity::removeFromWorld);
     }
 
-    private void initHealthBar () {
+    private void initHealthBar() {
         hpBar.setMinValue(0);
         hpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
 
@@ -144,9 +166,9 @@ public class Game extends GameApplication {
         addUINode(hpBar);
     }
 
-    private void initManaBar () {
+    private void initManaBar() {
         mpBar.setMinValue(0);
-        mpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
+        mpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxMana());
 
         mpBar.setFill(Color.web("#2300d5"));
         mpBar.setHeight(15);
@@ -157,7 +179,6 @@ public class Game extends GameApplication {
         mpBar.setLayoutY(80);
 
         addUINode(mpBar);
-
     }
 
     public static void main(String[] args) { launch(args); }

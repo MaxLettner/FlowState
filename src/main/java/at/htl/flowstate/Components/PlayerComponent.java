@@ -29,6 +29,9 @@ public class PlayerComponent extends Component {
     //is no longer in the way next frame breaking the snap feedback loop
     private static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
 
+    private static final int MAX_INVINCIBILITY_FRAMES = 60;
+    private int currentInvincibilityFrames = 0;
+
     private boolean isGrounded = false;
     private boolean jumpConsumed = false;
     private int coyoteTimer = 0;
@@ -112,6 +115,9 @@ public class PlayerComponent extends Component {
         } else if (health > maxHealth) {
             health = maxHealth;
         }
+        if(currentInvincibilityFrames > 0) {
+            currentInvincibilityFrames--;
+        }
     }
 
     private void keepOnScreen() {
@@ -171,6 +177,15 @@ public class PlayerComponent extends Component {
             jumpConsumed = false;
         } else if (coyoteTimer > 0) {
             coyoteTimer--;
+        }
+    }
+
+    //-----Damage-----
+
+    public void takeDamage(double amount) {
+        if(currentInvincibilityFrames == 0) {
+            currentInvincibilityFrames = MAX_INVINCIBILITY_FRAMES;
+            health -= amount;
         }
     }
 
