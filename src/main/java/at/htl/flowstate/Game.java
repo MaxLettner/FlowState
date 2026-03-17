@@ -2,6 +2,7 @@ package at.htl.flowstate;
 
 import at.htl.flowstate.Components.EnemyComponent;
 import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
 import at.htl.flowstate.Menu.SkillTree;
@@ -9,6 +10,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
@@ -78,6 +80,7 @@ public class Game extends GameApplication {
         mpBar = new ProgressBar();
 
         getGameWorld().addEntityFactory(new LevelFactory());
+        getGameWorld().addEntityFactory(new EnemyFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
 
         levelGeneration = new LevelGeneration();
@@ -98,24 +101,6 @@ public class Game extends GameApplication {
                 .with(new PlayerComponent())
                 .collidable()
                 .buildAndAttach();
-
-        FixtureDef enemyFd = new FixtureDef().friction(0).density(1.0f);
-        enemyFd.getFilter().categoryBits = CATEGORY_ENEMY;
-        enemyFd.getFilter().maskBits = CATEGORY_TERRAIN;
-
-        //only momentariy
-        PhysicsComponent pc = new PhysicsComponent();
-        pc.setBodyType(BodyType.DYNAMIC);
-        pc.setFixtureDef(enemyFd);
-
-        entityBuilder()
-                .at(300, levelGeneration.getBaseY() - 150)
-                .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
-                .with(pc)
-                .with(new EnemyComponent(player))
-                .collidable()
-                .buildAndAttach();
-        //
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
@@ -181,6 +166,12 @@ public class Game extends GameApplication {
         mpBar.setLayoutY(80);
 
         addUINode(mpBar);
+    }
+
+    private void spawnEnemy(double x, double y) {
+        //y = levelGeneration.getBaseY() - 150
+        spawn("zombie", new SpawnData(x, y)
+                .put("player", player));
     }
 
     public static void main(String[] args) { launch(args); }

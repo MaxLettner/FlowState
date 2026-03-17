@@ -15,13 +15,13 @@ public class LevelFactory implements EntityFactory {
 
     @Spawns("platform")
     public Entity newPlatform(SpawnData data) {
-        Color color  = data.get("color");
-        double w     = data.get("width");
-        double h     = data.get("height");
+        Color color = data.get("color");
+        double w = data.get("width");
+        double h = data.get("height");
 
         FixtureDef platFd = new FixtureDef();
         platFd.getFilter().categoryBits = 0x0001;
-        platFd.getFilter().maskBits     = (short) 0xFFFF;
+        platFd.getFilter().maskBits = (short) 0xFFFF;
 
         PhysicsComponent platPhysics = new PhysicsComponent();
         platPhysics.setBodyType(BodyType.STATIC);
@@ -36,9 +36,9 @@ public class LevelFactory implements EntityFactory {
 
     @Spawns("chest")
     public Entity newChest(SpawnData data) {
-        Color color  = data.get("color");
-        double w     = data.get("width");
-        double h     = data.get("height");
+        Color color = data.get("color");
+        double w = data.get("width");
+        double h = data.get("height");
 
         return FXGL.entityBuilder(data)
                 .viewWithBBox(new Rectangle(w, h, color))
@@ -46,4 +46,5 @@ public class LevelFactory implements EntityFactory {
                 .zIndex(-1)
                 .buildAndAttach();
     }
+
 }
