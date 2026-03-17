@@ -27,4 +27,17 @@ public class LevelFactory implements EntityFactory {
                 .collidable()
                 .build();
     }
+
+    @Spawns("chest")
+    public Entity newChest(SpawnData data) {
+        Color color = data.get("color");
+        double w = data.get("width");
+        double h = data.get("height");
+
+        return FXGL.entityBuilder(data)
+                .viewWithBBox(new Rectangle(w, h, color))
+                .collidable()
+                .zIndex(-1)
+                .buildAndAttach();
+    }
 }
