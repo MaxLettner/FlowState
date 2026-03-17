@@ -102,7 +102,7 @@ public class Game extends GameApplication {
                 .collidable()
                 .buildAndAttach();
 
-        spawnEnemy(200, levelGeneration.getBaseY() - 150);
+        spawnRangedEnemy(200, levelGeneration.getBaseY() - 150);
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
@@ -170,9 +170,15 @@ public class Game extends GameApplication {
         addUINode(mpBar);
     }
 
-    private void spawnEnemy(double x, double y) {
+    private void spawnMeeleeEnemy(double x, double y) {
         //y = levelGeneration.getBaseY() - 150
-        spawn("zombie", new SpawnData(x, y)
+        spawn("meeleeEnemy", new SpawnData(x, y)
+                .put("player", player));
+    }
+
+    private void spawnRangedEnemy(double x, double y) {
+        //y = levelGeneration.getBaseY() - 150
+        spawn("rangedEnemy", new SpawnData(x, y)
                 .put("player", player));
     }
 

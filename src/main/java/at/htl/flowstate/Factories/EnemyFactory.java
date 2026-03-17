@@ -1,6 +1,7 @@
 package at.htl.flowstate.Factories;
 
 import at.htl.flowstate.Components.EnemyComponent;
+import at.htl.flowstate.Components.RangedEnemyComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
@@ -17,13 +18,13 @@ public class EnemyFactory implements EntityFactory {
     private static final short CATEGORY_TERRAIN = 0x0001;
     private static final short CATEGORY_ENEMY   = 0x0004;
 
-    @Spawns("zombie")
+    @Spawns("meeleeEnemy")
     public Entity newEnemy(SpawnData data) {
         Entity player = data.get("player");
 
         FixtureDef enemyFd = new FixtureDef().friction(0).density(1.0f);
         enemyFd.getFilter().categoryBits = CATEGORY_ENEMY;
-        enemyFd.getFilter().maskBits     = CATEGORY_TERRAIN;
+        enemyFd.getFilter().maskBits = CATEGORY_TERRAIN;
 
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.DYNAMIC);
@@ -33,6 +34,26 @@ public class EnemyFactory implements EntityFactory {
                 .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
                 .with(physics)
                 .with(new EnemyComponent(player))
+                .collidable()
+                .build();
+    }
+
+    @Spawns("rangedEnemy")
+    public Entity newRangedEnemy(SpawnData data) {
+        Entity player = data.get("player");
+
+        FixtureDef enemyFd = new FixtureDef().friction(0).density(1.0f);
+        enemyFd.getFilter().categoryBits = CATEGORY_ENEMY;
+        enemyFd.getFilter().maskBits = CATEGORY_TERRAIN;
+
+        PhysicsComponent physics = new PhysicsComponent();
+        physics.setBodyType(BodyType.DYNAMIC);
+        physics.setFixtureDef(enemyFd);
+
+        return FXGL.entityBuilder(data)
+                .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
+                .with(physics)
+                .with(new RangedEnemyComponent(player))
                 .collidable()
                 .build();
     }

@@ -11,27 +11,27 @@ import java.util.List;
 
 public class EnemyComponent extends Component {
 
-    private Entity player;
-    private PhysicsComponent physics;
+    protected Entity player;
+    protected PhysicsComponent physics;
 
-    private static final double MOVE_SPEED = 250.0;
-    private static final double JUMP_FORCE = 600.0;
-    private static final double STEP_HEIGHT = 20.0;
-    private static final double STEP_LOOK_AHEAD = 12.0;
-    private static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
-    private static final double JUMP_LOOK_AHEAD = 30.0;
-    private static final double MAX_JUMP_HEIGHT = 300.0;
+    protected static final double MOVE_SPEED = 250.0;
+    protected static final double JUMP_FORCE = 600.0;
+    protected static final double STEP_HEIGHT = 20.0;
+    protected static final double STEP_LOOK_AHEAD = 12.0;
+    protected static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
+    protected static final double JUMP_LOOK_AHEAD = 30.0;
+    protected static final double MAX_JUMP_HEIGHT = 300.0;
 
-    private static final double ENEMY_WIDTH = 40.0;
-    private static final double ENEMY_HEIGHT = 80.0;
+    protected static final double ENEMY_WIDTH = 40.0;
+    protected static final double ENEMY_HEIGHT = 80.0;
 
-    private static final double DAMAGE = 10.0;
+    protected static final double DAMAGE = 10.0;
 
-    private boolean isGrounded = false;
-    private boolean jumpConsumed = false;
+    protected boolean isGrounded = false;
+    protected boolean jumpConsumed = false;
 
-    private double health = 100;
-    private double maxHealth = 100;
+    protected double health = 100;
+    protected double maxHealth = 100;
 
     public EnemyComponent(Entity player) {
         this.player = player;
@@ -50,7 +50,7 @@ public class EnemyComponent extends Component {
         checkHitPlayer();
     }
 
-    private void chasePlayer() {
+    protected void chasePlayer() {
         double dx = player.getX() - entity.getX();
         int direction = dx > 0 ? 1 : -1;
 
@@ -62,7 +62,7 @@ public class EnemyComponent extends Component {
         }
     }
 
-    private void tryStep(int direction) {
+    protected void tryStep(int direction) {
         double feetY = entity.getY() + ENEMY_HEIGHT;
         double leadingEdge = direction > 0 ? entity.getX() + ENEMY_WIDTH : entity.getX();
 
@@ -88,7 +88,7 @@ public class EnemyComponent extends Component {
         }
     }
 
-    private void tryJump(int direction) {
+    protected void tryJump(int direction) {
         if (jumpConsumed) return;
 
         double feetY = entity.getY() + ENEMY_HEIGHT;
