@@ -2,9 +2,11 @@ package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.LevelFactory;
+import at.htl.flowstate.Menu.GameMenu;
 import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -16,6 +18,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -59,10 +62,16 @@ public class Game extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setTitle("FlowState Endless");
-        settings.setVersion("0.4.0");
+        settings.setTitle("FlowState");
+        settings.setVersion("0.4.1");
         settings.setWidth((int) WINDOW_WIDTH);
         settings.setHeight((int) WINDOW_HEIGHT);
+        settings.setSceneFactory(new SceneFactory() {
+            @Override
+            public com.almasb.fxgl.app.scene.FXGLMenu newGameMenu() {
+                return new GameMenu();
+            }
+        });
     }
 
     @Override
@@ -86,9 +95,13 @@ public class Game extends GameApplication {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
-        onKeyDown(KeyCode.I, () -> {
-            FXGL.getSceneService().pushSubScene(new SkillTree());
-        });
+        getInput().addAction(new UserAction("Open Skill Tree") {
+            @Override
+            protected void onActionBegin() {
+                FXGL.getGameController().gotoGameMenu();
+            }
+        }, KeyCode.I);
+
     }
 
     @Override
@@ -115,6 +128,8 @@ public class Game extends GameApplication {
         currentY       = BASE_Y;
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
+
+
     }
 
     @Override
