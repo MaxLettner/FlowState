@@ -1,5 +1,6 @@
 package at.htl.flowstate.Factories;
 
+import at.htl.flowstate.Components.PlatformIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
@@ -30,6 +31,7 @@ public class LevelFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .viewWithBBox(new Rectangle(w, h, color))
                 .with(platPhysics)
+                .with(new PlatformIdentifierComponent())
                 .collidable()
                 .build();
     }

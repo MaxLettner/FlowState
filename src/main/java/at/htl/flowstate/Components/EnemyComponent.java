@@ -135,8 +135,13 @@ public class EnemyComponent extends Component {
     private List<Entity> getStaticPlatforms() {
         return FXGL.getGameWorld().getEntitiesFiltered(e -> {
             if (e == entity) return false;
-            PhysicsComponent pc = e.getComponentOptional(PhysicsComponent.class).orElse(null);
-            return pc != null && pc.getBody().getType() == BodyType.STATIC;
+
+            try {
+                e.getComponent(PlatformIdentifierComponent.class);
+                return true;
+            }catch(Exception ex) {
+                return false;
+            }
         });
     }
 
