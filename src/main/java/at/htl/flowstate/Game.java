@@ -5,7 +5,7 @@ import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
-import at.htl.flowstate.Menu.SkillTree;
+import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import at.htl.flowstate.Menu.GameMenu;
 import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import com.almasb.fxgl.app.GameApplication;
