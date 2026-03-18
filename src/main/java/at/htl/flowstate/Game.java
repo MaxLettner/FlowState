@@ -1,5 +1,6 @@
 package at.htl.flowstate;
 
+import at.htl.flowstate.Components.DeleteAfterTimeComponent;
 import at.htl.flowstate.Components.EnemyComponent;
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.EnemyFactory;

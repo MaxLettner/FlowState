@@ -133,16 +133,9 @@ public class EnemyComponent extends Component {
     }
 
     private List<Entity> getStaticPlatforms() {
-        return FXGL.getGameWorld().getEntitiesFiltered(e -> {
-            if (e == entity) return false;
-
-            try {
-                e.getComponent(PlatformIdentifierComponent.class);
-                return true;
-            }catch(Exception ex) {
-                return false;
-            }
-        });
+        return FXGL.getGameWorld().getEntitiesFiltered(
+                e -> e.getComponentOptional(PlatformIdentifierComponent.class).isPresent()
+        );
     }
 
     public double getHealth() { return health; }

@@ -77,6 +77,7 @@ public class RangedEnemyComponent extends EnemyComponent {
                 .viewWithBBox(new Rectangle(14, 4, Color.SADDLEBROWN))
                 .collidable()
                 .with(projPhysics)
+                .with(new DeleteAfterTimeComponent(10))
                 .with(new OffscreenCleanComponent())
                 .buildAndAttach();
 
