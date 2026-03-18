@@ -2,7 +2,6 @@ package at.htl.flowstate.Menu.SkillTree;
 
 import at.htl.flowstate.Menu.SkillTree.Components.SkillTreeNode;
 import at.htl.flowstate.Skills.SkillType;
-import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,24 +10,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-
 public class SkillTree extends SkillTreeParent {
 
-    // Categories of the Skill-Tree
     private SkillTreeNode magicNode;
     private SkillTreeNode meeleNode;
     private SkillTreeNode rangedNode;
 
-    // Current navigation state, (null = top level, otherwise shows the full tree of the selected category e.g.: magic)
     private SkillTreeNode currentCategoryNode;
-    private VBox contentBox; // Container for dynamic content (categories, sub-categories, skills)
-    private VBox mainContainer; // Main container to hold title and contentBox
+    private VBox contentBox;
+    private VBox mainContainer;
+
     public SkillTree() {
-        super(MenuType.GAME_MENU, "Skill Tree");
+        super("Skill Tree");
         initializeHierarchy();
         setupUI();
     }
-
 
     private void initializeHierarchy() {
         // Magic sub-trees
@@ -97,114 +93,90 @@ public class SkillTree extends SkillTreeParent {
         currentCategoryNode = null;
     }
 
-
     private void setupUI() {
         double windowWidth = FXGL.getAppWidth();
-        root.setLayoutX(windowWidth / 2 - 325);
+        root.setLayoutX(windowWidth / 2 - 350);
         root.setLayoutY(50);
 
         contentBox = new VBox(15);
         contentBox.setAlignment(Pos.TOP_CENTER);
         contentBox.setStyle("-fx-padding: 20;");
 
-        // Display top-level categories
         displayTopLevel();
 
         mainContainer = new VBox(10);
         mainContainer.setAlignment(Pos.TOP_CENTER);
         mainContainer.getChildren().add(contentBox);
 
-        root.getChildren().clear();
         root.getChildren().add(mainContainer);
     }
 
-    //display 3 main categories of skill tree
     private void displayTopLevel() {
         contentBox.getChildren().clear();
         currentCategoryNode = null;
 
+        Button meeleBtn  = createButton(SkillType.MEELE.getName(),   SkillType.MEELE);
+        Button magicBtn  = createButton(SkillType.MAGIC.getName(),   SkillType.MAGIC);
+        Button rangedBtn = createButton(SkillType.RANGED.getName(),  SkillType.RANGED);
 
-        Button meeleBtn = createButton(SkillType.MEELE.getName(), SkillType.MEELE);
-        Button magicBtn = createButton(SkillType.MAGIC.getName(), SkillType.MAGIC);
-        Button rangedBtn = createButton(SkillType.RANGED.getName(), SkillType.RANGED);
+        magicBtn.setOnAction(e  -> { magicNode.unlock();  displayFullTree(magicNode);  });
+        meeleBtn.setOnAction(e  -> { meeleNode.unlock();  displayFullTree(meeleNode);  });
+        rangedBtn.setOnAction(e -> { rangedNode.unlock(); displayFullTree(rangedNode); });
 
-        magicBtn.setOnAction(e -> {
-            magicNode.unlock();
-            displayFullTree(magicNode);
-        });
-        meeleBtn.setOnAction(e -> {
-            meeleNode.unlock();
-            displayFullTree(meeleNode);
-        });
-        rangedBtn.setOnAction(e -> {
-            rangedNode.unlock();
-            displayFullTree(rangedNode);
-        });
-
-        HBox categoryBox = new HBox(20); // Spacing between category buttons
+        HBox categoryBox = new HBox(20);
         categoryBox.setAlignment(Pos.CENTER);
         categoryBox.getChildren().addAll(meeleBtn, magicBtn, rangedBtn);
 
         contentBox.getChildren().add(categoryBox);
     }
 
-
     private void displayFullTree(SkillTreeNode categoryNode) {
         contentBox.getChildren().clear();
         currentCategoryNode = categoryNode;
 
-        // Add back button
         Button backBtn = new Button("Go Back");
         backBtn.setPrefWidth((int)(nodeSize * 1.5));
         backBtn.setPrefHeight((int)(nodeSize / 2.5));
         backBtn.setStyle("-fx-font-size: 12px; -fx-background-color: #555; -fx-text-fill: white;");
         backBtn.setOnAction(e -> displayTopLevel());
 
-        // Add title
         Text title = new Text(categoryNode.getSkillType().getName() + " Tree");
         title.setFill(Color.WHITE);
         title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold;");
 
-        VBox titleBox = new VBox(); // Container for back button and title
+        VBox titleBox = new VBox();
         titleBox.setAlignment(Pos.CENTER);
         titleBox.getChildren().addAll(backBtn, title);
 
-        // Display all sub-categories and their skills
         VBox treeBox = new VBox(25);
         treeBox.setAlignment(Pos.TOP_CENTER);
 
         if (categoryNode.getChildren() != null) {
             for (SkillTreeNode subCategoryNode : categoryNode.getChildren()) {
-                VBox subCategoryBox = displaySubCategory(categoryNode, subCategoryNode);
-                treeBox.getChildren().add(subCategoryBox);
+                treeBox.getChildren().add(displaySubCategory(categoryNode, subCategoryNode));
             }
         }
 
         contentBox.getChildren().addAll(titleBox, treeBox);
     }
 
-
     private VBox displaySubCategory(SkillTreeNode parentNode, SkillTreeNode subCategoryNode) {
-        VBox subBox = new VBox(10); // Spacing between sub-category title/button and skills
+        VBox subBox = new VBox(10);
         subBox.setAlignment(Pos.CENTER);
         subBox.setStyle("-fx-border-color: #666; -fx-border-width: 1; -fx-padding: 15;");
 
-        // Sub-category title
         Text subTitle = new Text(subCategoryNode.getSkillType().getName());
         subTitle.setFill(Color.LIGHTYELLOW);
         subTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
-        // Sub-category button
         Button subCategoryBtn = createCategoryButtonWithState(subCategoryNode, parentNode);
 
-        // Skills row
         HBox skillsBox = new HBox(15);
         skillsBox.setAlignment(Pos.CENTER);
 
         if (subCategoryNode.getChildren() != null) {
             for (SkillTreeNode skillNode : subCategoryNode.getChildren()) {
-                Button skillBtn = createSkillButtonWithState(skillNode, subCategoryNode);
-                skillsBox.getChildren().add(skillBtn);
+                skillsBox.getChildren().add(createSkillButtonWithState(skillNode, subCategoryNode));
             }
         }
 
@@ -212,120 +184,70 @@ public class SkillTree extends SkillTreeParent {
         return subBox;
     }
 
-    //Button for categories and sub-categories
     private Button createCategoryButtonWithState(SkillTreeNode node, SkillTreeNode parentNode) {
         Button btn = new Button(node.getSkillType().getName());
         btn.setPrefWidth(nodeSize * 2);
         btn.setPrefHeight((int)(nodeSize / 2.2));
-        btn.setStyle("-fx-font-size: 14px;");
 
         boolean parentUnlocked = parentNode.isUnlocked();
-        boolean isUnlocked = node.isUnlocked();
+        boolean isUnlocked     = node.isUnlocked();
 
-        // Determine styling based on unlock state
         String style;
         if (!parentUnlocked) {
-            // Parent not unlocked -> can't unlock this
-            style = "-fx-font-size: 14px; -fx-background-color: #333; -fx-text-fill: #888; -fx-cursor: not-allowed;";
+            style = "-fx-font-size: 14px; -fx-background-color: #333; -fx-text-fill: #888;";
             btn.setDisable(true);
         } else if (isUnlocked) {
-            // Already unlocked -> green
             style = "-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;";
         } else {
-            // Can be unlocked -> yellow/orange
             style = "-fx-font-size: 14px; -fx-background-color: #FF8C00; -fx-text-fill: white;";
         }
-
         btn.setStyle(style);
 
-        // Hover effect
         btn.setOnMouseEntered(e -> {
-            if (!btn.isDisable()) {
-                if (isUnlocked) {
-                    btn.setStyle("-fx-font-size: 14px; -fx-background-color: #00a000; -fx-text-fill: white;");
-                } else {
-                    btn.setStyle("-fx-font-size: 14px; -fx-background-color: #FFB033; -fx-text-fill: white;");
-                }
-            }
+            if (!btn.isDisabled()) btn.setStyle(isUnlocked
+                    ? "-fx-font-size: 14px; -fx-background-color: #00a000; -fx-text-fill: white;"
+                    : "-fx-font-size: 14px; -fx-background-color: #FFB033; -fx-text-fill: white;");
         });
-
-        btn.setOnMouseExited(e -> {
-            if (!btn.isDisable()) {
-                btn.setStyle(style);
-            }
-        });
-
-        btn.setOnAction(e -> {
-            node.unlock();
-            updateFullTree();
-        });
+        btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(style); });
+        btn.setOnAction(e -> { node.unlock(); updateFullTree(); });
 
         return btn;
     }
 
-    //button for skills
     private Button createSkillButtonWithState(SkillTreeNode skillNode, SkillTreeNode parentSubCategoryNode) {
         Button btn = new Button(skillNode.getSkillType().getName());
         btn.setPrefWidth(nodeSize * 1.8);
         btn.setPrefHeight((int)(nodeSize / 2.5));
-        btn.setStyle("-fx-font-size: 12px; -fx-padding: 5;");
         btn.setWrapText(true);
 
         boolean parentUnlocked = parentSubCategoryNode.isUnlocked();
-        boolean isUnlocked = skillNode.isUnlocked();
+        boolean isUnlocked     = skillNode.isUnlocked();
 
-        // Determine styling based on unlock state
         String style;
         if (!parentUnlocked) {
-            // Parent sub-category not unlocked - can't unlock this skill
-            style = "-fx-font-size: 12px; -fx-background-color: #333; -fx-text-fill: #888; -fx-cursor: not-allowed;";
+            style = "-fx-font-size: 12px; -fx-background-color: #333; -fx-text-fill: #888;";
             btn.setDisable(true);
         } else if (isUnlocked) {
-            // Already unlocked -> green
             style = "-fx-font-size: 12px; -fx-background-color: #008000; -fx-text-fill: white;";
         } else {
-            // Can be unlocked -> blue
             style = "-fx-font-size: 12px; -fx-background-color: #0066CC; -fx-text-fill: white;";
         }
-
         btn.setStyle(style);
 
-        // Hover effect
         btn.setOnMouseEntered(e -> {
-            if (!btn.isDisable()) {
-                if (isUnlocked) {
-                    btn.setStyle("-fx-font-size: 12px; -fx-background-color: #00a000; -fx-text-fill: white;");
-                } else {
-                    btn.setStyle("-fx-font-size: 12px; -fx-background-color: #0080FF; -fx-text-fill: white;");
-                }
-            }
+            if (!btn.isDisabled()) btn.setStyle(isUnlocked
+                    ? "-fx-font-size: 12px; -fx-background-color: #00a000; -fx-text-fill: white;"
+                    : "-fx-font-size: 12px; -fx-background-color: #0080FF; -fx-text-fill: white;");
         });
-
-        btn.setOnMouseExited(e -> {
-            if (!btn.isDisable()) {
-                btn.setStyle(style);
-            }
-        });
-
-        btn.setOnAction(e -> {
-            skillList.unlockSkill(skillNode.getSkillType());
-            updateFullTree();
-        });
+        btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(style); });
+        btn.setOnAction(e -> { skillList.unlockSkill(skillNode.getSkillType()); updateFullTree(); });
 
         return btn;
     }
-
 
     private void updateFullTree() {
         if (currentCategoryNode != null) {
             displayFullTree(currentCategoryNode);
         }
     }
-
-    @Override
-    protected void closeMenu() {
-        super.closeMenu();
-    }
 }
-
-

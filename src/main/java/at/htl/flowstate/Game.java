@@ -30,6 +30,8 @@ public class Game extends GameApplication {
     private final double WINDOW_WIDTH = 1920;
     private final double WINDOW_HEIGHT = 1080;
 
+    private SkillTree skillTree;
+
     //the floor of each ground segment fills from its top surface all the way
     //down to DEEP_FLOOR, which is twice the window height — well off-screen,
     //so the player never sees the bottom edge.
@@ -95,9 +97,16 @@ public class Game extends GameApplication {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
-        onKeyDown(KeyCode.I, () -> {
-            FXGL.getSceneService().pushSubScene(new SkillTree());
-        });
+        getInput().addAction(new UserAction("Toggle Skill Tree") {
+            @Override
+            protected void onActionBegin() {
+                if (skillTree.isOpen()) {
+                    skillTree.close();
+                } else {
+                    skillTree.open();
+                }
+            }
+        }, KeyCode.I);
 
     }
 
@@ -126,7 +135,7 @@ public class Game extends GameApplication {
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
-
+        skillTree = new SkillTree();
     }
 
     @Override
