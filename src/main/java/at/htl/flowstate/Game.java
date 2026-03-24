@@ -198,7 +198,7 @@ public class Game extends GameApplication {
 
     private void spawnMeeleEnemy(double x, double y) {
         //y = levelGeneration.getBaseY() - 150
-        spawn("meeleeEnemy", new SpawnData(x, y)
+        spawn("meeleEnemy", new SpawnData(x, y)
                 .put("player", player));
     }
 
