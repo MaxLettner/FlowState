@@ -36,7 +36,7 @@ public class PlayerComponent extends Component {
     private boolean jumpConsumed = false;
     private int coyoteTimer = 0;
     private double  currentRunningFrames = 0;
-    private int lastMoveDirection = 0;
+    private int lastMoveDirection = 1;
 
     //STATS
     private double health = 100;
@@ -190,8 +190,6 @@ public class PlayerComponent extends Component {
     }
 
     //-----Getters-----
-
-
     public double getMana() {
         return mana;
     }
@@ -207,5 +205,7 @@ public class PlayerComponent extends Component {
     public double getMaxHealth() {
         return maxHealth;
     }
+
+    public int getLastMoveDirection() { return lastMoveDirection; }
 
 }

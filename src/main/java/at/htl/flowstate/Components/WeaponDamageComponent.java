@@ -8,10 +8,10 @@ import com.almasb.fxgl.entity.component.Component;
 
 import java.util.List;
 
-public class WeaponComponent extends Component {
+public class WeaponDamageComponent extends Component {
     double damage;
 
-    public WeaponComponent(double damage) {
+    public WeaponDamageComponent(double damage) {
         this.damage = damage;
     }
 

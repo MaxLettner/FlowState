@@ -1,13 +1,27 @@
 package at.htl.flowstate.Components.Skills;
 
 
+import at.htl.flowstate.Components.SwingComponent;
+import at.htl.flowstate.Components.WeaponDamageComponent;
+import com.almasb.fxgl.entity.Entity;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+
+import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
+
 public class MeeleSkillComponent extends SkillComponent {
     public MeeleSkillComponent() {}
 
     //-----Default Meele Skill-----
     @Override
     public void doDefault () {
-
+        Entity weapon = entityBuilder()
+                .viewWithBBox(new Rectangle(20, 80, Color.GRAY))
+                .with(new WeaponDamageComponent(5))
+                .with(new SwingComponent(entity, 1))
+                .zIndex(-1)
+                .buildAndAttach();
     }
 
     //-----Skills of the Subtrees-----

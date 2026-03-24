@@ -2,7 +2,6 @@ package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Components.Skills.MeeleSkillComponent;
-import at.htl.flowstate.Components.WeaponComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
@@ -19,6 +18,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.almasb.fxgl.ui.ProgressBar;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -88,6 +88,9 @@ public class Game extends GameApplication {
                 }
             }
         }, KeyCode.I);
+        getInput().addAction(new UserAction("Attack") {
+            @Override protected void onActionBegin() { player.getComponent(MeeleSkillComponent.class).doDefault(); }
+        }, MouseButton.PRIMARY);
 
     }
 
@@ -119,13 +122,6 @@ public class Game extends GameApplication {
                 .with(new MeeleSkillComponent())
                 .collidable()
                 .buildAndAttach();
-
-        entityBuilder()
-                .at(300, levelGeneration.getBaseY() - 150)
-                .viewWithBBox(new Rectangle(40, 80, Color.GRAY))
-                .with(new WeaponComponent(5))
-                .buildAndAttach();
-
 
         spawnRangedEnemy(200, levelGeneration.getBaseY() - 150);
 
