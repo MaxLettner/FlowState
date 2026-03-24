@@ -36,7 +36,8 @@ public class PlayerComponent extends Component {
     private boolean jumpConsumed = false;
     private int coyoteTimer = 0;
     private double  currentRunningFrames = 0;
-    private int lastMoveDirection = 1;
+    private int lastMoveDirection = 0;
+    private int currentWatchDirection = 1;
 
     //STATS
     private double health = 100;
@@ -130,8 +131,16 @@ public class PlayerComponent extends Component {
         }
     }
 
-    public void moveRight() { lastMoveDirection =  1; move( 1); }
-    public void moveLeft() { lastMoveDirection = -1; move(-1); }
+    public void moveRight() {
+        lastMoveDirection =  1;
+        move( 1);
+        currentWatchDirection = 1;
+    }
+    public void moveLeft() {
+        lastMoveDirection = -1;
+        move(-1);
+        currentWatchDirection = -1;
+    }
 
     public void stop() {
         lastMoveDirection = 0;
@@ -206,6 +215,6 @@ public class PlayerComponent extends Component {
         return maxHealth;
     }
 
-    public int getLastMoveDirection() { return lastMoveDirection; }
+    public int getCurrentWatchDirection() { return currentWatchDirection; }
 
 }
