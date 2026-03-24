@@ -1,6 +1,7 @@
 package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Components.Skills.MeeleSkillComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
@@ -17,6 +18,7 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.almasb.fxgl.ui.ProgressBar;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -86,6 +88,12 @@ public class Game extends GameApplication {
                 }
             }
         }, KeyCode.I);
+        getInput().addAction(new UserAction("Attack") {
+            @Override protected void onActionBegin() {
+                //just for testing, needs to be overhauled
+                player.getComponent(MeeleSkillComponent.class).doSub1Skill3();
+            }
+        }, MouseButton.PRIMARY);
 
     }
 
@@ -114,10 +122,13 @@ public class Game extends GameApplication {
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
                 .with(new PlayerComponent())
+                .with(new MeeleSkillComponent())
                 .collidable()
                 .buildAndAttach();
 
-        spawnRangedEnemy(200, levelGeneration.getBaseY() - 150);
+        //---just for testing---
+        spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
+        //-----
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
@@ -141,7 +152,6 @@ public class Game extends GameApplication {
     }
 
     //-----CAMERA-----
-
     private void updateCamera() {
         double vpX = getGameScene().getViewport().getX();
         double threshold = vpX + WINDOW_WIDTH * 0.75;
@@ -151,7 +161,6 @@ public class Game extends GameApplication {
     }
 
     //-----HELPERS-----
-
     private void cleanupPlatforms() {
         double viewX = getGameScene().getViewport().getX();
         List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
@@ -187,9 +196,9 @@ public class Game extends GameApplication {
         addUINode(mpBar);
     }
 
-    private void spawnMeeleeEnemy(double x, double y) {
+    private void spawnMeeleEnemy(double x, double y) {
         //y = levelGeneration.getBaseY() - 150
-        spawn("meeleeEnemy", new SpawnData(x, y)
+        spawn("meeleEnemy", new SpawnData(x, y)
                 .put("player", player));
     }
 

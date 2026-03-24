@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.Identifier;
 
 import com.almasb.fxgl.entity.component.Component;
 

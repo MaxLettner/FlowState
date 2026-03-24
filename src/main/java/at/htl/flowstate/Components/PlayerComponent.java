@@ -37,6 +37,15 @@ public class PlayerComponent extends Component {
     private int coyoteTimer = 0;
     private double  currentRunningFrames = 0;
     private int lastMoveDirection = 0;
+    private int currentWatchDirection = 1;
+
+    //value to determine whether the player can ettack;
+    //different weapons use different values;
+    //eg swords use 10 because only one at a time
+    //fisticuffs use 5 because 2 at a time
+    //value gets subtracted in respective SkillComponent and added back by the animation ending
+    private int attackStrength = 10;
+    private static final int MAX_ATTACK_STRENGTH = 10;
 
     //STATS
     private double health = 100;
@@ -66,6 +75,8 @@ public class PlayerComponent extends Component {
 
         regenerate(tpf);
     }
+
+
 
     private void tryStep(int direction) {
         double feetY = entity.getY() + PLAYER_HEIGHT;
@@ -130,8 +141,16 @@ public class PlayerComponent extends Component {
         }
     }
 
-    public void moveRight() { lastMoveDirection =  1; move( 1); }
-    public void moveLeft() { lastMoveDirection = -1; move(-1); }
+    public void moveRight() {
+        lastMoveDirection =  1;
+        move( 1);
+        currentWatchDirection = 1;
+    }
+    public void moveLeft() {
+        lastMoveDirection = -1;
+        move(-1);
+        currentWatchDirection = -1;
+    }
 
     public void stop() {
         lastMoveDirection = 0;
@@ -190,8 +209,6 @@ public class PlayerComponent extends Component {
     }
 
     //-----Getters-----
-
-
     public double getMana() {
         return mana;
     }
@@ -206,6 +223,21 @@ public class PlayerComponent extends Component {
 
     public double getMaxHealth() {
         return maxHealth;
+    }
+
+    public int getCurrentWatchDirection() { return currentWatchDirection; }
+
+    public void addAttackStrength(int s) {
+        attackStrength += s;
+        if(attackStrength > MAX_ATTACK_STRENGTH) attackStrength = MAX_ATTACK_STRENGTH;
+    }
+
+    public boolean takeAttackStrength(int s) {
+        if(attackStrength - s < 0) {
+            return false;
+        }
+        attackStrength -= s;
+        return true;
     }
 
 }

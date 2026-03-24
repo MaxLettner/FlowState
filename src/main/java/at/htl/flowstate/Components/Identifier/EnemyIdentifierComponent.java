@@ -1,0 +1,7 @@
+package at.htl.flowstate.Components.Identifier;
+
+import com.almasb.fxgl.entity.component.Component;
+
+public class EnemyIdentifierComponent extends Component {
+    //Just a class to identify Enemies
+}
