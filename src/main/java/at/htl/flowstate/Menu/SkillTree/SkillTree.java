@@ -16,9 +16,22 @@ public class SkillTree extends SkillTreeParent {
     private SkillTreeNode meeleNode;
     private SkillTreeNode rangedNode;
 
+    private boolean[] skillUnlockStatus = new boolean[3];
+    /*
+     * false == first time unlocked
+     * true == was already unlocked before
+     * 1 == magic
+     * 2 == meele
+     * 3 == ranged
+     * */
+
     private SkillTreeNode currentCategoryNode;
     private VBox contentBox;
     private VBox mainContainer;
+
+    private Button meeleBtn;
+    private Button magicBtn;
+    private Button rangedBtn;
 
     public SkillTree() {
         super("Skill Tree");
@@ -115,13 +128,26 @@ public class SkillTree extends SkillTreeParent {
         contentBox.getChildren().clear();
         currentCategoryNode = null;
 
-        Button meeleBtn  = createButton(SkillType.MEELE.getName(),   SkillType.MEELE);
-        Button magicBtn  = createButton(SkillType.MAGIC.getName(),   SkillType.MAGIC);
-        Button rangedBtn = createButton(SkillType.RANGED.getName(),  SkillType.RANGED);
+        meeleBtn  = createButton(SkillType.MEELE.getName(),   SkillType.MEELE);
+        magicBtn  = createButton(SkillType.MAGIC.getName(),   SkillType.MAGIC);
+        rangedBtn = createButton(SkillType.RANGED.getName(),  SkillType.RANGED);
 
-        magicBtn.setOnAction(e  -> { magicNode.unlock();  displayFullTree(magicNode);  });
-        meeleBtn.setOnAction(e  -> { meeleNode.unlock();  displayFullTree(meeleNode);  });
-        rangedBtn.setOnAction(e -> { rangedNode.unlock(); displayFullTree(rangedNode); });
+        if (skillUnlockStatus[0]) {
+            magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+            magicBtn.setOnMouseExited(e -> magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+        }
+        if (skillUnlockStatus[1]) {
+            meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+            meeleBtn.setOnMouseExited(e -> meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+        }
+        if (skillUnlockStatus[2]) {
+            rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+            rangedBtn.setOnMouseExited(e -> rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+        }
+
+        magicBtn.setOnAction(e  -> handleMagicUnlock());
+        meeleBtn.setOnAction(e  -> handleMeeleUnlock());
+        rangedBtn.setOnAction(e -> handleRangedUnlock());
 
         HBox categoryBox = new HBox(20);
         categoryBox.setAlignment(Pos.CENTER);
@@ -129,6 +155,38 @@ public class SkillTree extends SkillTreeParent {
 
         contentBox.getChildren().add(categoryBox);
     }
+
+    private void handleMagicUnlock() {
+        magicNode.unlock();
+        magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+        magicBtn.setOnMouseExited(e -> magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+        if(skillUnlockStatus[0]) {
+            displayFullTree(magicNode);
+        } else {
+            skillUnlockStatus[0] = true;
+        }
+    }
+    private void handleMeeleUnlock() {
+        meeleNode.unlock();
+        meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+        meeleBtn.setOnMouseExited(e -> meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+        if(skillUnlockStatus[1]) {
+            displayFullTree(meeleNode);
+        } else {
+            skillUnlockStatus[1] = true;
+        }
+    }
+    private void handleRangedUnlock() {
+        rangedNode.unlock();
+        rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+        rangedBtn.setOnMouseExited(e -> rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+        if(skillUnlockStatus[2]) {
+            displayFullTree(rangedNode);
+        } else {
+            skillUnlockStatus[2] = true;
+        }
+    }
+
 
     private void displayFullTree(SkillTreeNode categoryNode) {
         contentBox.getChildren().clear();
@@ -210,7 +268,6 @@ public class SkillTree extends SkillTreeParent {
         });
         btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(style); });
         btn.setOnAction(e -> { node.unlock(); updateFullTree(); });
-
         return btn;
     }
 
