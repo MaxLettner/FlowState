@@ -127,7 +127,7 @@ public class Game extends GameApplication {
                 .buildAndAttach();
 
         //---just for testing---
-        spawnMeeleeEnemy(200, levelGeneration.getBaseY() - 150);
+        spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
         //-----
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
@@ -196,7 +196,7 @@ public class Game extends GameApplication {
         addUINode(mpBar);
     }
 
-    private void spawnMeeleeEnemy(double x, double y) {
+    private void spawnMeeleEnemy(double x, double y) {
         //y = levelGeneration.getBaseY() - 150
         spawn("meeleeEnemy", new SpawnData(x, y)
                 .put("player", player));
