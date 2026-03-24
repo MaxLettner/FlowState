@@ -1,20 +1,14 @@
 package at.htl.flowstate;
 
-import at.htl.flowstate.Components.DeleteAfterTimeComponent;
-import at.htl.flowstate.Components.EnemyComponent;
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
 import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import at.htl.flowstate.Menu.GameMenu;
-import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.app.scene.SceneFactory;
-import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
@@ -25,7 +19,6 @@ import com.almasb.fxgl.ui.ProgressBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 import java.util.List;
 

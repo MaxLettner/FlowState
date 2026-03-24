@@ -1,12 +1,8 @@
 package at.htl.flowstate.Generation;
 
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGL.spawn;
 
