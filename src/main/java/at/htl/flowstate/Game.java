@@ -6,9 +6,14 @@ import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
-import at.htl.flowstate.Menu.SkillTree;
+import at.htl.flowstate.Menu.SkillTree.SkillTree;
+import at.htl.flowstate.Menu.GameMenu;
+import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.app.scene.SceneFactory;
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
@@ -20,6 +25,7 @@ import com.almasb.fxgl.ui.ProgressBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -32,6 +38,8 @@ public class Game extends GameApplication {
 
     private final double WINDOW_WIDTH = 1920;
     private final double WINDOW_HEIGHT = 1080;
+
+    private SkillTree skillTree;
 
     private static final short CATEGORY_TERRAIN = 0x0001;
     private static final short CATEGORY_PLAYER = 0x0002;
@@ -46,6 +54,12 @@ public class Game extends GameApplication {
         settings.setVersion("0.4.1");
         settings.setWidth((int) WINDOW_WIDTH);
         settings.setHeight((int) WINDOW_HEIGHT);
+        settings.setSceneFactory(new SceneFactory() {
+            @Override
+            public com.almasb.fxgl.app.scene.FXGLMenu newGameMenu() {
+                return new GameMenu();
+            }
+        });
     }
 
     @Override
@@ -69,10 +83,17 @@ public class Game extends GameApplication {
             @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
         }, KeyCode.W);
+        getInput().addAction(new UserAction("Toggle Skill Tree") {
+            @Override
+            protected void onActionBegin() {
+                if (skillTree.isOpen()) {
+                    skillTree.close();
+                } else {
+                    skillTree.open();
+                }
+            }
+        }, KeyCode.I);
 
-        onKeyDown(KeyCode.I, () -> {
-            FXGL.getSceneService().pushSubScene(new SkillTree());
-        });
     }
 
     @Override
@@ -106,6 +127,8 @@ public class Game extends GameApplication {
         spawnRangedEnemy(200, levelGeneration.getBaseY() - 150);
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
+
+        skillTree = new SkillTree();
 
         initHealthBar();
         initManaBar();

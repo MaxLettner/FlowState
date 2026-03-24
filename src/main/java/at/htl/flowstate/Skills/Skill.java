@@ -40,7 +40,11 @@ public class Skill {
 
         public void unlock() {
             isUnlocked = true;
+            if(!SkillList.getInstance().isSkillUnlocked(type)){
+                SkillList.getInstance().unlockSkill(type);
+            }
         }
+        
         public void revoke() {
             isUnlocked = false;
         }
