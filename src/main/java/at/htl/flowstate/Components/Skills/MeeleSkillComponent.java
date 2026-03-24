@@ -18,14 +18,12 @@ public class MeeleSkillComponent extends SkillComponent {
     public void doDefault () {
         if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
             entityBuilder()
-                    .viewWithBBox(new Rectangle(10, 60, Color.GRAY))
+                    .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
                     .with(new WeaponDamageComponent(5))
                     .with(new SwordAnimationComponent(entity, 10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
         }
-
-
     }
 
     //-----Skills of the Subtrees-----
@@ -33,7 +31,14 @@ public class MeeleSkillComponent extends SkillComponent {
 
     @Override
     public void doSub1() { // basic sword
-
+        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+            entityBuilder()
+                    .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
+                    .with(new WeaponDamageComponent(10))
+                    .with(new SwordAnimationComponent(entity, 10, 1))
+                    .zIndex(-1)
+                    .buildAndAttach();
+        }
     }
 
     @Override
@@ -49,16 +54,38 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Skills of the Swords Tree-----
     @Override
     public void doSub1Skill1() { //shortsword
-
+        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+            entityBuilder()
+                    .viewWithBBox(new Rectangle(10, 45, Color.GRAY))
+                    .with(new WeaponDamageComponent(5))
+                    .with(new SwordAnimationComponent(entity, 10, 0.5))
+                    .zIndex(-1)
+                    .buildAndAttach();
+        }
     }
 
     @Override
     public void doSub1Skill2() { //dual wielding
-
+        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(5)) {
+            entityBuilder()
+                    .viewWithBBox(new Rectangle(10, 60, Color.GRAY))
+                    .with(new WeaponDamageComponent(5))
+                    .with(new SwordAnimationComponent(entity, 5, 0.8))
+                    .zIndex(-1)
+                    .buildAndAttach();
+        }
     }
 
     @Override
     public void doSub1Skill3() { //zweihander
+        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+            entityBuilder()
+                    .viewWithBBox(new Rectangle(10, 90, Color.GRAY))
+                    .with(new WeaponDamageComponent(20))
+                    .with(new SwordAnimationComponent(entity, 10, 2))
+                    .zIndex(-1)
+                    .buildAndAttach();
+        }
 
     }
 
