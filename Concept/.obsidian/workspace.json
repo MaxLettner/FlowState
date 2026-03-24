@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skilltree/Meele/Meele.md",
+                "file": "Skilltree/Meele/Blunt/Weopons/Hammer.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Meele"
+              "title": "Hammer"
             }
           },
           {
@@ -228,8 +228,15 @@
   },
   "active": "1403a3ed3e53959c",
   "lastOpenFiles": [
-    "Skilltree/Magic/Magic.md",
+    "Skilltree/Ranged/Crossbow/Crossbow.md",
+    "Skilltree/Ranged/Crossbow/Poison Crossbow.md",
+    "Skilltree/Ranged/Crossbow/Heavy Crossbow.md",
+    "Skilltree/Ranged/Crossbow/Dual Crossbow.md",
+    "Skilltree/Ranged/Bow/War-Bow.md",
+    "Skilltree/Ranged/Trident/Heavy Trident.md",
+    "Skilltree/Ranged/Trident/Ice Trident.md",
     "Skilltree/Meele/Meele.md",
+    "Skilltree/Magic/Magic.md",
     "SkillTree.md",
     "Skilltree/Magic/Enchanting/Enchanting.md",
     "Skilltree/Magic/Elemental/Elemental.md",
@@ -238,7 +245,6 @@
     "Skilltree/Meele/Two Handed/Two Handed.md",
     "Skilltree/Meele/One Handed/One Handed.md",
     "Skilltree/Ranged/Bow/Bow.md",
-    "Skilltree/Ranged/Crossbow/Crossbow.md",
     "Skilltree/Ranged/Trident/Trident.md",
     "Skilltree/Ranged/Ranged.md",
     "Skilltree/Ranged/Trident",
