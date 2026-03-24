@@ -21,7 +21,7 @@ public class SwingComponent extends Component {
 
     @Override
     public void onAdded() {
-        entity.setRotationOrigin(new Point2D(20, 0));
+        entity.setRotationOrigin(new Point2D(entity.getWidth()/2, 0));
         entity.setRotation(getCurrentWatchDirection() > 0 ? START_ANGLE : -START_ANGLE);
     }
 
@@ -35,9 +35,12 @@ public class SwingComponent extends Component {
         double end = getCurrentWatchDirection() > 0 ? END_ANGLE : -END_ANGLE;
 
         entity.setRotation(start + (end - start) * eased);
-        entity.setPosition(player.getCenter().getX() - 20, player.getCenter().getY() - 10);
+        entity.setPosition(player.getCenter().getX() - entity.getWidth()/2, player.getCenter().getY() - player.getHeight()/4);
 
-        if (t >= 1.0) entity.removeFromWorld();
+        if (t >= 1.0) {
+            entity.removeFromWorld();
+            player.getComponent(PlayerComponent.class).setCanAttack(true);
+        }
     }
 
     public int getCurrentWatchDirection() {

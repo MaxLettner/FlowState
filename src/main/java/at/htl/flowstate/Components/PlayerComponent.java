@@ -38,6 +38,7 @@ public class PlayerComponent extends Component {
     private double  currentRunningFrames = 0;
     private int lastMoveDirection = 0;
     private int currentWatchDirection = 1;
+    private boolean canAttack = true;
 
     //STATS
     private double health = 100;
@@ -67,6 +68,8 @@ public class PlayerComponent extends Component {
 
         regenerate(tpf);
     }
+
+
 
     private void tryStep(int direction) {
         double feetY = entity.getY() + PLAYER_HEIGHT;
@@ -216,5 +219,9 @@ public class PlayerComponent extends Component {
     }
 
     public int getCurrentWatchDirection() { return currentWatchDirection; }
+
+    public void setCanAttack(boolean b) { canAttack = b; }
+
+    public boolean getCanAttack() { return canAttack; }
 
 }

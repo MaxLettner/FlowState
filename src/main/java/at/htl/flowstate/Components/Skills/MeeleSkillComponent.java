@@ -16,8 +16,9 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Default Meele Skill-----
     @Override
     public void doDefault () {
-        Entity weapon = entityBuilder()
-                .viewWithBBox(new Rectangle(20, 80, Color.GRAY))
+
+        entityBuilder()
+                .viewWithBBox(new Rectangle(10, 60, Color.GRAY))
                 .with(new WeaponDamageComponent(5))
                 .with(new SwingComponent(entity, 1))
                 .zIndex(-1)

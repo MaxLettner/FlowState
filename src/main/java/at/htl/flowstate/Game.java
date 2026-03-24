@@ -89,7 +89,13 @@ public class Game extends GameApplication {
             }
         }, KeyCode.I);
         getInput().addAction(new UserAction("Attack") {
-            @Override protected void onActionBegin() { player.getComponent(MeeleSkillComponent.class).doDefault(); }
+            @Override protected void onActionBegin() {
+
+                if(player.getComponent(PlayerComponent.class).getCanAttack()) {
+                    player.getComponent(PlayerComponent.class).setCanAttack(false);
+                    player.getComponent(MeeleSkillComponent.class).doDefault();
+                }
+            }
         }, MouseButton.PRIMARY);
 
     }
@@ -123,7 +129,7 @@ public class Game extends GameApplication {
                 .collidable()
                 .buildAndAttach();
 
-        spawnRangedEnemy(200, levelGeneration.getBaseY() - 150);
+        spawnMeeleeEnemy(200, levelGeneration.getBaseY() - 150);
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
