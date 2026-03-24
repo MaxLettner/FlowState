@@ -1,13 +1,14 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.AttackAnimations;
 
+import at.htl.flowstate.Components.PlayerComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 
-public abstract class WeaponAnimationComponent extends Component {
+public abstract class AnimationComponent extends Component {
     private final int attackWeight;
     protected Entity player;
 
-    public WeaponAnimationComponent(Entity player, int attackWeight) {
+    public AnimationComponent(Entity player, int attackWeight) {
         this.attackWeight = attackWeight;
         this.player = player;
     }

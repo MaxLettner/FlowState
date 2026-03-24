@@ -2,7 +2,7 @@ package at.htl.flowstate.Components.Skills;
 
 
 import at.htl.flowstate.Components.PlayerComponent;
-import at.htl.flowstate.Components.SwordAnimationComponent;
+import at.htl.flowstate.Components.AttackAnimations.SwordAnimationComponent;
 import at.htl.flowstate.Components.WeaponDamageComponent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

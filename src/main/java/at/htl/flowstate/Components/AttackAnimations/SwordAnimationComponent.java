@@ -1,9 +1,9 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.AttackAnimations;
 
 import com.almasb.fxgl.entity.Entity;
 import javafx.geometry.Point2D;
 
-public class SwordAnimationComponent extends WeaponAnimationComponent {
+public class SwordAnimationComponent extends AnimationComponent {
 
     private static final double START_ANGLE = 180.0;
     private static final double END_ANGLE = 00.0;
