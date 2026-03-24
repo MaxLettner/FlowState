@@ -14,7 +14,7 @@ public class EnemyComponent extends Component {
     protected Entity player;
     protected PhysicsComponent physics;
 
-    protected static final double MOVE_SPEED = 250.0;
+    protected static final double MOVE_SPEED = 200.0;
     protected static final double JUMP_FORCE = 600.0;
     protected static final double STEP_HEIGHT = 20.0;
     protected static final double STEP_LOOK_AHEAD = 12.0;
@@ -49,7 +49,7 @@ public class EnemyComponent extends Component {
 
     protected void chasePlayer() {
         double dx = player.getX() - entity.getX();
-        int direction = dx > 0 ? 1 : -1;
+        int direction = dx < 10 && dx > -10 ? 0 : dx > 0 ? 1 : -1;
 
         physics.setVelocityX(MOVE_SPEED * direction);
 

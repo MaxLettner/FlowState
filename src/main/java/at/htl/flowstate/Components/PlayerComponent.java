@@ -38,7 +38,14 @@ public class PlayerComponent extends Component {
     private double  currentRunningFrames = 0;
     private int lastMoveDirection = 0;
     private int currentWatchDirection = 1;
-    private boolean canAttack = true;
+
+    //value to determine whether the player can ettack;
+    //different weapons use different values;
+    //eg swords use 10 because only one at a time
+    //fisticuffs use 5 because 2 at a time
+    //value gets subtracted in respective SkillComponent and added back by the animation ending
+    private int attackStrength = 10;
+    private static final int MAX_ATTACK_STRENGTH = 10;
 
     //STATS
     private double health = 100;
@@ -220,8 +227,17 @@ public class PlayerComponent extends Component {
 
     public int getCurrentWatchDirection() { return currentWatchDirection; }
 
-    public void setCanAttack(boolean b) { canAttack = b; }
+    public void addAttackStrength(int s) {
+        attackStrength += s;
+        if(attackStrength > MAX_ATTACK_STRENGTH) attackStrength = MAX_ATTACK_STRENGTH;
+    }
 
-    public boolean getCanAttack() { return canAttack; }
+    public boolean takeAttackStrength(int s) {
+        if(attackStrength - s < 0) {
+            return false;
+        }
+        attackStrength -= s;
+        return true;
+    }
 
 }

@@ -1,22 +1,21 @@
 package at.htl.flowstate.Components;
 
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.component.Component;
 import javafx.geometry.Point2D;
 
-public class SwingComponent extends Component {
+public class SwordAnimationComponent extends WeaponAnimationComponent {
 
     private static final double START_ANGLE = 180.0;
     private static final double END_ANGLE = 00.0;
 
-    private final Entity player;
     private final double duration;
 
     private double elapsed = 0;
 
-    public SwingComponent(Entity player, double duration) {
-        this.player = player;
+    public SwordAnimationComponent(Entity player, int attackWeight, double duration) {
         this.duration = duration;
+
+        super(player, attackWeight);
     }
 
     @Override
@@ -27,6 +26,11 @@ public class SwingComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        animate(tpf);
+    }
+
+    @Override
+    protected void animate(double tpf) {
         elapsed += tpf;
         double t = Math.min(elapsed / duration, 1.0);
         double eased = 1 - Math.pow(1 - t, 2);
@@ -38,12 +42,7 @@ public class SwingComponent extends Component {
         entity.setPosition(player.getCenter().getX() - entity.getWidth()/2, player.getCenter().getY() - player.getHeight()/4);
 
         if (t >= 1.0) {
-            entity.removeFromWorld();
-            player.getComponent(PlayerComponent.class).setCanAttack(true);
+            endAnimation();
         }
-    }
-
-    public int getCurrentWatchDirection() {
-        return player.getComponent(PlayerComponent.class).getCurrentWatchDirection() * -1;
     }
 }

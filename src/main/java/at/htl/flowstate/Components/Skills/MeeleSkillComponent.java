@@ -1,9 +1,9 @@
 package at.htl.flowstate.Components.Skills;
 
 
-import at.htl.flowstate.Components.SwingComponent;
+import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Components.SwordAnimationComponent;
 import at.htl.flowstate.Components.WeaponDamageComponent;
-import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -16,44 +16,49 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Default Meele Skill-----
     @Override
     public void doDefault () {
+        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+            entityBuilder()
+                    .viewWithBBox(new Rectangle(10, 60, Color.GRAY))
+                    .with(new WeaponDamageComponent(5))
+                    .with(new SwordAnimationComponent(entity, 10, 1))
+                    .zIndex(-1)
+                    .buildAndAttach();
+        }
 
-        entityBuilder()
-                .viewWithBBox(new Rectangle(10, 60, Color.GRAY))
-                .with(new WeaponDamageComponent(5))
-                .with(new SwingComponent(entity, 1))
-                .zIndex(-1)
-                .buildAndAttach();
+
     }
 
     //-----Skills of the Subtrees-----
+
+
     @Override
-    public void doSub1() {
+    public void doSub1() { // basic sword
 
     }
 
     @Override
-    public void doSub2() {
+    public void doSub2() { // basic fisticuff
 
     }
 
     @Override
-    public void doSub3() {
+    public void doSub3() { // basic blunt
 
     }
 
     //-----Skills of the Swords Tree-----
     @Override
-    public void doSub1Skill1() {
+    public void doSub1Skill1() { //shortsword
 
     }
 
     @Override
-    public void doSub1Skill2() {
+    public void doSub1Skill2() { //dual wielding
 
     }
 
     @Override
-    public void doSub1Skill3() {
+    public void doSub1Skill3() { //zweihander
 
     }
 

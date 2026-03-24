@@ -5,6 +5,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.physics.PhysicsComponent;
 
 import java.util.List;
 
@@ -19,12 +20,17 @@ public class WeaponDamageComponent extends Component {
     public void onUpdate(double tpf) {
         getEnemies().forEach(e -> {
             if(e.isColliding(entity)) {
-                e.getComponent(HealthDoubleComponent.class).damage(damage);
-                if(e.getComponent(HealthDoubleComponent.class).isZero()) {
-                    e.removeFromWorld();
-                }
+                hit(e);
             }
         });
+    }
+
+    private void hit(Entity e) {
+        e.getComponent(HealthDoubleComponent.class).damage(damage);
+        if(e.getComponent(HealthDoubleComponent.class).isZero()) {
+            e.removeFromWorld();
+        }
+        //TODO: implement knockback code
     }
 
     private List<Entity> getEnemies() {
