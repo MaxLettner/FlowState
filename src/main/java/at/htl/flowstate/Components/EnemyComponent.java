@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components;
 
+import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -28,9 +29,6 @@ public class EnemyComponent extends Component {
 
     protected boolean isGrounded = false;
     protected boolean jumpConsumed = false;
-
-    protected double health = 100;
-    protected double maxHealth = 100;
 
     public EnemyComponent(Entity player) {
         this.player = player;
@@ -136,7 +134,4 @@ public class EnemyComponent extends Component {
                 e -> e.getComponentOptional(PlatformIdentifierComponent.class).isPresent()
         );
     }
-
-    public double getHealth() { return health; }
-    public double getMaxHealth() { return maxHealth; }
 }

@@ -1,6 +1,6 @@
 package at.htl.flowstate.Factories;
 
-import at.htl.flowstate.Components.PlatformIdentifierComponent;
+import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;

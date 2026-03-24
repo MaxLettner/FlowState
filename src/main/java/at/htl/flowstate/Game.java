@@ -1,6 +1,8 @@
 package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Components.Skills.MeeleSkillComponent;
+import at.htl.flowstate.Components.WeaponComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
@@ -114,8 +116,16 @@ public class Game extends GameApplication {
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
                 .with(new PlayerComponent())
+                .with(new MeeleSkillComponent())
                 .collidable()
                 .buildAndAttach();
+
+        entityBuilder()
+                .at(300, levelGeneration.getBaseY() - 150)
+                .viewWithBBox(new Rectangle(40, 80, Color.GRAY))
+                .with(new WeaponComponent(5))
+                .buildAndAttach();
+
 
         spawnRangedEnemy(200, levelGeneration.getBaseY() - 150);
 
@@ -141,7 +151,6 @@ public class Game extends GameApplication {
     }
 
     //-----CAMERA-----
-
     private void updateCamera() {
         double vpX = getGameScene().getViewport().getX();
         double threshold = vpX + WINDOW_WIDTH * 0.75;
@@ -151,7 +160,6 @@ public class Game extends GameApplication {
     }
 
     //-----HELPERS-----
-
     private void cleanupPlatforms() {
         double viewX = getGameScene().getViewport().getX();
         List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);

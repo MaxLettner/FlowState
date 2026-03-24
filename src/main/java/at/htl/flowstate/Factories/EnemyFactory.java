@@ -1,8 +1,10 @@
 package at.htl.flowstate.Factories;
 
 import at.htl.flowstate.Components.EnemyComponent;
+import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import at.htl.flowstate.Components.RangedEnemyComponent;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
@@ -34,6 +36,8 @@ public class EnemyFactory implements EntityFactory {
                 .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
                 .with(physics)
                 .with(new EnemyComponent(player))
+                .with(new HealthDoubleComponent(100))
+                .with(new EnemyIdentifierComponent())
                 .collidable()
                 .build();
     }
@@ -54,6 +58,8 @@ public class EnemyFactory implements EntityFactory {
                 .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
                 .with(physics)
                 .with(new RangedEnemyComponent(player))
+                .with(new HealthDoubleComponent(100))
+                .with(new EnemyIdentifierComponent())
                 .collidable()
                 .build();
     }
