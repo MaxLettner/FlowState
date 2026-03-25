@@ -35,7 +35,7 @@ public class SwordAnimationComponent extends AnimationComponent {
         double eased = 1 - Math.pow(1 - t, 2);
 
         double start = getCurrentWatchDirection() > 0 ? START_ANGLE : -START_ANGLE;
-        double end   = getCurrentWatchDirection() > 0 ? END_ANGLE   : -END_ANGLE;
+        double end = getCurrentWatchDirection() > 0 ? END_ANGLE : -END_ANGLE;
 
 
         entity.setRotation(start + (end - start) * eased);
