@@ -127,7 +127,7 @@ public class Game extends GameApplication {
                 .buildAndAttach();
 
         //---just for testing---
-        spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
+        //spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
         //-----
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);

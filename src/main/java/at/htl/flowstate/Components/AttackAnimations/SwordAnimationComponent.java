@@ -5,8 +5,8 @@ import javafx.geometry.Point2D;
 
 public class SwordAnimationComponent extends AnimationComponent {
 
-    private static final double START_ANGLE = 180.0;
-    private static final double END_ANGLE = 0.0;
+    private static final double START_ANGLE = 220.0;
+    private static final double END_ANGLE = 45.0;
 
     private final double duration;
 
@@ -40,8 +40,8 @@ public class SwordAnimationComponent extends AnimationComponent {
 
         entity.setRotation(start + (end - start) * eased);
         entity.setPosition(
-                player.getCenter().getX() - entity.getWidth()  / 2,
-                player.getCenter().getY() - player.getHeight() / 4
+                player.getCenter().getX()-5,
+                player.getY()+player.getHeight()/4
         );
 
         if (t >= 1.0) {

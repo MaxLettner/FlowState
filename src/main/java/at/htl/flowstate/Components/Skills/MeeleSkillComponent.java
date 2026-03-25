@@ -33,7 +33,6 @@ public class MeeleSkillComponent extends SkillComponent {
     }
 
     //-----Skills of the Subtrees-----
-
     @Override
     public void doSub1() { // basic sword
         if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
@@ -61,15 +60,18 @@ public class MeeleSkillComponent extends SkillComponent {
     public void doSub1Skill1() { //shortsword
         if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/shortsword.png");
-            Texture texture = new Texture(new Image(url.toExternalForm(), 100, 100, false, true)); // natural size, no forced dimensions
-            texture.setRotate(325);
+            Texture texture = new Texture(new Image(url.toExternalForm(), 80, 80, false, true));
+            texture.setRotate(135);
+            texture.setTranslateX(-35);
+            texture.setTranslateY(10);
 
             entityBuilder()
-                    .at(entity.getCenter().getX(),entity.getX()-entity.getHeight())
-                    .bbox(new HitBox(BoundingShape.box(10, 45))) // collision box stays small
+                    .at(entity.getCenter().getX()-5,entity.getY()-entity.getHeight()+20)
+                    .bbox(new HitBox(BoundingShape.box(10, 85))) // collision box stays small
+                    //.view(new Rectangle(10,85))
                     .view(texture)
                     .with(new WeaponDamageComponent(5))
-                    //.with(new SwordAnimationComponent(entity, 10, 0.5))
+                    .with(new SwordAnimationComponent(entity, 10, 0.5))
                     .zIndex(-1)
                     .buildAndAttach();
         }
