@@ -44,8 +44,8 @@ public class PlayerComponent extends Component {
     //eg swords use 10 because only one at a time
     //fisticuffs use 5 because 2 at a time
     //value gets subtracted in respective SkillComponent and added back by the animation ending
-    private int attackStrength = 10;
-    private static final int MAX_ATTACK_STRENGTH = 10;
+    private int attackWeight = 10;
+    private static final int MAX_ATTACK_WEIGHT = 10;
 
     //STATS
     private double health = 100;
@@ -227,16 +227,16 @@ public class PlayerComponent extends Component {
 
     public int getCurrentWatchDirection() { return currentWatchDirection; }
 
-    public void addAttackStrength(int s) {
-        attackStrength += s;
-        if(attackStrength > MAX_ATTACK_STRENGTH) attackStrength = MAX_ATTACK_STRENGTH;
+    public void addAttackWeight(int v) {
+        attackWeight += v;
+        if(attackWeight > MAX_ATTACK_WEIGHT) attackWeight = MAX_ATTACK_WEIGHT;
     }
 
-    public boolean takeAttackStrength(int s) {
-        if(attackStrength - s < 0) {
+    public boolean takeAttackWeight(int v) {
+        if(attackWeight - v < 0) {
             return false;
         }
-        attackStrength -= s;
+        attackWeight -= v;
         return true;
     }
 
