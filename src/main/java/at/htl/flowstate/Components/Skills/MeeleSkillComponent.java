@@ -4,9 +4,15 @@ package at.htl.flowstate.Components.Skills;
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Components.AttackAnimations.SwordAnimationComponent;
 import at.htl.flowstate.Components.WeaponDamageComponent;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.texture.Texture;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+
+import java.net.URL;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
@@ -27,7 +33,6 @@ public class MeeleSkillComponent extends SkillComponent {
     }
 
     //-----Skills of the Subtrees-----
-
 
     @Override
     public void doSub1() { // basic sword
@@ -55,10 +60,16 @@ public class MeeleSkillComponent extends SkillComponent {
     @Override
     public void doSub1Skill1() { //shortsword
         if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+            URL url = MeeleSkillComponent.class.getResource("/assets/textures/shortsword.png");
+            Texture texture = new Texture(new Image(url.toExternalForm(), 100, 100, false, true)); // natural size, no forced dimensions
+            texture.setRotate(325);
+
             entityBuilder()
-                    .viewWithBBox(new Rectangle(10, 45, Color.GRAY))
+                    .at(entity.getCenter().getX(),entity.getX()-entity.getHeight())
+                    .bbox(new HitBox(BoundingShape.box(10, 45))) // collision box stays small
+                    .view(texture)
                     .with(new WeaponDamageComponent(5))
-                    .with(new SwordAnimationComponent(entity, 10, 0.5))
+                    //.with(new SwordAnimationComponent(entity, 10, 0.5))
                     .zIndex(-1)
                     .buildAndAttach();
         }
