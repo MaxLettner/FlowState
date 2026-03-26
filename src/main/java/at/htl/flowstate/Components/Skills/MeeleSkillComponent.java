@@ -4,19 +4,41 @@ package at.htl.flowstate.Components.Skills;
 import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Components.AttackAnimations.SwordAnimationComponent;
 import at.htl.flowstate.Components.WeaponDamageComponent;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.texture.Texture;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+
+import java.net.URL;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
 public class MeeleSkillComponent extends SkillComponent {
     public MeeleSkillComponent() {}
 
+    //-----Start Weapon-----
+    public void doStart () {
+        weaponBuilder(
+                "RustySword.png",
+                80,
+                -35,
+                3,
+                10,
+                80,
+                1,
+                10,
+                1,
+                false
+        );
+    }
+
     //-----Default Meele Skill-----
     @Override
     public void doDefault () {
-        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
                     .with(new WeaponDamageComponent(5))
@@ -27,11 +49,9 @@ public class MeeleSkillComponent extends SkillComponent {
     }
 
     //-----Skills of the Subtrees-----
-
-
     @Override
     public void doSub1() { // basic sword
-        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
                     .with(new WeaponDamageComponent(10))
@@ -54,31 +74,40 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Skills of the Swords Tree-----
     @Override
     public void doSub1Skill1() { //shortsword
-        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
-            entityBuilder()
-                    .viewWithBBox(new Rectangle(10, 45, Color.GRAY))
-                    .with(new WeaponDamageComponent(5))
-                    .with(new SwordAnimationComponent(entity, 10, 0.5))
-                    .zIndex(-1)
-                    .buildAndAttach();
-        }
+        weaponBuilder(
+                "shortsword.png",
+                80,
+                -35,
+                10,
+                10,
+                85,
+                5,
+                10,
+                0.5,
+                false
+        );
+
     }
 
     @Override
     public void doSub1Skill2() { //dual wielding
-        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(5)) {
-            entityBuilder()
-                    .viewWithBBox(new Rectangle(10, 60, Color.GRAY))
-                    .with(new WeaponDamageComponent(5))
-                    .with(new SwordAnimationComponent(entity, 5, 0.8))
-                    .zIndex(-1)
-                    .buildAndAttach();
-        }
+        weaponBuilder(
+                "dualwieldingsword.png",
+                100,
+                -45,
+                10,
+                10,
+                100,
+                5,
+                5,
+                1.2,
+                false
+        );
     }
 
     @Override
     public void doSub1Skill3() { //zweihander
-        if(entity.getComponent(PlayerComponent.class).takeAttackStrength(10)) {
+        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 90, Color.GRAY))
                     .with(new WeaponDamageComponent(20))
@@ -108,7 +137,18 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Skills of the Blunt Tree-----
     @Override
     public void doSub3Skill1() {
-
+        weaponBuilder(
+                "BigHammer.png",
+                120,
+                -50,
+                0,
+                20,
+                120,
+                20,
+                10,
+                1.5,
+                false
+        );
     }
 
     @Override
@@ -118,6 +158,37 @@ public class MeeleSkillComponent extends SkillComponent {
 
     @Override
     public void doSub3Skill3() {
+
+    }
+
+    private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, boolean debug) {
+        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(attackWeight)) {
+            URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
+            Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
+            texture.setRotate(135);
+            texture.setTranslateX(textureOffsetX);
+            texture.setTranslateY(textureOffsetY);
+
+            if (debug) {
+                entityBuilder()
+                        .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
+                        .view(new Rectangle(weaponWidth, weaponHeight))
+                        .view(texture)
+                        .with(new WeaponDamageComponent(weaponDamage))
+                        .with(new SwordAnimationComponent(entity, attackWeight, duration))
+                        .zIndex(-1)
+                        .buildAndAttach();
+            } else {
+                entityBuilder()
+                        .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
+                        .view(texture)
+                        .with(new WeaponDamageComponent(weaponDamage))
+                        .with(new SwordAnimationComponent(entity, attackWeight, duration))
+                        .zIndex(-1)
+                        .buildAndAttach();
+            }
+        }
+
 
     }
 }

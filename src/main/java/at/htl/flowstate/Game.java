@@ -208,5 +208,7 @@ public class Game extends GameApplication {
                 .put("player", player));
     }
 
-    public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) {
+        Thread.currentThread().setContextClassLoader(Game.class.getClassLoader());
+        launch(args); }
 }

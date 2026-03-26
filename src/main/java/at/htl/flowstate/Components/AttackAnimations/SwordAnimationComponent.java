@@ -5,8 +5,8 @@ import javafx.geometry.Point2D;
 
 public class SwordAnimationComponent extends AnimationComponent {
 
-    private static final double START_ANGLE = 180.0;
-    private static final double END_ANGLE = 00.0;
+    private static final double START_ANGLE = 220.0;
+    private static final double END_ANGLE = 45.0;
 
     private final double duration;
 
@@ -14,19 +14,18 @@ public class SwordAnimationComponent extends AnimationComponent {
 
     public SwordAnimationComponent(Entity player, int attackWeight, double duration) {
         this.duration = duration;
-
         super(player, attackWeight);
-    }
-
-    @Override
-    public void onAdded() {
-        entity.setRotationOrigin(new Point2D(entity.getWidth()/2, 0));
-        entity.setRotation(getCurrentWatchDirection() > 0 ? START_ANGLE : -START_ANGLE);
     }
 
     @Override
     public void onUpdate(double tpf) {
         animate(tpf);
+    }
+
+    @Override
+    public void onAdded() {
+        entity.setRotationOrigin(new Point2D(entity.getWidth() / 2, 0));
+        entity.setRotation(getCurrentWatchDirection() > 0 ? START_ANGLE : -START_ANGLE);
     }
 
     @Override
@@ -38,8 +37,12 @@ public class SwordAnimationComponent extends AnimationComponent {
         double start = getCurrentWatchDirection() > 0 ? START_ANGLE : -START_ANGLE;
         double end = getCurrentWatchDirection() > 0 ? END_ANGLE : -END_ANGLE;
 
+
         entity.setRotation(start + (end - start) * eased);
-        entity.setPosition(player.getCenter().getX() - entity.getWidth()/2, player.getCenter().getY() - player.getHeight()/4);
+        entity.setPosition(
+                player.getCenter().getX()-5,
+                player.getY()+player.getHeight()/4
+        );
 
         if (t >= 1.0) {
             endAnimation();

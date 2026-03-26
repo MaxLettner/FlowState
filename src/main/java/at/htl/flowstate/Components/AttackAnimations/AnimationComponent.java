@@ -15,7 +15,7 @@ public abstract class AnimationComponent extends Component {
 
     protected void endAnimation() { //needs to be called from the childs to properly exit the animation and reset the attack cooldown
         entity.removeFromWorld();
-        player.getComponent(PlayerComponent.class).addAttackStrength(attackWeight);
+        player.getComponent(PlayerComponent.class).addAttackWeight(attackWeight);
     }
 
     protected int getCurrentWatchDirection() {

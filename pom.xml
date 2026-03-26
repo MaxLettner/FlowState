@@ -6,7 +6,7 @@
 
     <groupId>at.htl</groupId>
     <artifactId>FlowState</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>FlowState</name>
 
     <properties>
@@ -75,7 +75,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>at.htl.flowstate/at.htl.flowstate.HelloApplication</mainClass>
+                            <mainClass>at.htl.flowstate/at.htl.flowstate.Game</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
