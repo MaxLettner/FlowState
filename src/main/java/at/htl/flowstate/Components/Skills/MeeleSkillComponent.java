@@ -107,14 +107,18 @@ public class MeeleSkillComponent extends SkillComponent {
 
     @Override
     public void doSub1Skill3() { //zweihander
-        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(10)) {
-            entityBuilder()
-                    .viewWithBBox(new Rectangle(10, 90, Color.GRAY))
-                    .with(new WeaponDamageComponent(20))
-                    .with(new SwordAnimationComponent(entity, 10, 2))
-                    .zIndex(-1)
-                    .buildAndAttach();
-        }
+        weaponBuilder(
+                "Zweihander.png",
+                140,
+                -60,
+                0,
+                20,
+                160,
+                35,
+                10,
+                2,
+                false
+        );
 
     }
 
