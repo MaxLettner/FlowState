@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skilltree/Magic/Elemental/Poison Darts.md",
+                "file": "Skilltree/Ranged/Bow/Bone Bow.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Poison Darts"
+              "title": "Bone Bow"
             }
           },
           {
@@ -228,6 +228,10 @@
   },
   "active": "1403a3ed3e53959c",
   "lastOpenFiles": [
+    "Skilltree/Magic/Enchanting/Piercing.md",
+    "Skilltree/Magic/Enchanting/Life Steal.md",
+    "Skilltree/Magic/Elemental/Poison Darts.md",
+    "Skilltree/Magic/Enchanting/Fire Aspect.md",
     "Skilltree/Meele/Blunt/Weopons/Hammer.md",
     "Skilltree/Ranged/Crossbow/Crossbow.md",
     "Skilltree/Ranged/Crossbow/Poison Crossbow.md",
