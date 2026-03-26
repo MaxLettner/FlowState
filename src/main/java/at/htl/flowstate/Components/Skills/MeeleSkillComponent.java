@@ -137,7 +137,18 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Skills of the Blunt Tree-----
     @Override
     public void doSub3Skill1() {
-
+        weaponBuilder(
+                "BigHammer.png",
+                120,
+                -50,
+                0,
+                20,
+                120,
+                20,
+                10,
+                1.5,
+                false
+        );
     }
 
     @Override
