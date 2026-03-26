@@ -169,7 +169,18 @@ public class MeeleSkillComponent extends SkillComponent {
 
     @Override
     public void doSub3Skill3() { //Spring Hammer
-
+        weaponBuilder(
+                "SpringHammer.png",
+                100,
+                -45,
+                5,
+                15,
+                100,
+                1,
+                10,
+                1,
+                false
+        );
     }
 
     private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, boolean debug) {
