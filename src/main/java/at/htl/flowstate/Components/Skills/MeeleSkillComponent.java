@@ -75,7 +75,7 @@ public class MeeleSkillComponent extends SkillComponent {
     @Override
     public void doSub1Skill1() { //shortsword
         weaponBuilder(
-                "shortsword.png",
+                "ShortSword.png",
                 80,
                 -35,
                 10,
@@ -92,7 +92,7 @@ public class MeeleSkillComponent extends SkillComponent {
     @Override
     public void doSub1Skill2() { //dual wielding
         weaponBuilder(
-                "dualwieldingsword.png",
+                "DualWieldingSword.png",
                 100,
                 -45,
                 10,
