@@ -91,7 +91,7 @@ public class Game extends GameApplication {
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
                 //just for testing, needs to be overhauled
-                player.getComponent(MeeleSkillComponent.class).doSub1Skill2();
+                player.getComponent(MeeleSkillComponent.class).doSub3Skill2();
             }
         }, MouseButton.PRIMARY);
 
@@ -127,7 +127,7 @@ public class Game extends GameApplication {
                 .buildAndAttach();
 
         //---just for testing---
-        spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
+        //spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
         //-----
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);

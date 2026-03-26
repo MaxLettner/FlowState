@@ -67,7 +67,7 @@ public class MeeleSkillComponent extends SkillComponent {
     }
 
     @Override
-    public void doSub3() { // basic blunt
+    public void doSub3() { // basic hammer
 
     }
 
@@ -136,7 +136,7 @@ public class MeeleSkillComponent extends SkillComponent {
 
     //-----Skills of the Blunt Tree-----
     @Override
-    public void doSub3Skill1() {
+    public void doSub3Skill1() { //Big Hammer
         weaponBuilder(
                 "BigHammer.png",
                 120,
@@ -144,7 +144,23 @@ public class MeeleSkillComponent extends SkillComponent {
                 0,
                 20,
                 120,
+                15,
+                10,
+                2,
+                false
+        );
+    }
+
+    @Override
+    public void doSub3Skill2() { //Morningstar
+        weaponBuilder(
+                "BigMace.png",
+                140,
+                -60,
+                2,
                 20,
+                140,
+                30,
                 10,
                 1.5,
                 false
@@ -152,12 +168,7 @@ public class MeeleSkillComponent extends SkillComponent {
     }
 
     @Override
-    public void doSub3Skill2() {
-
-    }
-
-    @Override
-    public void doSub3Skill3() {
+    public void doSub3Skill3() { //Spring Hammer
 
     }
 
