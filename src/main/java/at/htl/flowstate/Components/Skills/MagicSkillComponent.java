@@ -17,7 +17,7 @@ public class MagicSkillComponent extends SkillComponent{
                 .at(entity.getCenter())
                 .viewWithBBox(new Rectangle(20, 20, Color.DARKBLUE))
                 .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), 200))
-                .with(new PlayerProjectileComponent(20))
+                .with(new PlayerProjectileComponent(20, 2))
                 .with(new OffscreenCleanComponent())
                 .zIndex(-1)
                 .buildAndAttach();
