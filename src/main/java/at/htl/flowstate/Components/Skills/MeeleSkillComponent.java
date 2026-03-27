@@ -68,7 +68,18 @@ public class MeeleSkillComponent extends SkillComponent {
 
     @Override
     public void doSub3() { // basic hammer
-
+        weaponBuilder(
+                "BasicHammer.png",
+                100,
+                -40,
+                0,
+                20,
+                95,
+                15,
+                10,
+                1.5,
+                true
+        );
     }
 
     //-----Skills of the Swords Tree-----
