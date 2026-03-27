@@ -1,7 +1,9 @@
 package at.htl.flowstate;
 
 import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Components.Skills.MagicSkillComponent;
 import at.htl.flowstate.Components.Skills.MeeleSkillComponent;
+import at.htl.flowstate.Components.Skills.RangedSkillComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
@@ -123,6 +125,8 @@ public class Game extends GameApplication {
                 .with(physics)
                 .with(new PlayerComponent())
                 .with(new MeeleSkillComponent())
+                .with(new RangedSkillComponent())
+                .with(new MagicSkillComponent())
                 .collidable()
                 .buildAndAttach();
 
