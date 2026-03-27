@@ -76,8 +76,8 @@ public class RangedEnemyComponent extends EnemyComponent {
         entityBuilder()
                 .from(new SpawnData(spawnX, spawnY))
                 .viewWithBBox(new Rectangle(14, 4, Color.SADDLEBROWN))
-                .collidable()
                 .with(projPhysics)
+                .with(new EnemyProjectileComponent(player, 20))
                 .with(new DeleteAfterTimeComponent(10))
                 .with(new OffscreenCleanComponent())
                 .buildAndAttach();

@@ -64,7 +64,7 @@ public class EnemyComponent extends Component {
         double feetY = entity.getY() + ENEMY_HEIGHT;
         double leadingEdge = direction > 0 ? entity.getX() + ENEMY_WIDTH : entity.getX();
 
-        for (Entity platform : getStaticPlatforms()) {
+        for (Entity platform : getPlatforms()) {
             double platTop = platform.getY();
             double platLeft = platform.getX();
             double platRight = platform.getX() + platform.getWidth();
@@ -92,7 +92,7 @@ public class EnemyComponent extends Component {
         double feetY = entity.getY() + ENEMY_HEIGHT;
         double leadingEdge = direction > 0 ? entity.getX() + ENEMY_WIDTH : entity.getX();
 
-        for (Entity platform : getStaticPlatforms()) {
+        for (Entity platform : getPlatforms()) {
             double platTop = platform.getY();
             double platLeft = platform.getX();
             double platRight = platform.getX() + platform.getWidth();
@@ -130,7 +130,7 @@ public class EnemyComponent extends Component {
         if (isGrounded) jumpConsumed = false;
     }
 
-    private List<Entity> getStaticPlatforms() {
+    private List<Entity> getPlatforms() {
         return FXGL.getGameWorld().getEntitiesFiltered(
                 e -> e.getComponentOptional(PlatformIdentifierComponent.class).isPresent()
         );
