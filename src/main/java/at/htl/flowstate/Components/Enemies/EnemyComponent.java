@@ -1,6 +1,7 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
+import at.htl.flowstate.Components.PlayerComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;

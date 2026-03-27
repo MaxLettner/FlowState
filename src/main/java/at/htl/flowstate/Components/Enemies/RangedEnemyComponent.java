@@ -1,5 +1,6 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.Enemies;
 
+import at.htl.flowstate.Components.DeleteAfterTimeComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;

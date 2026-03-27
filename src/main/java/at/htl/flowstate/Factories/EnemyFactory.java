@@ -1,8 +1,8 @@
 package at.htl.flowstate.Factories;
 
-import at.htl.flowstate.Components.EnemyComponent;
+import at.htl.flowstate.Components.Enemies.EnemyComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
-import at.htl.flowstate.Components.RangedEnemyComponent;
+import at.htl.flowstate.Components.Enemies.RangedEnemyComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
