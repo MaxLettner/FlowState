@@ -31,9 +31,6 @@ public class WeaponDamageComponent extends Component {
         alreadyHit.add(e);
         System.out.println(e.getComponent(HealthDoubleComponent.class).getValue());
         e.getComponent(HealthDoubleComponent.class).damage(damage);
-        if(e.getComponent(HealthDoubleComponent.class).isZero()) {
-            e.removeFromWorld();
-        }
         //TODO: implement knockback code
     }
 

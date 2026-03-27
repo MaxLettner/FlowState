@@ -3,6 +3,7 @@ package at.htl.flowstate.Components.Enemies;
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
 import at.htl.flowstate.Components.PlayerComponent;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
@@ -46,6 +47,7 @@ public class EnemyComponent extends Component {
         updateGroundState();
         chasePlayer();
         checkHitPlayer();
+        checkIfStillAlive();
     }
 
     protected void chasePlayer() {
@@ -134,5 +136,11 @@ public class EnemyComponent extends Component {
         return FXGL.getGameWorld().getEntitiesFiltered(
                 e -> e.getComponentOptional(PlatformIdentifierComponent.class).isPresent()
         );
+    }
+
+    private void checkIfStillAlive() {
+        if(entity.getComponent(HealthDoubleComponent.class).isZero()) {
+            entity.removeFromWorld();
+        }
     }
 }
