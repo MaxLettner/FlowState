@@ -1,5 +1,6 @@
 package at.htl.flowstate;
 
+import at.htl.flowstate.Components.Player.PlayerAttackRouter;
 import at.htl.flowstate.Components.Player.PlayerMovementComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
@@ -93,8 +94,7 @@ public class Game extends GameApplication {
         }, KeyCode.I);
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
-                //just for testing, needs to be overhauled
-                player.getComponent(MeeleSkillComponent.class).doSub3Skill1();
+                player.getComponent(PlayerAttackRouter.class).doCurrentAction();
             }
         }, MouseButton.PRIMARY);
 
@@ -132,12 +132,15 @@ public class Game extends GameApplication {
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
                 .with(new PlayerMovementComponent())
-                .with(new PlayerStatsComponent())
                 .with(new MeeleSkillComponent())
                 .with(new RangedSkillComponent())
                 .with(new MagicSkillComponent())
+                .with(new PlayerStatsComponent())
+                .with(new PlayerAttackRouter())
                 .collidable()
                 .buildAndAttach();
+
+        player.getComponent(PlayerAttackRouter.class).setCurrentSelection("A21");
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
