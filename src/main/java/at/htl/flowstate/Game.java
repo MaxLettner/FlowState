@@ -94,10 +94,17 @@ public class Game extends GameApplication {
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
                 //just for testing, needs to be overhauled
-                player.getComponent(MeeleSkillComponent.class).doSub3Skill1();
+                player.getComponent(MagicSkillComponent.class).doSub2Skill1();
             }
         }, MouseButton.PRIMARY);
 
+        //-----Just For testing-----
+        getInput().addAction(new UserAction("SpawnTestEnemy") {
+            @Override protected void onActionBegin() {
+                spawnMeeleEnemy(player.getX(), player.getY());
+            }
+        }, MouseButton.SECONDARY);
+        //------
     }
 
     @Override
@@ -131,10 +138,6 @@ public class Game extends GameApplication {
                 .with(new MagicSkillComponent())
                 .collidable()
                 .buildAndAttach();
-
-        //---just for testing---
-        spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
-        //-----
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
