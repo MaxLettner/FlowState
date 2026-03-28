@@ -94,7 +94,7 @@ public class Game extends GameApplication {
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
                 //just for testing, needs to be overhauled
-                player.getComponent(MeeleSkillComponent.class).doSub3Skill3();
+                player.getComponent(MagicSkillComponent.class).doDefault();
             }
         }, MouseButton.PRIMARY);
 

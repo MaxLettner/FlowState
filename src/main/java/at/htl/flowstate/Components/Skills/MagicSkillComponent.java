@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.Skills;
 
 import at.htl.flowstate.Components.PlayerProjectileComponent;
+import at.htl.flowstate.Components.PlayerStatsComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.physics.BoundingShape;
@@ -97,34 +98,36 @@ public class MagicSkillComponent extends SkillComponent{
 
     }
 
-    public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double projWidth, double projHeight, double projDamage, int attackWeight, double projSpeed, int projPierce, boolean debug) {
-        URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
-        Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
-        texture.setRotate(180);
-        texture.setTranslateX(textureOffsetX);
-        texture.setTranslateY(textureOffsetY);
+    public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double projWidth, double projHeight, double projDamage, double manaCost, double projSpeed, int projPierce, boolean debug) {
+        if(entity.getComponent(PlayerStatsComponent.class).takeMana(manaCost)) {
+            URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
+            Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
+            texture.setRotate(180);
+            texture.setTranslateX(textureOffsetX);
+            texture.setTranslateY(textureOffsetY);
 
-        if(debug) {
-            entityBuilder()
-                    .at(entity.getCenter())
-                    .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
-                    .view(new Rectangle(projWidth, projHeight))
-                    .view(texture)
-                    .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
-                    .with(new PlayerProjectileComponent(projDamage, projPierce))
-                    .with(new OffscreenCleanComponent())
-                    .zIndex(-1)
-                    .buildAndAttach();
-        }else {
-            entityBuilder()
-                    .at(entity.getCenter())
-                    .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
-                    .view(texture)
-                    .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
-                    .with(new PlayerProjectileComponent(projDamage, projPierce))
-                    .with(new OffscreenCleanComponent())
-                    .zIndex(-1)
-                    .buildAndAttach();
+            if(debug) {
+                entityBuilder()
+                        .at(entity.getCenter())
+                        .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
+                        .view(new Rectangle(projWidth, projHeight))
+                        .view(texture)
+                        .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                        .with(new PlayerProjectileComponent(projDamage, projPierce))
+                        .with(new OffscreenCleanComponent())
+                        .zIndex(-1)
+                        .buildAndAttach();
+            }else {
+                entityBuilder()
+                        .at(entity.getCenter())
+                        .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
+                        .view(texture)
+                        .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                        .with(new PlayerProjectileComponent(projDamage, projPierce))
+                        .with(new OffscreenCleanComponent())
+                        .zIndex(-1)
+                        .buildAndAttach();
+            }
         }
 
     }

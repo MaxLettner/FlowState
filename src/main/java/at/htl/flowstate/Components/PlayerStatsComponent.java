@@ -55,19 +55,6 @@ public class PlayerStatsComponent extends Component {
         }
     }
 
-    public void addAttackWeight(int v) {
-        attackWeight += v;
-        if(attackWeight > MAX_ATTACK_WEIGHT) attackWeight = MAX_ATTACK_WEIGHT;
-    }
-
-    public boolean takeAttackWeight(int v) {
-        if(attackWeight - v < 0) {
-            return false;
-        }
-        attackWeight -= v;
-        return true;
-    }
-
     //-----Getters-----
     public double getMana() {
         return mana;
@@ -83,5 +70,23 @@ public class PlayerStatsComponent extends Component {
 
     public double getMaxHealth() {
         return maxHealth;
+    }
+
+    //-----Attack Checkers-----
+    public void addAttackWeight(int v) {
+        attackWeight += v;
+        if(attackWeight > MAX_ATTACK_WEIGHT) attackWeight = MAX_ATTACK_WEIGHT;
+    }
+
+    public boolean takeAttackWeight(int v) {
+        if(attackWeight - v < 0) return false;
+        attackWeight -= v;
+        return true;
+    }
+
+    public boolean takeMana(double m) {
+        if(mana - m < 0) return false;
+        mana -= m;
+        return true;
     }
 }
