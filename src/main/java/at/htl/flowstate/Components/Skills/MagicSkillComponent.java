@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components.Skills;
 
+import at.htl.flowstate.Components.IceciclePlayerProjectileComponent;
 import at.htl.flowstate.Components.PlayerProjectileComponent;
 import at.htl.flowstate.Components.PlayerStatsComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
@@ -7,10 +8,9 @@ import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
-import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 
@@ -25,12 +25,12 @@ public class MagicSkillComponent extends SkillComponent{
                 80,
                 -30,
                 -31.5,
+                180,
                 20,
                 20,
                 20,
-                20,
-                350,
-                1,
+                600,
+                new PlayerProjectileComponent(20, 1),
                 false
         );
     }
@@ -69,12 +69,36 @@ public class MagicSkillComponent extends SkillComponent{
     //-----Elemental-----
     @Override
     public void doSub2Skill1() { //Fireball
-
+        projectileBuilder(
+                "FireBall.png",
+                130,
+                -50,
+                -52,
+                0,
+                30,
+                30,
+                30,
+                500,
+                new PlayerProjectileComponent(50, 2),
+                false
+        );
     }
 
     @Override
     public void doSub2Skill2() { //Icecicle
-
+        projectileBuilder(
+                "Icecicle.png",
+                80,
+                -15,
+                -31,
+                0,
+                50,
+                15,
+                15,
+                700,
+                new IceciclePlayerProjectileComponent(20, 5),
+                false
+        );
     }
 
     @Override
@@ -98,11 +122,11 @@ public class MagicSkillComponent extends SkillComponent{
 
     }
 
-    public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double projWidth, double projHeight, double projDamage, double manaCost, double projSpeed, int projPierce, boolean debug) {
+    public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double manaCost, double projSpeed, @NotNull PlayerProjectileComponent specificComponent, boolean debug) {
         if(entity.getComponent(PlayerStatsComponent.class).takeMana(manaCost)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
-            texture.setRotate(180);
+            texture.setRotate(textureRotation);
             texture.setTranslateX(textureOffsetX);
             texture.setTranslateY(textureOffsetY);
 
@@ -113,7 +137,7 @@ public class MagicSkillComponent extends SkillComponent{
                         .view(new Rectangle(projWidth, projHeight))
                         .view(texture)
                         .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
-                        .with(new PlayerProjectileComponent(projDamage, projPierce))
+                        .with(specificComponent)
                         .with(new OffscreenCleanComponent())
                         .zIndex(-1)
                         .buildAndAttach();
@@ -123,11 +147,12 @@ public class MagicSkillComponent extends SkillComponent{
                         .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
                         .view(texture)
                         .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
-                        .with(new PlayerProjectileComponent(projDamage, projPierce))
+                        .with(specificComponent)
                         .with(new OffscreenCleanComponent())
                         .zIndex(-1)
                         .buildAndAttach();
             }
+
         }
 
     }

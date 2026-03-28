@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PlayerProjectileComponent extends Component {
     private final double damage;
-    private List<Entity> alreadyHit = new ArrayList<>();
+    private final List<Entity> alreadyHit = new ArrayList<>();
     private int pierce;
 
     public PlayerProjectileComponent(double damage, int pierce) {
@@ -30,6 +30,7 @@ public class PlayerProjectileComponent extends Component {
             if(entity.isColliding(e) && !alreadyHit.contains(e)) {
                 alreadyHit.add(e);
                 e.getComponent(HealthDoubleComponent.class).damage(damage);
+                hitEnemy(e);
                 pierce--;
                 if(pierce == 0) entity.removeFromWorld();
             }
@@ -39,6 +40,10 @@ public class PlayerProjectileComponent extends Component {
                 entity.removeFromWorld();
             }
         });
+    }
+
+    protected void hitEnemy(Entity e) {
+
     }
 
     private List<Entity> getEnemies() {

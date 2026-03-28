@@ -45,8 +45,12 @@ public class EnemyComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
         updateGroundState();
-        chasePlayer();
-        checkHitPlayer();
+        if(!entity.getComponent(EnemyStunComponent.class).getIsCurrentlyStunned()) {
+            chasePlayer();
+            checkHitPlayer();
+        }else {
+            physics.setVelocityX(0);
+        }
         checkIfStillAlive();
     }
 
