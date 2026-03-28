@@ -1,7 +1,7 @@
 package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
-import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Components.PlayerStatsComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -123,7 +123,7 @@ public class EnemyComponent extends Component {
         boolean overlapY = ey < py + ENEMY_HEIGHT && ey + ENEMY_HEIGHT > py;
 
         if (overlapX && overlapY) {
-            player.getComponent(PlayerComponent.class).takeDamage(DAMAGE);
+            player.getComponent(PlayerStatsComponent.class).takeDamage(DAMAGE);
         }
     }
 

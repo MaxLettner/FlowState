@@ -1,8 +1,8 @@
 package at.htl.flowstate.Components.Skills;
 
 
-import at.htl.flowstate.Components.PlayerComponent;
 import at.htl.flowstate.Components.AttackAnimations.SwordAnimationComponent;
+import at.htl.flowstate.Components.PlayerStatsComponent;
 import at.htl.flowstate.Components.WeaponDamageComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
@@ -38,7 +38,7 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Default Meele Skill-----
     @Override
     public void doDefault () {
-        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(10)) {
+        if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
                     .with(new WeaponDamageComponent(5))
@@ -51,7 +51,7 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Skills of the Subtrees-----
     @Override
     public void doSub1() { // basic sword
-        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(10)) {
+        if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
                     .with(new WeaponDamageComponent(10))
@@ -78,7 +78,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 15,
                 10,
                 1.5,
-                true
+                false
         );
     }
 
@@ -199,7 +199,7 @@ public class MeeleSkillComponent extends SkillComponent {
     }
 
     private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, boolean debug) {
-        if(entity.getComponent(PlayerComponent.class).takeAttackWeight(attackWeight)) {
+        if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(attackWeight)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
             texture.setRotate(135);

@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.AttackAnimations;
 
-import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Components.PlayerMovementComponent;
+import at.htl.flowstate.Components.PlayerStatsComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 
@@ -15,11 +16,11 @@ public abstract class AnimationComponent extends Component {
 
     protected void endAnimation() { //needs to be called from the childs to properly exit the animation and reset the attack cooldown
         entity.removeFromWorld();
-        player.getComponent(PlayerComponent.class).addAttackWeight(attackWeight);
+        player.getComponent(PlayerStatsComponent.class).addAttackWeight(attackWeight);
     }
 
     protected int getCurrentWatchDirection() {
-        return player.getComponent(PlayerComponent.class).getCurrentWatchDirection() * -1;
+        return player.getComponent(PlayerMovementComponent.class).getCurrentWatchDirection() * -1;
     }
 
     protected abstract void animate(double tpf);

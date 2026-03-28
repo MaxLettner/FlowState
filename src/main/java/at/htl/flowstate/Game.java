@@ -1,6 +1,7 @@
 package at.htl.flowstate;
 
-import at.htl.flowstate.Components.PlayerComponent;
+import at.htl.flowstate.Components.PlayerMovementComponent;
+import at.htl.flowstate.Components.PlayerStatsComponent;
 import at.htl.flowstate.Components.Skills.MagicSkillComponent;
 import at.htl.flowstate.Components.Skills.MeeleSkillComponent;
 import at.htl.flowstate.Components.Skills.RangedSkillComponent;
@@ -67,18 +68,18 @@ public class Game extends GameApplication {
     @Override
     protected void initInput() {
         getInput().addAction(new UserAction("Left") {
-            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveLeft(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
+            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).moveLeft(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stop(); }
         }, KeyCode.A);
 
         getInput().addAction(new UserAction("Right") {
-            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveRight(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
+            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).moveRight(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stop(); }
         }, KeyCode.D);
 
         getInput().addAction(new UserAction("Jump") {
-            @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
+            @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).jump(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopJump(); }
         }, KeyCode.W);
         getInput().addAction(new UserAction("Toggle Skill Tree") {
             @Override
@@ -93,7 +94,7 @@ public class Game extends GameApplication {
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
                 //just for testing, needs to be overhauled
-                player.getComponent(MagicSkillComponent.class).doDefault();
+                player.getComponent(MeeleSkillComponent.class).doSub3Skill3();
             }
         }, MouseButton.PRIMARY);
 
@@ -123,7 +124,8 @@ public class Game extends GameApplication {
                 .at(300, levelGeneration.getBaseY() - 150)
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
-                .with(new PlayerComponent())
+                .with(new PlayerMovementComponent())
+                .with(new PlayerStatsComponent())
                 .with(new MeeleSkillComponent())
                 .with(new RangedSkillComponent())
                 .with(new MagicSkillComponent())
@@ -151,8 +153,8 @@ public class Game extends GameApplication {
         levelGeneration.generateLevel(player.getX());
         cleanupPlatforms();
 
-        hpBar.setCurrentValue(player.getComponent(PlayerComponent.class).getHealth());
-        mpBar.setCurrentValue(player.getComponent(PlayerComponent.class).getMana());
+        hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
+        mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
     }
 
     //-----CAMERA-----
@@ -173,7 +175,7 @@ public class Game extends GameApplication {
 
     private void initHealthBar() {
         hpBar.setMinValue(0);
-        hpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
+        hpBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxHealth());
 
         hpBar.setFill(Color.web("#921616"));
         hpBar.setHeight(15);
@@ -187,7 +189,7 @@ public class Game extends GameApplication {
 
     private void initManaBar() {
         mpBar.setMinValue(0);
-        mpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxMana());
+        mpBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxMana());
 
         mpBar.setFill(Color.web("#2300d5"));
         mpBar.setHeight(15);
