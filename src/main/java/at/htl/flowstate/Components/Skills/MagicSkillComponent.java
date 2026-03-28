@@ -25,8 +25,8 @@ public class MagicSkillComponent extends SkillComponent{
                 "MagicMissile.png",
                 80,
                 -30,
-                -31.5,
-                180,
+                -28.5,
+                0,
                 20,
                 20,
                 20,
@@ -96,7 +96,7 @@ public class MagicSkillComponent extends SkillComponent{
                 50,
                 15,
                 15,
-                700,
+                1000,
                 new IceciclePlayerProjectileComponent(20, 5),
                 false
         );

@@ -32,7 +32,6 @@ public class WeaponDamageComponent extends Component {
 
     private void hit(Entity e) {
         alreadyHit.add(e);
-        System.out.println(e.getComponent(HealthDoubleComponent.class).getValue());
         e.getComponent(HealthDoubleComponent.class).damage(damage);
         if(stunDuration > 0) e.getComponent(EnemyStunComponent.class).stun(stunDuration);
         //TODO: implement knockback code
