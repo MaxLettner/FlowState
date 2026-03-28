@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components;
 
+import at.htl.flowstate.Components.Enemies.EnemyStunComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
@@ -11,11 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeaponDamageComponent extends Component {
-    double damage;
+    private final double damage;
+    private final double stunDuration;
     List<Entity> alreadyHit = new ArrayList<>();
 
-    public WeaponDamageComponent(double damage) {
+    public WeaponDamageComponent(double damage, double stunDuration) {
         this.damage = damage;
+        this.stunDuration = stunDuration;
     }
 
     @Override
@@ -31,6 +34,7 @@ public class WeaponDamageComponent extends Component {
         alreadyHit.add(e);
         System.out.println(e.getComponent(HealthDoubleComponent.class).getValue());
         e.getComponent(HealthDoubleComponent.class).damage(damage);
+        if(stunDuration > 0) e.getComponent(EnemyStunComponent.class).stun(stunDuration);
         //TODO: implement knockback code
     }
 
