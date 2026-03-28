@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components.Skills;
 
+import at.htl.flowstate.Components.FireballPlayerProjectileComponent;
 import at.htl.flowstate.Components.IceciclePlayerProjectileComponent;
 import at.htl.flowstate.Components.PlayerProjectileComponent;
 import at.htl.flowstate.Components.PlayerStatsComponent;
@@ -79,7 +80,7 @@ public class MagicSkillComponent extends SkillComponent{
                 30,
                 30,
                 500,
-                new PlayerProjectileComponent(50, 2),
+                new FireballPlayerProjectileComponent(30, 20, 200, 0.5),
                 false
         );
     }

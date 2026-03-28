@@ -94,7 +94,7 @@ public class Game extends GameApplication {
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
                 //just for testing, needs to be overhauled
-                player.getComponent(MagicSkillComponent.class).doSub2Skill2();
+                player.getComponent(MagicSkillComponent.class).doSub2Skill1();
             }
         }, MouseButton.PRIMARY);
 

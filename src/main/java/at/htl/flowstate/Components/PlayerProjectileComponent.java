@@ -37,14 +37,14 @@ public class PlayerProjectileComponent extends Component {
         });
         getPlatforms().forEach(e -> {
             if(entity.isColliding(e)) {
+                hitGround();
                 entity.removeFromWorld();
             }
         });
     }
 
-    protected void hitEnemy(Entity e) {
-
-    }
+    protected void hitEnemy(Entity e) {} //just for being overridden in the child components
+    protected void hitGround() {}
 
     private List<Entity> getEnemies() {
         return FXGL.getGameWorld().getEntitiesFiltered(
