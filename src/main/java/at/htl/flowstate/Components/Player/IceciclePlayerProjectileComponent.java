@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Enemies.EnemyStunComponent;
 import com.almasb.fxgl.entity.Entity;

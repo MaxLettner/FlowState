@@ -1,7 +1,7 @@
-package at.htl.flowstate.Components.AttackAnimations;
+package at.htl.flowstate.Components.Player.AttackAnimations;
 
-import at.htl.flowstate.Components.PlayerMovementComponent;
-import at.htl.flowstate.Components.PlayerStatsComponent;
+import at.htl.flowstate.Components.Player.PlayerMovementComponent;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 

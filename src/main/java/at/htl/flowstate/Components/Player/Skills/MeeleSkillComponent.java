@@ -1,9 +1,9 @@
-package at.htl.flowstate.Components.Skills;
+package at.htl.flowstate.Components.Player.Skills;
 
 
-import at.htl.flowstate.Components.AttackAnimations.SwordAnimationComponent;
-import at.htl.flowstate.Components.PlayerStatsComponent;
-import at.htl.flowstate.Components.WeaponDamageComponent;
+import at.htl.flowstate.Components.Player.AttackAnimations.SwordAnimationComponent;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Components.Player.WeaponDamageComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;

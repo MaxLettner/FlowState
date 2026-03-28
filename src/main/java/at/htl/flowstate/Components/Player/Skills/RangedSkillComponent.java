@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components.Skills;
+package at.htl.flowstate.Components.Player.Skills;
 
 public class RangedSkillComponent extends SkillComponent{
     @Override

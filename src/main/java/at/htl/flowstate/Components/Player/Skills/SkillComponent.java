@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components.Skills;
+package at.htl.flowstate.Components.Player.Skills;
 
 import com.almasb.fxgl.entity.component.Component;
 

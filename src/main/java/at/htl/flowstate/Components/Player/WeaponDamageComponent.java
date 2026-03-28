@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Enemies.EnemyStunComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
@@ -6,7 +6,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.physics.PhysicsComponent;
 
 import java.util.ArrayList;
 import java.util.List;

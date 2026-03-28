@@ -1,10 +1,10 @@
 package at.htl.flowstate;
 
-import at.htl.flowstate.Components.PlayerMovementComponent;
-import at.htl.flowstate.Components.PlayerStatsComponent;
-import at.htl.flowstate.Components.Skills.MagicSkillComponent;
-import at.htl.flowstate.Components.Skills.MeeleSkillComponent;
-import at.htl.flowstate.Components.Skills.RangedSkillComponent;
+import at.htl.flowstate.Components.Player.PlayerMovementComponent;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
+import at.htl.flowstate.Components.Player.Skills.MeeleSkillComponent;
+import at.htl.flowstate.Components.Player.Skills.RangedSkillComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;

@@ -1,7 +1,7 @@
 package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
-import at.htl.flowstate.Components.PlayerStatsComponent;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;

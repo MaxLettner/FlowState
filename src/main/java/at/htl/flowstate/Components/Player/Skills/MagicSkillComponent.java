@@ -1,9 +1,9 @@
-package at.htl.flowstate.Components.Skills;
+package at.htl.flowstate.Components.Player.Skills;
 
-import at.htl.flowstate.Components.FireballPlayerProjectileComponent;
-import at.htl.flowstate.Components.IceciclePlayerProjectileComponent;
-import at.htl.flowstate.Components.PlayerProjectileComponent;
-import at.htl.flowstate.Components.PlayerStatsComponent;
+import at.htl.flowstate.Components.Player.FireballPlayerProjectileComponent;
+import at.htl.flowstate.Components.Player.IceciclePlayerProjectileComponent;
+import at.htl.flowstate.Components.Player.PlayerProjectileComponent;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.physics.BoundingShape;
