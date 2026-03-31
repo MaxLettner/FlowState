@@ -12,15 +12,15 @@ public class PlayerAttackRouter extends Component {
     private RangedSkillComponent ranged;
     private MagicSkillComponent magic;
 
-    public void setCurrentSelection(String selection){
-        currentSelection = selection;
-    }
-
     @Override
     public void onAdded() {
         meele = entity.getComponent(MeeleSkillComponent.class);
         ranged = entity.getComponent(RangedSkillComponent.class);
         magic = entity.getComponent(MagicSkillComponent.class);
+    }
+
+    public void setCurrentSelection(String selection){
+        currentSelection = selection;
     }
 
     public void doCurrentAction() {

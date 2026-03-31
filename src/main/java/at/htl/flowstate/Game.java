@@ -16,16 +16,20 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.net.URL;
 import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -115,6 +119,9 @@ public class Game extends GameApplication {
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameWorld().addEntityFactory(new EnemyFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
+        //URL url = MeeleSkillComponent.class.getResource("/assets/textures/bg1.jpg");
+        //Image img = new Image(url.toExternalForm(), 2150, 1200, false, true);
+        //getGameScene().setBackgroundRepeat(img);
 
         levelGeneration = new LevelGeneration();
 
@@ -140,7 +147,7 @@ public class Game extends GameApplication {
                 .collidable()
                 .buildAndAttach();
 
-        player.getComponent(PlayerAttackRouter.class).setCurrentSelection("A21");
+        player.getComponent(PlayerAttackRouter.class).setCurrentSelection("M11");
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 

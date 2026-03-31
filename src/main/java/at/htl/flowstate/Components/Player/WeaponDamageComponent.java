@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components.Player;
 
+import at.htl.flowstate.Components.Enemies.EnemyComponent;
 import at.htl.flowstate.Components.Enemies.EnemyStunComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;

@@ -32,6 +32,9 @@ public class EnemyComponent extends Component {
     protected boolean isGrounded = false;
     protected boolean jumpConsumed = false;
 
+    private double poisonDuration = 0;
+    private final double POISON_DAMAGE = 5;
+
     public EnemyComponent(Entity player) {
         this.player = player;
     }
@@ -51,6 +54,7 @@ public class EnemyComponent extends Component {
         }else {
             physics.setVelocityX(0);
         }
+        checkPoison(tpf);
         checkIfStillAlive();
     }
 
@@ -145,6 +149,18 @@ public class EnemyComponent extends Component {
     private void checkIfStillAlive() {
         if(entity.getComponent(HealthDoubleComponent.class).isZero()) {
             entity.removeFromWorld();
+        }
+    }
+
+    public void poison(double time) {
+        poisonDuration = time;
+    }
+
+    private void checkPoison(double tpf) {
+        if(poisonDuration < 0) poisonDuration = 0;
+        if(poisonDuration > 0) {
+            poisonDuration -= tpf;
+            entity.getComponent(HealthDoubleComponent.class).damage(POISON_DAMAGE*tpf);
         }
     }
 }
