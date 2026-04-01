@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skilltree/Ranged/Bow/Bone Bow.md",
+                "file": "Skilltree/Ranged/Crossbow/Heavy Crossbow.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Bone Bow"
+              "title": "Heavy Crossbow"
             }
           },
           {
@@ -228,6 +228,8 @@
   },
   "active": "1403a3ed3e53959c",
   "lastOpenFiles": [
+    "Skilltree/Ranged/Bow/Shortbow.md",
+    "Skilltree/Ranged/Bow/Bone Bow.md",
     "Skilltree/Magic/Enchanting/Piercing.md",
     "Skilltree/Magic/Enchanting/Life Steal.md",
     "Skilltree/Magic/Elemental/Poison Darts.md",
