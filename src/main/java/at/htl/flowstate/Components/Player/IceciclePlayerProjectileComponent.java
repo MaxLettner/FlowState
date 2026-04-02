@@ -1,6 +1,6 @@
 package at.htl.flowstate.Components.Player;
 
-import at.htl.flowstate.Components.Enemies.EnemyStunComponent;
+import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
 import com.almasb.fxgl.entity.Entity;
 
 public class IceciclePlayerProjectileComponent extends PlayerProjectileComponent{
@@ -10,6 +10,6 @@ public class IceciclePlayerProjectileComponent extends PlayerProjectileComponent
 
     @Override
     protected void hitEnemy(Entity e) {
-        e.getComponent(EnemyStunComponent.class).stun(0.5);
+        e.getComponent(EnemyStatsComponent.class).stun(0.5);
     }
 }

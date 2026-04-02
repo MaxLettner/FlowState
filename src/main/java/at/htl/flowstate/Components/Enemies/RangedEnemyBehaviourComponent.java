@@ -13,24 +13,24 @@ import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
 
-public class RangedEnemyComponent extends EnemyComponent {
-
+public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
     private static final double ATTACK_INTERVAL = 2.0;
     private static final double PROJECTILE_SPEED = 800;
     private static final double GRAVITY = 800; //must match Game.java initPhysics
 
+    private static final double DAMAGE = 20;
+
     private boolean inAttackMode = false;
     private double attackCooldown = 0;
 
-    public RangedEnemyComponent(Entity player) {
+    public RangedEnemyBehaviourComponent(Entity player) {
         super(player);
     }
 
     @Override
     public void onUpdate(double tpf) {
-        super.onUpdate(tpf);
         if (attackCooldown > 0) attackCooldown -= tpf;
-        attack();
+        super.onUpdate(tpf);
     }
 
     @Override
@@ -54,7 +54,8 @@ public class RangedEnemyComponent extends EnemyComponent {
         }
     }
 
-    private void attack() {
+    @Override
+    public void attack() {
         if (!inAttackMode || attackCooldown > 0) return;
 
         Point2D vel = calculateBallisticVelocity();
@@ -77,7 +78,7 @@ public class RangedEnemyComponent extends EnemyComponent {
                 .from(new SpawnData(spawnX, spawnY))
                 .viewWithBBox(new Rectangle(14, 4, Color.SADDLEBROWN))
                 .with(projPhysics)
-                .with(new EnemyProjectileComponent(player, 20))
+                .with(new EnemyProjectileComponent(player, DAMAGE))
                 .with(new DeleteAfterTimeComponent(10))
                 .with(new OffscreenCleanComponent())
                 .buildAndAttach();

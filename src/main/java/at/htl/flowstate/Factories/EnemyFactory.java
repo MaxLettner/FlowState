@@ -1,9 +1,9 @@
 package at.htl.flowstate.Factories;
 
-import at.htl.flowstate.Components.Enemies.EnemyComponent;
-import at.htl.flowstate.Components.Enemies.EnemyStunComponent;
+import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
+import at.htl.flowstate.Components.Enemies.MeleeEnemyBehaviourComponent;
+import at.htl.flowstate.Components.Enemies.RangedEnemyBehaviourComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
-import at.htl.flowstate.Components.Enemies.RangedEnemyComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -36,8 +36,8 @@ public class EnemyFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
                 .with(physics)
-                .with(new EnemyComponent(player))
-                .with(new EnemyStunComponent())
+                .with(new MeleeEnemyBehaviourComponent(player))
+                .with(new EnemyStatsComponent())
                 .with(new HealthDoubleComponent(100))
                 .with(new EnemyIdentifierComponent())
                 .collidable()
@@ -59,8 +59,8 @@ public class EnemyFactory implements EntityFactory {
         return FXGL.entityBuilder(data)
                 .viewWithBBox(new Rectangle(40, 80, Color.GREEN))
                 .with(physics)
-                .with(new RangedEnemyComponent(player))
-                .with(new EnemyStunComponent())
+                .with(new RangedEnemyBehaviourComponent(player))
+                .with(new EnemyStatsComponent())
                 .with(new HealthDoubleComponent(100))
                 .with(new EnemyIdentifierComponent())
                 .collidable()

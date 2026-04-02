@@ -32,6 +32,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 10,
                 1,
                 0,
+                1,
                 false
         );
     }
@@ -42,7 +43,7 @@ public class MeeleSkillComponent extends SkillComponent {
         if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
-                    .with(new WeaponDamageComponent(5, 0))
+                    .with(new WeaponDamageComponent(5, 0, 0))
                     .with(new SwordAnimationComponent(entity, 10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
@@ -55,7 +56,7 @@ public class MeeleSkillComponent extends SkillComponent {
         if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
-                    .with(new WeaponDamageComponent(10, 0))
+                    .with(new WeaponDamageComponent(10, 0, 0))
                     .with(new SwordAnimationComponent(entity, 10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
@@ -80,6 +81,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 10,
                 1.5,
                 0.75,
+                1,
                 false
         );
     }
@@ -98,6 +100,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 10,
                 0.5,
                 0,
+                3,
                 false
         );
 
@@ -116,6 +119,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 5,
                 1.2,
                 0,
+                2,
                 false
         );
     }
@@ -133,6 +137,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 10,
                 2,
                 0,
+                2,
                 false
         );
 
@@ -168,6 +173,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 10,
                 2,
                 1.5,
+                2,
                 false
         );
     }
@@ -185,6 +191,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 10,
                 1.5,
                 0,
+                4,
                 false
         );
     }
@@ -202,13 +209,15 @@ public class MeeleSkillComponent extends SkillComponent {
                 10,
                 1,
                 0,
+                0,
                 false
         );
     }
 
-    private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, double stunDuration, boolean debug) {
+    private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, double stunDuration, double critChance, boolean debug) {
         if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(attackWeight)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
+            assert url != null;
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
             texture.setRotate(135);
             texture.setTranslateX(textureOffsetX);
@@ -219,7 +228,7 @@ public class MeeleSkillComponent extends SkillComponent {
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(new Rectangle(weaponWidth, weaponHeight))
                         .view(texture)
-                        .with(new WeaponDamageComponent(weaponDamage, stunDuration))
+                        .with(new WeaponDamageComponent(weaponDamage, stunDuration, critChance))
                         .with(new SwordAnimationComponent(entity, attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();
@@ -227,7 +236,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 entityBuilder()
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(texture)
-                        .with(new WeaponDamageComponent(weaponDamage, stunDuration))
+                        .with(new WeaponDamageComponent(weaponDamage, stunDuration, critChance))
                         .with(new SwordAnimationComponent(entity, attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();

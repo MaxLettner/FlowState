@@ -1,9 +1,7 @@
 package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
-import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
@@ -11,8 +9,7 @@ import javafx.geometry.Point2D;
 
 import java.util.List;
 
-public class EnemyComponent extends Component {
-
+public abstract class EnemyBehaviourComponent extends Component {
     protected Entity player;
     protected PhysicsComponent physics;
 
@@ -32,12 +29,7 @@ public class EnemyComponent extends Component {
     protected boolean isGrounded = false;
     protected boolean jumpConsumed = false;
 
-    private double poisonDuration = 0;
-    private final double POISON_DAMAGE = 5;
-
-    public EnemyComponent(Entity player) {
-        this.player = player;
-    }
+    public EnemyBehaviourComponent(Entity player) { this.player = player; }
 
     @Override
     public void onAdded() {
@@ -48,15 +40,15 @@ public class EnemyComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
         updateGroundState();
-        if(!entity.getComponent(EnemyStunComponent.class).getIsCurrentlyStunned()) {
+        if(!entity.getComponent(EnemyStatsComponent.class).getIsCurrentlyStunned()) {
             chasePlayer();
-            checkHitPlayer();
+            attack();
         }else {
             physics.setVelocityX(0);
         }
-        checkPoison(tpf);
-        checkIfStillAlive();
     }
+
+    public abstract void attack();
 
     protected void chasePlayer() {
         double dx = player.getX() - entity.getX();
@@ -122,19 +114,6 @@ public class EnemyComponent extends Component {
         }
     }
 
-    private void checkHitPlayer() {
-        // manual overlap since physics collision between enemy and player is disabled
-        double ex = entity.getX(), ey = entity.getY();
-        double px = player.getX(), py = player.getY();
-
-        boolean overlapX = ex < px + ENEMY_WIDTH  && ex + ENEMY_WIDTH  > px;
-        boolean overlapY = ey < py + ENEMY_HEIGHT && ey + ENEMY_HEIGHT > py;
-
-        if (overlapX && overlapY) {
-            player.getComponent(PlayerStatsComponent.class).takeDamage(DAMAGE);
-        }
-    }
-
     private void updateGroundState() {
         isGrounded = Math.abs(physics.getVelocityY()) < 0.1;
         if (isGrounded) jumpConsumed = false;
@@ -144,23 +123,5 @@ public class EnemyComponent extends Component {
         return FXGL.getGameWorld().getEntitiesFiltered(
                 e -> e.getComponentOptional(PlatformIdentifierComponent.class).isPresent()
         );
-    }
-
-    private void checkIfStillAlive() {
-        if(entity.getComponent(HealthDoubleComponent.class).isZero()) {
-            entity.removeFromWorld();
-        }
-    }
-
-    public void poison(double time) {
-        poisonDuration = time;
-    }
-
-    private void checkPoison(double tpf) {
-        if(poisonDuration < 0) poisonDuration = 0;
-        if(poisonDuration > 0) {
-            poisonDuration -= tpf;
-            entity.getComponent(HealthDoubleComponent.class).damage(POISON_DAMAGE*tpf);
-        }
     }
 }

@@ -1,8 +1,8 @@
 package at.htl.flowstate.Components.Player;
 
-import at.htl.flowstate.Components.Enemies.EnemyComponent;
-import at.htl.flowstate.Components.Enemies.EnemyStunComponent;
+import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -14,11 +14,14 @@ import java.util.List;
 public class WeaponDamageComponent extends Component {
     private final double damage;
     private final double stunDuration;
+    private final double critChance;
+    private final double CRIT_MULT = 5;
     List<Entity> alreadyHit = new ArrayList<>();
 
-    public WeaponDamageComponent(double damage, double stunDuration) {
+    public WeaponDamageComponent(double damage, double stunDuration, double critChance) {
         this.damage = damage;
         this.stunDuration = stunDuration;
+        this.critChance = critChance;
     }
 
     @Override
@@ -32,8 +35,12 @@ public class WeaponDamageComponent extends Component {
 
     private void hit(Entity e) {
         alreadyHit.add(e);
-        e.getComponent(HealthDoubleComponent.class).damage(damage);
-        if(stunDuration > 0) e.getComponent(EnemyStunComponent.class).stun(stunDuration);
+        if(FXGLMath.random(0,100) <= critChance) {
+            e.getComponent(HealthDoubleComponent.class).damage(damage * CRIT_MULT);
+        }else {
+            e.getComponent(HealthDoubleComponent.class).damage(damage);
+        }
+        if(stunDuration > 0) e.getComponent(EnemyStatsComponent.class).stun(stunDuration);
         //TODO: implement knockback code
     }
 
