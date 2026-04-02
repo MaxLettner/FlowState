@@ -1,14 +1,12 @@
 package at.htl.flowstate.Components.Player.Skills;
 
-import at.htl.flowstate.Components.Player.FireballPlayerProjectileComponent;
-import at.htl.flowstate.Components.Player.IceciclePlayerProjectileComponent;
-import at.htl.flowstate.Components.Player.PlayerProjectileComponent;
-import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Components.Player.*;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +29,7 @@ public class MagicSkillComponent extends SkillComponent{
                 20,
                 20,
                 600,
+                getInput().getVectorToMouse(entity.getCenter()),
                 new PlayerProjectileComponent(20, 1),
                 false
         );
@@ -80,6 +79,7 @@ public class MagicSkillComponent extends SkillComponent{
                 30,
                 30,
                 500,
+                getInput().getVectorToMouse(entity.getCenter()),
                 new FireballPlayerProjectileComponent(30, 20, 200, 0.5),
                 false
         );
@@ -97,6 +97,7 @@ public class MagicSkillComponent extends SkillComponent{
                 15,
                 15,
                 1000,
+                getInput().getVectorToMouse(entity.getCenter()),
                 new IceciclePlayerProjectileComponent(20, 5),
                 false
         );
@@ -104,7 +105,66 @@ public class MagicSkillComponent extends SkillComponent{
 
     @Override
     public void doSub2Skill3() { //Poison Darts
+        if(!entity.getComponent(PlayerStatsComponent.class).takeMana(15)) return;
 
+        Point2D dir = getInput().getVectorToMouse(entity.getCenter());
+        double spread = Math.toRadians(5);
+
+        double cos = Math.cos(spread);
+        double sin = Math.sin(spread);
+
+        Point2D topDir = new Point2D(
+                dir.getX() * cos - dir.getY() * sin,
+                dir.getX() * sin + dir.getY() * cos);
+        Point2D bottomDir = new Point2D(
+                dir.getX() * cos + dir.getY() * sin,
+                -dir.getX() * sin + dir.getY() * cos);
+
+        //middle
+        projectileBuilder(
+                "PoisonDart.png",
+                80,
+                -30,
+                -31,
+                0,
+                30,
+                15,
+                0,
+                800,
+                dir,
+                new PoisonDartPlayerProjectileComponent(10),
+                false
+        );
+        //top
+        projectileBuilder(
+                "PoisonDart.png",
+                80,
+                -30,
+                -31,
+                0,
+                30,
+                15,
+                0,
+                800,
+                topDir,
+                new PoisonDartPlayerProjectileComponent(10),
+                false
+        );
+        //bottom
+        projectileBuilder(
+                "PoisonDart.png",
+                80,
+                -30,
+                -31,
+                0,
+                30,
+                15,
+                0,
+                800,
+                bottomDir,
+                new PoisonDartPlayerProjectileComponent(10),
+                false
+        );
     }
 
     //-----Enchanting----
@@ -123,7 +183,7 @@ public class MagicSkillComponent extends SkillComponent{
 
     }
 
-    public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double manaCost, double projSpeed, @NotNull PlayerProjectileComponent specificComponent, boolean debug) {
+    public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double manaCost, double projSpeed, Point2D target, @NotNull PlayerProjectileComponent specificComponent, boolean debug) {
         if(entity.getComponent(PlayerStatsComponent.class).takeMana(manaCost)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
@@ -137,7 +197,7 @@ public class MagicSkillComponent extends SkillComponent{
                         .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
                         .view(new Rectangle(projWidth, projHeight))
                         .view(texture)
-                        .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                        .with(new ProjectileComponent(target, projSpeed))
                         .with(specificComponent)
                         .with(new OffscreenCleanComponent())
                         .zIndex(-1)
@@ -147,7 +207,7 @@ public class MagicSkillComponent extends SkillComponent{
                         .at(entity.getCenter())
                         .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
                         .view(texture)
-                        .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                        .with(new ProjectileComponent(target, projSpeed))
                         .with(specificComponent)
                         .with(new OffscreenCleanComponent())
                         .zIndex(-1)
