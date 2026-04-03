@@ -33,6 +33,7 @@ public class LevelFactory implements EntityFactory {
                 .with(platPhysics)
                 .with(new PlatformIdentifierComponent())
                 .collidable()
+                .zIndex(10)
                 .build();
     }
 

@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.Player;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -9,7 +9,7 @@ import javafx.geometry.Point2D;
 
 import java.util.List;
 
-public class PlayerComponent extends Component {
+public class PlayerMovementComponent extends Component {
 
     private PhysicsComponent physics;
 
@@ -29,36 +29,12 @@ public class PlayerComponent extends Component {
     //is no longer in the way next frame breaking the snap feedback loop
     private static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
 
-    private static final int MAX_INVINCIBILITY_FRAMES = 60;
-    private int currentInvincibilityFrames = 0;
-
     private boolean isGrounded = false;
     private boolean jumpConsumed = false;
     private int coyoteTimer = 0;
     private double  currentRunningFrames = 0;
     private int lastMoveDirection = 0;
     private int currentWatchDirection = 1;
-
-    //value to determine whether the player can ettack;
-    //different weapons use different values;
-    //eg swords use 10 because only one at a time
-    //fisticuffs use 5 because 2 at a time
-    //value gets subtracted in respective SkillComponent and added back by the animation ending
-    private int attackWeight = 10;
-    private static final int MAX_ATTACK_WEIGHT = 10;
-
-    //STATS
-    private double health = 100;
-    private double maxHealth = 100;
-    private double mana = 100;
-    private double maxMana = 100;
-    private double strength = 100;
-    private double dexterity = 100;
-    private double level = 0;
-    private double skillPoints = 0;
-
-    private final double HEAL_PERCENTAGE = 0.01; //healing per second
-    private final double MANA_PERCENTAGE = 0.05; //mana regen per second
 
     @Override
     public void onAdded() {
@@ -72,8 +48,6 @@ public class PlayerComponent extends Component {
         if (isGrounded && lastMoveDirection != 0) {
             tryStep(lastMoveDirection);
         }
-
-        regenerate(tpf);
     }
 
 
@@ -112,22 +86,6 @@ public class PlayerComponent extends Component {
             physics.setVelocityX(savedVelX);
             physics.setVelocityY(0);
             return;
-        }
-    }
-
-    private void regenerate(double tpf) {
-        if(mana < maxMana) {
-            mana += maxMana * (MANA_PERCENTAGE * tpf);
-        } else if (mana > maxMana) {
-            mana = maxMana;
-        }
-        if(health < maxHealth) {
-            health += maxHealth * (HEAL_PERCENTAGE * tpf);
-        } else if (health > maxHealth) {
-            health = maxHealth;
-        }
-        if(currentInvincibilityFrames > 0) {
-            currentInvincibilityFrames--;
         }
     }
 
@@ -199,45 +157,6 @@ public class PlayerComponent extends Component {
         }
     }
 
-    //-----Damage-----
-
-    public void takeDamage(double amount) {
-        if(currentInvincibilityFrames == 0) {
-            currentInvincibilityFrames = MAX_INVINCIBILITY_FRAMES;
-            health -= amount;
-        }
-    }
-
-    //-----Getters-----
-    public double getMana() {
-        return mana;
-    }
-
-    public double getMaxMana() {
-        return maxMana;
-    }
-
-    public double getHealth() {
-        return health;
-    }
-
-    public double getMaxHealth() {
-        return maxHealth;
-    }
-
     public int getCurrentWatchDirection() { return currentWatchDirection; }
-
-    public void addAttackWeight(int v) {
-        attackWeight += v;
-        if(attackWeight > MAX_ATTACK_WEIGHT) attackWeight = MAX_ATTACK_WEIGHT;
-    }
-
-    public boolean takeAttackWeight(int v) {
-        if(attackWeight - v < 0) {
-            return false;
-        }
-        attackWeight -= v;
-        return true;
-    }
 
 }

@@ -150,7 +150,7 @@ public class LevelGeneration {
     public static void spawnGroundSegment(double x, double y, double width) {
         double height = DEEP_FLOOR - y;
         spawn("platform", new SpawnData(x, y)
-                .put("color", Color.SADDLEBROWN)
+                .put("color", Color.DARKSLATEGRAY)
                 .put("width", width)
                 .put("height", height));
     }

@@ -1,7 +1,11 @@
 package at.htl.flowstate;
 
-import at.htl.flowstate.Components.PlayerComponent;
-import at.htl.flowstate.Components.Skills.MeeleSkillComponent;
+import at.htl.flowstate.Components.Player.PlayerAttackRouter;
+import at.htl.flowstate.Components.Player.PlayerMovementComponent;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
+import at.htl.flowstate.Components.Player.Skills.MeeleSkillComponent;
+import at.htl.flowstate.Components.Player.Skills.RangedSkillComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
@@ -12,16 +16,20 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.net.URL;
 import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -65,18 +73,18 @@ public class Game extends GameApplication {
     @Override
     protected void initInput() {
         getInput().addAction(new UserAction("Left") {
-            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveLeft(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
+            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).moveLeft(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stop(); }
         }, KeyCode.A);
 
         getInput().addAction(new UserAction("Right") {
-            @Override protected void onAction() { player.getComponent(PlayerComponent.class).moveRight(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stop(); }
+            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).moveRight(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stop(); }
         }, KeyCode.D);
 
         getInput().addAction(new UserAction("Jump") {
-            @Override protected void onActionBegin() { player.getComponent(PlayerComponent.class).jump(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerComponent.class).stopJump(); }
+            @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).jump(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopJump(); }
         }, KeyCode.W);
         getInput().addAction(new UserAction("Toggle Skill Tree") {
             @Override
@@ -90,11 +98,17 @@ public class Game extends GameApplication {
         }, KeyCode.I);
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
-                //just for testing, needs to be overhauled
-                player.getComponent(MeeleSkillComponent.class).doSub3();
+                player.getComponent(PlayerAttackRouter.class).doCurrentAction();
             }
         }, MouseButton.PRIMARY);
 
+        //-----Just For testing-----
+        getInput().addAction(new UserAction("SpawnTestEnemy") {
+            @Override protected void onActionBegin() {
+                spawnMeeleEnemy(player.getX(), player.getY());
+            }
+        }, MouseButton.SECONDARY);
+        //------
     }
 
     @Override
@@ -105,6 +119,9 @@ public class Game extends GameApplication {
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameWorld().addEntityFactory(new EnemyFactory());
         getGameScene().setBackgroundColor(Color.LIGHTBLUE);
+        //URL url = MeeleSkillComponent.class.getResource("/assets/textures/bg1.jpg");
+        //Image img = new Image(url.toExternalForm(), 2150, 1200, false, true);
+        //getGameScene().setBackgroundRepeat(img);
 
         levelGeneration = new LevelGeneration();
 
@@ -121,14 +138,16 @@ public class Game extends GameApplication {
                 .at(300, levelGeneration.getBaseY() - 150)
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
-                .with(new PlayerComponent())
+                .with(new PlayerMovementComponent())
                 .with(new MeeleSkillComponent())
+                .with(new RangedSkillComponent())
+                .with(new MagicSkillComponent())
+                .with(new PlayerStatsComponent())
+                .with(new PlayerAttackRouter())
                 .collidable()
                 .buildAndAttach();
 
-        //---just for testing---
-        //spawnMeeleEnemy(200, levelGeneration.getBaseY() - 150);
-        //-----
+        player.getComponent(PlayerAttackRouter.class).setCurrentSelection("A23");
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
@@ -147,8 +166,8 @@ public class Game extends GameApplication {
         levelGeneration.generateLevel(player.getX());
         cleanupPlatforms();
 
-        hpBar.setCurrentValue(player.getComponent(PlayerComponent.class).getHealth());
-        mpBar.setCurrentValue(player.getComponent(PlayerComponent.class).getMana());
+        hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
+        mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
     }
 
     //-----CAMERA-----
@@ -169,7 +188,7 @@ public class Game extends GameApplication {
 
     private void initHealthBar() {
         hpBar.setMinValue(0);
-        hpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxHealth());
+        hpBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxHealth());
 
         hpBar.setFill(Color.web("#921616"));
         hpBar.setHeight(15);
@@ -183,7 +202,7 @@ public class Game extends GameApplication {
 
     private void initManaBar() {
         mpBar.setMinValue(0);
-        mpBar.setMaxValue(player.getComponent(PlayerComponent.class).getMaxMana());
+        mpBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxMana());
 
         mpBar.setFill(Color.web("#2300d5"));
         mpBar.setHeight(15);

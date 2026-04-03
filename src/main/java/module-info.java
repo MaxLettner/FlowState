@@ -17,6 +17,10 @@ module at.htl.flowstate {
     opens at.htl.flowstate.Generation to com.almasb.fxgl.core;
     exports at.htl.flowstate.Components.Identifier;
     opens at.htl.flowstate.Components.Identifier to com.almasb.fxgl.core;
-    exports at.htl.flowstate.Components.AttackAnimations;
-    opens at.htl.flowstate.Components.AttackAnimations to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.AttackAnimations;
+    opens at.htl.flowstate.Components.Player.AttackAnimations to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Enemies;
+    opens at.htl.flowstate.Components.Enemies to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player;
+    opens at.htl.flowstate.Components.Player to com.almasb.fxgl.core;
 }

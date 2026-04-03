@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components;
+package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
@@ -9,8 +9,7 @@ import javafx.geometry.Point2D;
 
 import java.util.List;
 
-public class EnemyComponent extends Component {
-
+public abstract class EnemyBehaviourComponent extends Component {
     protected Entity player;
     protected PhysicsComponent physics;
 
@@ -30,9 +29,7 @@ public class EnemyComponent extends Component {
     protected boolean isGrounded = false;
     protected boolean jumpConsumed = false;
 
-    public EnemyComponent(Entity player) {
-        this.player = player;
-    }
+    public EnemyBehaviourComponent(Entity player) { this.player = player; }
 
     @Override
     public void onAdded() {
@@ -43,9 +40,15 @@ public class EnemyComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
         updateGroundState();
-        chasePlayer();
-        checkHitPlayer();
+        if(!entity.getComponent(EnemyStatsComponent.class).getIsCurrentlyStunned()) {
+            chasePlayer();
+            attack();
+        }else {
+            physics.setVelocityX(0);
+        }
     }
+
+    public abstract void attack();
 
     protected void chasePlayer() {
         double dx = player.getX() - entity.getX();
@@ -63,7 +66,7 @@ public class EnemyComponent extends Component {
         double feetY = entity.getY() + ENEMY_HEIGHT;
         double leadingEdge = direction > 0 ? entity.getX() + ENEMY_WIDTH : entity.getX();
 
-        for (Entity platform : getStaticPlatforms()) {
+        for (Entity platform : getPlatforms()) {
             double platTop = platform.getY();
             double platLeft = platform.getX();
             double platRight = platform.getX() + platform.getWidth();
@@ -91,7 +94,7 @@ public class EnemyComponent extends Component {
         double feetY = entity.getY() + ENEMY_HEIGHT;
         double leadingEdge = direction > 0 ? entity.getX() + ENEMY_WIDTH : entity.getX();
 
-        for (Entity platform : getStaticPlatforms()) {
+        for (Entity platform : getPlatforms()) {
             double platTop = platform.getY();
             double platLeft = platform.getX();
             double platRight = platform.getX() + platform.getWidth();
@@ -111,25 +114,12 @@ public class EnemyComponent extends Component {
         }
     }
 
-    private void checkHitPlayer() {
-        // manual overlap since physics collision between enemy and player is disabled
-        double ex = entity.getX(), ey = entity.getY();
-        double px = player.getX(), py = player.getY();
-
-        boolean overlapX = ex < px + ENEMY_WIDTH  && ex + ENEMY_WIDTH  > px;
-        boolean overlapY = ey < py + ENEMY_HEIGHT && ey + ENEMY_HEIGHT > py;
-
-        if (overlapX && overlapY) {
-            player.getComponent(PlayerComponent.class).takeDamage(DAMAGE);
-        }
-    }
-
     private void updateGroundState() {
         isGrounded = Math.abs(physics.getVelocityY()) < 0.1;
         if (isGrounded) jumpConsumed = false;
     }
 
-    private List<Entity> getStaticPlatforms() {
+    private List<Entity> getPlatforms() {
         return FXGL.getGameWorld().getEntitiesFiltered(
                 e -> e.getComponentOptional(PlatformIdentifierComponent.class).isPresent()
         );
