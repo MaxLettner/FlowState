@@ -1,6 +1,6 @@
 package at.htl.flowstate;
 
-import at.htl.flowstate.Components.Player.PlayerAttackRouter;
+import at.htl.flowstate.Components.Player.PlayerRouterComponent;
 import at.htl.flowstate.Components.Player.PlayerMovementComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
@@ -16,20 +16,16 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
-import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.ProgressBar;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.net.URL;
 import java.util.List;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -98,7 +94,7 @@ public class Game extends GameApplication {
         }, KeyCode.I);
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
-                player.getComponent(PlayerAttackRouter.class).doCurrentAction();
+                player.getComponent(PlayerRouterComponent.class).doCurrentAction();
             }
         }, MouseButton.PRIMARY);
 
@@ -143,11 +139,11 @@ public class Game extends GameApplication {
                 .with(new RangedSkillComponent())
                 .with(new MagicSkillComponent())
                 .with(new PlayerStatsComponent())
-                .with(new PlayerAttackRouter())
+                .with(new PlayerRouterComponent())
                 .collidable()
                 .buildAndAttach();
 
-        player.getComponent(PlayerAttackRouter.class).setCurrentSelection("A23");
+        player.getComponent(PlayerRouterComponent.class).setCurrentSelection("A23");
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
