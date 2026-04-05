@@ -1,15 +1,20 @@
 package at.htl.flowstate.Components.Player.Skills;
 
 import at.htl.flowstate.Components.Player.*;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -17,12 +22,27 @@ import java.net.URL;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
-public class MagicSkillComponent extends SkillComponent{
-    boolean canRegenMana = true;
-    EnchantmentType currentActiveEnchantment = null;
+public class MagicSkillComponent extends SkillComponent {
+
+    private static final double MANA_DRAIN_RATE = 2.0;
+    private static final double ICON_X_OFFSET = 0.955;
+    private static final double ICON_Y = 115;
+    private static final double ICON_SIZE = 40;
+
+    private EnchantmentType currentActiveEnchantment = null;
+
+    private StackPane activeIcon = null;
 
     @Override
-    public void doDefault() { //magic projectile
+    public void onUpdate(double tpf) {
+        if (currentActiveEnchantment == null) return;
+        boolean hasMana = entity.getComponent(PlayerStatsComponent.class).takeMana(MANA_DRAIN_RATE * tpf);
+        if (!hasMana) deactivate();
+    }
+
+    //-----Skill actions-----
+    @Override
+    public void doDefault() {
         projectileBuilder(
                 "MagicMissile.png",
                 80,
@@ -39,6 +59,7 @@ public class MagicSkillComponent extends SkillComponent{
         );
     }
 
+    //-----Subskilltrees
     @Override
     public void doSub1() { //Arcane
 
@@ -50,29 +71,29 @@ public class MagicSkillComponent extends SkillComponent{
     }
 
     @Override
-    public void doSub3() { //Enchanting -> crit
+    public void doSub3() { //Enchanting
 
     }
 
-    //-----Arcane-----
+    //-----Skills of Arcane-----
     @Override
-    public void doSub1Skill1() { //Magic Missile
-
-    }
-
-    @Override
-    public void doSub1Skill2() { //Levitation
+    public void doSub1Skill1() { //magic missile
 
     }
 
     @Override
-    public void doSub1Skill3() { //Mana Shield
+    public void doSub1Skill2() { //mana shield
 
     }
 
-    //-----Elemental-----
     @Override
-    public void doSub2Skill1() { //Fireball
+    public void doSub1Skill3() { //levitation
+
+    }
+
+    //-----Skills of Elemental-----
+    @Override
+    public void doSub2Skill1() { //fireball
         projectileBuilder(
                 "FireBall.png",
                 130,
@@ -90,7 +111,7 @@ public class MagicSkillComponent extends SkillComponent{
     }
 
     @Override
-    public void doSub2Skill2() { //Icecicle
+    public void doSub2Skill2() { //icecicle
         projectileBuilder(
                 "Icecicle.png",
                 80,
@@ -108,12 +129,11 @@ public class MagicSkillComponent extends SkillComponent{
     }
 
     @Override
-    public void doSub2Skill3() { //Poison Darts
-        if(!entity.getComponent(PlayerStatsComponent.class).takeMana(15)) return;
+    public void doSub2Skill3() { //poison darts
+        if (!entity.getComponent(PlayerStatsComponent.class).takeMana(15)) return;
 
         Point2D dir = getInput().getVectorToMouse(entity.getCenter());
         double spread = Math.toRadians(5);
-
         double cos = Math.cos(spread);
         double sin = Math.sin(spread);
 
@@ -124,7 +144,6 @@ public class MagicSkillComponent extends SkillComponent{
                 dir.getX() * cos + dir.getY() * sin,
                 -dir.getX() * sin + dir.getY() * cos);
 
-        //middle
         projectileBuilder(
                 "PoisonDart.png",
                 80,
@@ -139,7 +158,7 @@ public class MagicSkillComponent extends SkillComponent{
                 new PoisonDartPlayerProjectileComponent(10),
                 false
         );
-        //top
+
         projectileBuilder(
                 "PoisonDart.png",
                 80,
@@ -154,7 +173,7 @@ public class MagicSkillComponent extends SkillComponent{
                 new PoisonDartPlayerProjectileComponent(10),
                 false
         );
-        //bottom
+
         projectileBuilder(
                 "PoisonDart.png",
                 80,
@@ -171,31 +190,31 @@ public class MagicSkillComponent extends SkillComponent{
         );
     }
 
-    //-----Enchanting----
+    //-----Skills of Enchanting-----
     @Override
-    public void doSub3Skill1() { //Life Steal
-
+    public void doSub3Skill1() { //Lifesteal
+        activate(EnchantmentType.Lifesteal);
     }
 
     @Override
-    public void doSub3Skill2() { //Piercing
-
+    public void doSub3Skill2() { //piercing
+        activate(EnchantmentType.Piercing);
     }
 
-    @Override
-    public void doSub3Skill3() { //?
-
+    @Override public void doSub3Skill3() { //crit
+        activate(EnchantmentType.Crit);
     }
 
+    //-----Builder-----
     public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double manaCost, double projSpeed, Point2D target, @NotNull PlayerProjectileComponent specificComponent, boolean debug) {
-        if(entity.getComponent(PlayerStatsComponent.class).takeMana(manaCost)) {
+        if (entity.getComponent(PlayerStatsComponent.class).takeMana(manaCost)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
             texture.setRotate(textureRotation);
             texture.setTranslateX(textureOffsetX);
             texture.setTranslateY(textureOffsetY);
 
-            if(debug) {
+            if (debug) {
                 entityBuilder()
                         .at(entity.getCenter())
                         .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
@@ -206,7 +225,7 @@ public class MagicSkillComponent extends SkillComponent{
                         .with(new OffscreenCleanComponent())
                         .zIndex(-1)
                         .buildAndAttach();
-            }else {
+            } else {
                 entityBuilder()
                         .at(entity.getCenter())
                         .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
@@ -217,28 +236,75 @@ public class MagicSkillComponent extends SkillComponent{
                         .zIndex(-1)
                         .buildAndAttach();
             }
-
         }
-
     }
 
-    private void enchantmentBuilder() {
-
+    //-----Enchantment lifecycle-----
+    public void activate(EnchantmentType type) {
+        if (currentActiveEnchantment != null) deactivate();
+        currentActiveEnchantment = type;
+        showIcon(type);
     }
 
-    public boolean getCanRegenMana() {
-        return canRegenMana;
+    public void deactivate() {
+        if (currentActiveEnchantment == null) return;
+        currentActiveEnchantment = null;
+        removeIcon();
     }
 
-    public void setCanRegenMana(boolean canRegenMana) {
-        this.canRegenMana = canRegenMana;
+    //-----Icon-----
+    private void showIcon(EnchantmentType type) {
+        Rectangle bg = new Rectangle(ICON_SIZE, ICON_SIZE, iconColor(type));
+        bg.setArcWidth(6);
+        bg.setArcHeight(6);
+
+        Text label = new Text(iconLabel(type));
+        label.setFill(Color.WHITE);
+        label.setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
+
+        activeIcon = new StackPane(bg, label);
+        activeIcon.setAlignment(Pos.CENTER);
+        activeIcon.setLayoutX(FXGL.getAppWidth() * ICON_X_OFFSET);
+        activeIcon.setLayoutY(ICON_Y);
+
+        activeIcon.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) deactivate();
+        });
+
+        FXGL.getGameScene().addUINode(activeIcon);
     }
 
+    private void removeIcon() {
+        if (activeIcon != null) {
+            FXGL.getGameScene().removeUINode(activeIcon);
+            activeIcon = null;
+        }
+    }
+
+    private Color iconColor(EnchantmentType type) {
+        return switch (type) {
+            case Crit -> Color.ORANGE;
+            case Speed -> Color.YELLOW;
+            case Lifesteal -> Color.CRIMSON;
+            case Piercing -> Color.CYAN;
+        };
+    }
+
+    private String iconLabel(EnchantmentType type) {
+        return switch (type) {
+            case Crit -> "CRT";
+            case Speed -> "SPD";
+            case Lifesteal -> "LST";
+            case Piercing -> "PRC";
+        };
+    }
+
+    //-----Getters-----
     public EnchantmentType getCurrentActiveEnchantment() {
         return currentActiveEnchantment;
     }
 
-    public void setCurrentActiveEnchantment(EnchantmentType currentActiveEnchantment) {
-        this.currentActiveEnchantment = currentActiveEnchantment;
+    public boolean isManaRegenEnabled() {
+        return currentActiveEnchantment == null; //needs to be changed when levitation and manashield are added
     }
 }

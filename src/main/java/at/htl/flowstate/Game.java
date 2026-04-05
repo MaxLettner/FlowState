@@ -143,7 +143,7 @@ public class Game extends GameApplication {
                 .collidable()
                 .buildAndAttach();
 
-        player.getComponent(PlayerRouterComponent.class).setCurrentSelection("A23");
+        player.getComponent(PlayerRouterComponent.class).setCurrentSelection("A31");
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
