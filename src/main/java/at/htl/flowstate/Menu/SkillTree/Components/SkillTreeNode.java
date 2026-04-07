@@ -49,6 +49,7 @@ public class SkillTreeNode {
         if (!isUnlocked()) {
             skillList.unlockSkill(skillType);
             firsttimeunlock = 1;
+
         }
     }
 

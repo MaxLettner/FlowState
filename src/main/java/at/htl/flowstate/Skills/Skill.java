@@ -5,6 +5,7 @@ public class Skill {
         private String description;
         private boolean isUnlocked;
         private SkillType type;
+        private boolean isSelected;
 
 
         public Skill(String description, SkillType type) {
@@ -31,6 +32,13 @@ public class Skill {
             if(!SkillList.getInstance().isSkillUnlocked(type)){
                 SkillList.getInstance().unlockSkill(type);
             }
+        }
+
+        public void select(){
+            isSelected = true;
+        }
+        public void deselect(){
+            isSelected = false;
         }
         
         public void revoke() {

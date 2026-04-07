@@ -5,8 +5,12 @@ import java.util.Arrays;
 public class SkillList {
     private static SkillList instance;
     private final Skill[] skills;
+    private int index_of_selected_skill;
 
     private SkillList() {
+
+        index_of_selected_skill = 0;
+
         this.skills = new Skill[]{
 
                 // Top level
@@ -101,6 +105,11 @@ public class SkillList {
         for (Skill skill : skills) {
             if (skill.getType().equals(skillType.getName())) {
                 skill.unlock();
+
+                skills[index_of_selected_skill].deselect();
+                skill.select();
+                index_of_selected_skill = Arrays.asList(skills).indexOf(skill);
+
                 break;
             }
         }
