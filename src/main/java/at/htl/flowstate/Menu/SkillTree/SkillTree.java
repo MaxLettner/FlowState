@@ -162,7 +162,7 @@ public class SkillTree extends SkillTreeParent {
     }
 
     private void handleMagicUnlock() {
-        magicNode.unlock();
+        magicNode.onClick();
         magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
         magicBtn.setOnMouseExited(e -> magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
         if(skillUnlockStatus[0]) {
@@ -172,7 +172,7 @@ public class SkillTree extends SkillTreeParent {
         }
     }
     private void handleMeeleUnlock() {
-        meeleNode.unlock();
+        meeleNode.onClick();
         meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
         meeleBtn.setOnMouseExited(e -> meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
         if(skillUnlockStatus[1]) {
@@ -182,7 +182,7 @@ public class SkillTree extends SkillTreeParent {
         }
     }
     private void handleRangedUnlock() {
-        rangedNode.unlock();
+        rangedNode.onClick();
         rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
         rangedBtn.setOnMouseExited(e -> rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
         if(skillUnlockStatus[2]) {
@@ -272,7 +272,7 @@ public class SkillTree extends SkillTreeParent {
                     : "-fx-font-size: 14px; -fx-background-color: #FFB033; -fx-text-fill: white;");
         });
         btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(style); });
-        btn.setOnAction(e -> { node.unlock(); updateFullTree(); });
+        btn.setOnAction(e -> { node.onClick(); updateFullTree(); });
         return btn;
     }
 
@@ -292,7 +292,7 @@ public class SkillTree extends SkillTreeParent {
         } else if (isUnlocked) {
             style = "-fx-font-size: 12px; -fx-background-color: #008000; -fx-text-fill: white;";
         } else {
-            style = "-fx-font-size: 12px; -fx-background-color: #008000; -fx-text-fill: white;";
+            style = "-fx-font-size: 12px; -fx-background-color: #FF8C00; -fx-text-fill: white;";
         }
         btn.setStyle(style);
 

@@ -1,5 +1,8 @@
 package at.htl.flowstate.Skills;
 
+import at.htl.flowstate.Components.Player.PlayerRouterComponent;
+import at.htl.flowstate.Game;
+
 import java.util.Arrays;
 
 public class SkillList {
@@ -94,7 +97,7 @@ public class SkillList {
 
     public Skill getSkill(SkillType skillType) {
         for (Skill skill : skills) {
-            if (skill.getType().equals(skillType.getName())) {
+            if (skill.getType().equals(skillType)) {
                 return skill;
             }
         }
@@ -103,12 +106,13 @@ public class SkillList {
 
     public void unlockSkill(SkillType skillType) {
         for (Skill skill : skills) {
-            if (skill.getType().equals(skillType.getName())) {
+            if (skill.getType().equals(skillType)) {
                 skill.unlock();
 
                 skills[index_of_selected_skill].deselect();
                 skill.select();
                 index_of_selected_skill = Arrays.asList(skills).indexOf(skill);
+                updateSelected();
 
                 break;
             }
@@ -117,12 +121,16 @@ public class SkillList {
     public boolean isSkillUnlocked(SkillType skillType) {
         boolean isunlocked = false;
         for (Skill skill : skills) {
-            if (skill.getType().equals(skillType.getName())) {
+            if (skill.getType().equals(skillType)) {
                 isunlocked = skill.isUnlocked();
                 break;
             }
         }
         return isunlocked;
+    }
+
+    private void updateSelected(){
+        Game.getPlayer().getComponent(PlayerRouterComponent.class).setCurrentSelection(skills[index_of_selected_skill].getType());
     }
 
 }

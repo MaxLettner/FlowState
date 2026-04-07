@@ -45,7 +45,8 @@ public class SkillTreeNode {
         return skillList.isSkillUnlocked(skillType);
     }
 
-    public void unlock() {
+    public void onClick() {
+
         if (!isUnlocked()) {
             skillList.unlockSkill(skillType);
             firsttimeunlock = 1;

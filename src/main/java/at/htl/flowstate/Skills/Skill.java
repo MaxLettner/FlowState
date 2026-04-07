@@ -29,9 +29,6 @@ public class Skill {
 
         public void unlock() {
             isUnlocked = true;
-            if(!SkillList.getInstance().isSkillUnlocked(type)){
-                SkillList.getInstance().unlockSkill(type);
-            }
         }
 
         public void select(){
@@ -44,7 +41,7 @@ public class Skill {
         public void revoke() {
             isUnlocked = false;
         }
-        public String getType() {
-            return type.getName();
+        public SkillType getType() {
+            return type;
         }
 }
