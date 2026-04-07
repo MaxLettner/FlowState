@@ -11,6 +11,7 @@ import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
 import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import at.htl.flowstate.Menu.GameMenu;
+import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.SceneFactory;
@@ -143,7 +144,7 @@ public class Game extends GameApplication {
                 .collidable()
                 .buildAndAttach();
 
-        player.getComponent(PlayerRouterComponent.class).setCurrentSelection("A23");
+        player.getComponent(PlayerRouterComponent.class).setCurrentSelection(SkillType.ENCHANTING_LIFE_STEAL);
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 

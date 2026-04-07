@@ -61,12 +61,12 @@ public class MagicSkillComponent extends SkillComponent{
     }
 
     @Override
-    public void doSub1Skill2() { //Levitation
+    public void doSub1Skill2() { //Mana Shield
 
     }
 
     @Override
-    public void doSub1Skill3() { //Mana Shield
+    public void doSub1Skill3() { //Levitation
 
     }
 
