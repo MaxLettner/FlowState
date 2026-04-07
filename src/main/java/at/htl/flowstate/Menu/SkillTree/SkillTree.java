@@ -1,8 +1,10 @@
 package at.htl.flowstate.Menu.SkillTree;
 
+import at.htl.flowstate.Game;
 import at.htl.flowstate.Menu.SkillTree.Components.SkillTreeNode;
 import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -33,10 +35,13 @@ public class SkillTree extends SkillTreeParent {
     private Button magicBtn;
     private Button rangedBtn;
 
+    private static Entity player;
+
     public SkillTree() {
         super("Skill Tree");
         initializeHierarchy();
         setupUI();
+        player = Game.getPlayer();
     }
 
     private void initializeHierarchy() {
@@ -287,14 +292,14 @@ public class SkillTree extends SkillTreeParent {
         } else if (isUnlocked) {
             style = "-fx-font-size: 12px; -fx-background-color: #008000; -fx-text-fill: white;";
         } else {
-            style = "-fx-font-size: 12px; -fx-background-color: #0066CC; -fx-text-fill: white;";
+            style = "-fx-font-size: 12px; -fx-background-color: #008000; -fx-text-fill: white;";
         }
         btn.setStyle(style);
 
         btn.setOnMouseEntered(e -> {
             if (!btn.isDisabled()) btn.setStyle(isUnlocked
                     ? "-fx-font-size: 12px; -fx-background-color: #00a000; -fx-text-fill: white;"
-                    : "-fx-font-size: 12px; -fx-background-color: #0080FF; -fx-text-fill: white;");
+                    : "-fx-font-size: 12px; -fx-background-color: #FF8C00; -fx-text-fill: white;");
         });
         btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(style); });
         btn.setOnAction(e -> { skillList.unlockSkill(skillNode.getSkillType()); updateFullTree(); });

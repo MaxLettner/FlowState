@@ -32,7 +32,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Game extends GameApplication {
 
-    private Entity player;
+    private static Entity player;
     private LevelGeneration levelGeneration;
 
     private final double WINDOW_WIDTH = 1920;
@@ -226,4 +226,8 @@ public class Game extends GameApplication {
     public static void main(String[] args) {
         Thread.currentThread().setContextClassLoader(Game.class.getClassLoader());
         launch(args); }
+
+    public static Entity getPlayer(){
+        return player;
+    }
 }
