@@ -201,7 +201,7 @@ public class MagicSkillComponent extends SkillComponent {
 
     @Override
     public void doSub3Skill2() { //piercing
-        activate(EnchantmentType.Piercing);
+        activate(EnchantmentType.Piercing); //TODO: implement
     }
 
     @Override public void doSub3Skill3() { //speed

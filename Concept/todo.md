@@ -9,7 +9,7 @@ basic arcane
 levitation
 shield
 basic elemental
-basic enchant
-lifesteal
+~~basic enchant~~
+~~lifesteal~~
 piercing
-crit?
+~~crit?~~
