@@ -23,4 +23,6 @@ module at.htl.flowstate {
     opens at.htl.flowstate.Components.Enemies to com.almasb.fxgl.core;
     exports at.htl.flowstate.Components.Player;
     opens at.htl.flowstate.Components.Player to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.Skills;
+    opens at.htl.flowstate.Components.Player.Skills to com.almasb.fxgl.core;
 }

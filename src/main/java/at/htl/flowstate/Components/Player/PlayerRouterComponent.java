@@ -5,7 +5,7 @@ import at.htl.flowstate.Components.Player.Skills.MeeleSkillComponent;
 import at.htl.flowstate.Components.Player.Skills.RangedSkillComponent;
 import com.almasb.fxgl.entity.component.Component;
 
-public class PlayerAttackRouter extends Component {
+public class PlayerRouterComponent extends Component {
     private String currentSelection = "";
 
     private MeeleSkillComponent meele;

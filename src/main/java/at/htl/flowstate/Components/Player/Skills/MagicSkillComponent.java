@@ -3,6 +3,7 @@ package at.htl.flowstate.Components.Player.Skills;
 import at.htl.flowstate.Components.Player.*;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
@@ -17,6 +18,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class MagicSkillComponent extends SkillComponent{
+    boolean canRegenMana = true;
+    EnchantmentType currentActiveEnchantment = null;
+
     @Override
     public void doDefault() { //magic projectile
         projectileBuilder(
@@ -46,7 +50,7 @@ public class MagicSkillComponent extends SkillComponent{
     }
 
     @Override
-    public void doSub3() { //Enchanting
+    public void doSub3() { //Enchanting -> crit
 
     }
 
@@ -216,5 +220,25 @@ public class MagicSkillComponent extends SkillComponent{
 
         }
 
+    }
+
+    private void enchantmentBuilder() {
+
+    }
+
+    public boolean getCanRegenMana() {
+        return canRegenMana;
+    }
+
+    public void setCanRegenMana(boolean canRegenMana) {
+        this.canRegenMana = canRegenMana;
+    }
+
+    public EnchantmentType getCurrentActiveEnchantment() {
+        return currentActiveEnchantment;
+    }
+
+    public void setCurrentActiveEnchantment(EnchantmentType currentActiveEnchantment) {
+        this.currentActiveEnchantment = currentActiveEnchantment;
     }
 }
