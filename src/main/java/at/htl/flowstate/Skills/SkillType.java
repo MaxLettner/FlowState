@@ -1,6 +1,8 @@
 package at.htl.flowstate.Skills;
 
 public enum SkillType {
+    START("Rusty Sword"),
+
     // Top level
     MAGIC("Magic"),
     MEELE("Meele"),

@@ -7,7 +7,7 @@ import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.entity.component.Component;
 
 public class PlayerRouterComponent extends Component {
-    private SkillType currentSelection = null;
+    private SkillType currentSelection = SkillType.START;
 
     private MeeleSkillComponent meele;
     private RangedSkillComponent ranged;
@@ -26,6 +26,8 @@ public class PlayerRouterComponent extends Component {
 
     public void doCurrentAction() {
         switch(currentSelection) {
+            //start
+            case SkillType.START: meele.doStart();break;
             //meele
             case SkillType.MEELE: meele.doDefault();break;
             //swords
@@ -77,8 +79,6 @@ public class PlayerRouterComponent extends Component {
             case SkillType.ENCHANTING_LIFE_STEAL: magic.doSub3Skill1();break;
             case SkillType.ENCHANTING_PIERCING: magic.doSub3Skill2();break;
             case SkillType.ENCHANTING_SPEED: magic.doSub3Skill3();break;
-            //start
-            default: meele.doStart();break;
         }
     }
 }
