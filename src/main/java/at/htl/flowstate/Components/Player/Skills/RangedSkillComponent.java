@@ -13,8 +13,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class RangedSkillComponent extends SkillComponent{
-    Entity currentlyThrownTrident = null;
-
     @Override
     public void doDefault() { //Basic Bow
 
@@ -85,7 +83,7 @@ public class RangedSkillComponent extends SkillComponent{
 
     private void tridentBuilder(double speed, TridentComponent tridentComponent) {
         if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
-            currentlyThrownTrident = entityBuilder()
+            entityBuilder()
                     .at(entity.getCenter())
                     .viewWithBBox(new Rectangle(50, 20, Color.HOTPINK))
                     .zIndex(-1)

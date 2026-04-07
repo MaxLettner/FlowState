@@ -13,3 +13,5 @@ basic elemental
 ~~lifesteal~~
 piercing
 ~~crit?~~
+tridents
+attackweight is class specific
