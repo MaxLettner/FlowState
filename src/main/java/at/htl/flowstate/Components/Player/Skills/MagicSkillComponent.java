@@ -23,8 +23,9 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class MagicSkillComponent extends SkillComponent {
+    private static final double ENCHANTMENT_MANA_DRAIN_RATE = 2.0;
+    public static final double ENCHANTMENT_LIFESTEAL_RATE = 0.05;
 
-    private static final double MANA_DRAIN_RATE = 2.0;
     private static final double ICON_X_OFFSET = 0.955;
     private static final double ICON_Y = 115;
     private static final double ICON_SIZE = 40;
@@ -36,7 +37,7 @@ public class MagicSkillComponent extends SkillComponent {
     @Override
     public void onUpdate(double tpf) {
         if (currentActiveEnchantment == null) return;
-        boolean hasMana = entity.getComponent(PlayerStatsComponent.class).takeMana(MANA_DRAIN_RATE * tpf);
+        boolean hasMana = entity.getComponent(PlayerStatsComponent.class).takeMana(ENCHANTMENT_MANA_DRAIN_RATE * tpf);
         if (!hasMana) deactivate();
     }
 
@@ -194,6 +195,7 @@ public class MagicSkillComponent extends SkillComponent {
     @Override
     public void doSub3Skill1() { //Lifesteal
         activate(EnchantmentType.Lifesteal);
+        entity.getComponent(PlayerRouterComponent.class).setCurrentSelection("M13");
     }
 
     @Override

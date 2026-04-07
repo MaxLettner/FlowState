@@ -2,6 +2,8 @@ package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
+import at.htl.flowstate.Components.Player.Skills.EnchantmentType;
+import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
@@ -15,10 +17,12 @@ public class WeaponDamageComponent extends Component {
     private final double damage;
     private final double stunDuration;
     private final double critChance;
-    private final double CRIT_MULT = 5;
+    private final Entity player;
+    private static final double CRIT_MULT = 5;
     List<Entity> alreadyHit = new ArrayList<>();
 
-    public WeaponDamageComponent(double damage, double stunDuration, double critChance) {
+    public WeaponDamageComponent(Entity player, double damage, double stunDuration, double critChance) {
+        this.player = player;
         this.damage = damage;
         this.stunDuration = stunDuration;
         this.critChance = critChance;
@@ -37,8 +41,14 @@ public class WeaponDamageComponent extends Component {
         alreadyHit.add(e);
         if(FXGLMath.random(0,100) <= critChance) {
             e.getComponent(HealthDoubleComponent.class).damage(damage * CRIT_MULT);
+            if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == EnchantmentType.Lifesteal) {
+                player.getComponent(PlayerStatsComponent.class).heal(damage * CRIT_MULT * MagicSkillComponent.ENCHANTMENT_LIFESTEAL_RATE);
+            }
         }else {
             e.getComponent(HealthDoubleComponent.class).damage(damage);
+            if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == EnchantmentType.Lifesteal) {
+                player.getComponent(PlayerStatsComponent.class).heal(damage * MagicSkillComponent.ENCHANTMENT_LIFESTEAL_RATE);
+            }
         }
         if(stunDuration > 0) e.getComponent(EnemyStatsComponent.class).stun(stunDuration);
         //TODO: implement knockback code

@@ -50,11 +50,18 @@ public class PlayerStatsComponent extends Component {
         }
     }
 
-    //-----Damage-----
+    //-----Health-----
     public void takeDamage(double amount) {
         if(currentInvincibilityFrames == 0) {
             currentInvincibilityFrames = MAX_INVINCIBILITY_FRAMES;
             health -= amount;
+        }
+    }
+
+    public void heal(double amount) {
+        health += amount;
+        if(health > maxHealth) {
+            health = maxHealth;
         }
     }
 
