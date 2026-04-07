@@ -43,7 +43,7 @@ public class MeeleSkillComponent extends SkillComponent {
         if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
-                    .with(new WeaponDamageComponent(5, 0, 0))
+                    .with(new WeaponDamageComponent(entity, 5, 0, 0))
                     .with(new SwordAnimationComponent(entity, 10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
@@ -56,7 +56,7 @@ public class MeeleSkillComponent extends SkillComponent {
         if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
-                    .with(new WeaponDamageComponent(10, 0, 0))
+                    .with(new WeaponDamageComponent(entity, 10, 0, 0))
                     .with(new SwordAnimationComponent(entity, 10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
@@ -228,7 +228,7 @@ public class MeeleSkillComponent extends SkillComponent {
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(new Rectangle(weaponWidth, weaponHeight))
                         .view(texture)
-                        .with(new WeaponDamageComponent(weaponDamage, stunDuration, critChance))
+                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance))
                         .with(new SwordAnimationComponent(entity, attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();
@@ -236,7 +236,7 @@ public class MeeleSkillComponent extends SkillComponent {
                 entityBuilder()
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(texture)
-                        .with(new WeaponDamageComponent(weaponDamage, stunDuration, critChance))
+                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance))
                         .with(new SwordAnimationComponent(entity, attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();

@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components.Player;
 
+import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
 import com.almasb.fxgl.entity.component.Component;
 
 public class PlayerStatsComponent extends Component {
@@ -32,10 +33,12 @@ public class PlayerStatsComponent extends Component {
     }
 
     private void regenerate(double tpf) {
-        if(mana < maxMana) {
-            mana += maxMana * (MANA_PERCENTAGE * tpf);
-        } else if (mana > maxMana) {
-            mana = maxMana;
+        if(entity.getComponent(MagicSkillComponent.class).isManaRegenEnabled()) {
+            if(mana < maxMana) {
+                mana += maxMana * (MANA_PERCENTAGE * tpf);
+            } else if (mana > maxMana) {
+                mana = maxMana;
+            }
         }
         if(health < maxHealth) {
             health += maxHealth * (HEAL_PERCENTAGE * tpf);
@@ -47,11 +50,18 @@ public class PlayerStatsComponent extends Component {
         }
     }
 
-    //-----Damage-----
+    //-----Health-----
     public void takeDamage(double amount) {
         if(currentInvincibilityFrames == 0) {
             currentInvincibilityFrames = MAX_INVINCIBILITY_FRAMES;
             health -= amount;
+        }
+    }
+
+    public void heal(double amount) {
+        health += amount;
+        if(health > maxHealth) {
+            health = maxHealth;
         }
     }
 
