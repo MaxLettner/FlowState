@@ -32,7 +32,7 @@ public class PlayerRouterComponent extends Component {
             case SkillType.MEELE_SWORDS: meele.doSub1();break;
             case SkillType.SWORDS_SHORTSWORD: meele.doSub1Skill1();break;
             case SkillType.SWORDS_DUAL_WIELDING: meele.doSub1Skill2();break;
-            case SkillType.SWORDS_ZWEIHAENDER: meele.doSub1Skill3();break;
+            case SkillType.SWORDS_ZWEIHANDER: meele.doSub1Skill3();break;
             //fisticuffs
             case SkillType.MEELE_FISTICUFFS: meele.doSub2();break;
             case SkillType.FISTICUFFS_LEATHER: meele.doSub2Skill1();break;
@@ -75,8 +75,8 @@ public class PlayerRouterComponent extends Component {
             //enchanting
             case SkillType.MAGIC_ENCHANTING: magic.doSub3();break;
             case SkillType.ENCHANTING_LIFE_STEAL: magic.doSub3Skill1();break;
-            case SkillType.ENCHANTING_FIRE_ASPECT: magic.doSub3Skill2();break;
-            case SkillType.ENCHANTING_PIERCING: magic.doSub3Skill3();break;
+            case SkillType.ENCHANTING_PIERCING: magic.doSub3Skill2();break;
+            case SkillType.ENCHANTING_SPEED: magic.doSub3Skill3();break;
             //start
             default: meele.doStart();break;
         }

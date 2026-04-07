@@ -22,9 +22,9 @@ public enum SkillType {
     ELEMENTAL_POISON_DARTS("Poison Darts"),
 
     // Enchanting skills
-    ENCHANTING_FIRE_ASPECT("Fire Aspect"),
     ENCHANTING_LIFE_STEAL("Life Steal"),
     ENCHANTING_PIERCING("Piercing"),
+    ENCHANTING_SPEED("Speed"),
 
     // Meele sub-trees
     MEELE_SWORDS("Swords"),
@@ -34,7 +34,7 @@ public enum SkillType {
     // Swords weapons
     SWORDS_SHORTSWORD("Shortsword"),
     SWORDS_DUAL_WIELDING("Dual Wielding"),
-    SWORDS_ZWEIHAENDER("Zweihaender"),
+    SWORDS_ZWEIHANDER("Zweihander"),
 
     // Fisticuffs weapons
     FISTICUFFS_LEATHER("Leather"),
@@ -54,7 +54,7 @@ public enum SkillType {
     // Bow weapons
     BOW_BONE_BOW("Bone Bow"),
     BOW_SHORTBOW("Shortbow"),
-    BOW_WAR_BOW("War-Bow"),
+    BOW_WAR_BOW("War Bow"),
 
     // Crossbow weapons
     CROSSBOW_DUAL_CROSSBOW("Dual Crossbow"),

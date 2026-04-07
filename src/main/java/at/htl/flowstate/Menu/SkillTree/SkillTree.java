@@ -59,7 +59,7 @@ public class SkillTree extends SkillTreeParent {
         });
 
         SkillTreeNode enchantingNode = new SkillTreeNode(SkillType.MAGIC_ENCHANTING, SkillType.MAGIC, new SkillTreeNode[]{
-                new SkillTreeNode(SkillType.ENCHANTING_FIRE_ASPECT, SkillType.MAGIC_ENCHANTING, null),
+                new SkillTreeNode(SkillType.ENCHANTING_SPEED, SkillType.MAGIC_ENCHANTING, null),
                 new SkillTreeNode(SkillType.ENCHANTING_LIFE_STEAL, SkillType.MAGIC_ENCHANTING, null),
                 new SkillTreeNode(SkillType.ENCHANTING_PIERCING, SkillType.MAGIC_ENCHANTING, null)
         });
@@ -70,7 +70,7 @@ public class SkillTree extends SkillTreeParent {
         SkillTreeNode swordsNode = new SkillTreeNode(SkillType.MEELE_SWORDS, SkillType.MEELE, new SkillTreeNode[]{
                 new SkillTreeNode(SkillType.SWORDS_SHORTSWORD, SkillType.MEELE_SWORDS, null),
                 new SkillTreeNode(SkillType.SWORDS_DUAL_WIELDING, SkillType.MEELE_SWORDS, null),
-                new SkillTreeNode(SkillType.SWORDS_ZWEIHAENDER, SkillType.MEELE_SWORDS, null)
+                new SkillTreeNode(SkillType.SWORDS_ZWEIHANDER, SkillType.MEELE_SWORDS, null)
         });
 
         SkillTreeNode fisticuffsNode = new SkillTreeNode(SkillType.MEELE_FISTICUFFS, SkillType.MEELE, new SkillTreeNode[]{

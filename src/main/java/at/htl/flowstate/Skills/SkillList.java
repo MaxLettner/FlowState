@@ -34,7 +34,7 @@ public class SkillList {
                 new Skill("Stackable DMG over time, low mana cost", SkillType.ELEMENTAL_POISON_DARTS),
 
                 // Enchanting skills
-                new Skill("Fire Aspect enchantment", SkillType.ENCHANTING_FIRE_ASPECT),
+                new Skill("Enhances Speed", SkillType.ENCHANTING_SPEED),
                 new Skill("Steals health based on outputted DMG", SkillType.ENCHANTING_LIFE_STEAL),
                 new Skill("Adds pierce to projectiles", SkillType.ENCHANTING_PIERCING),
 
@@ -46,7 +46,7 @@ public class SkillList {
                 // Swords weapons
                 new Skill("Short range, medium DMG, medium speed", SkillType.SWORDS_SHORTSWORD),
                 new Skill("2 katanas, high speed, medium range, low dmg", SkillType.SWORDS_DUAL_WIELDING),
-                new Skill("Low atk speed, high attack dmg, high range", SkillType.SWORDS_ZWEIHAENDER),
+                new Skill("Low atk speed, high attack dmg, high range", SkillType.SWORDS_ZWEIHANDER),
 
                 // Fisticuffs weapons
                 new Skill("High speed, low damage, 10% crit", SkillType.FISTICUFFS_LEATHER),
