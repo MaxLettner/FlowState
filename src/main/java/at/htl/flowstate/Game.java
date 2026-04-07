@@ -95,7 +95,7 @@ public class Game extends GameApplication {
         }, KeyCode.I);
         getInput().addAction(new UserAction("Attack") {
             @Override protected void onActionBegin() {
-                player.getComponent(PlayerRouterComponent.class).doCurrentAction();
+                if(!skillTree.isOpen()) player.getComponent(PlayerRouterComponent.class).doCurrentAction();
             }
         }, MouseButton.PRIMARY);
 
@@ -143,8 +143,6 @@ public class Game extends GameApplication {
                 .with(new PlayerRouterComponent())
                 .collidable()
                 .buildAndAttach();
-
-        player.getComponent(PlayerRouterComponent.class).setCurrentSelection(SkillType.ENCHANTING_LIFE_STEAL);
 
         getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
 
