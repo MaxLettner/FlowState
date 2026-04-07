@@ -39,7 +39,10 @@ public class WeaponDamageComponent extends Component {
 
     private void hit(Entity e) {
         alreadyHit.add(e);
-        if(FXGLMath.random(0,100) <= critChance) {
+        boolean isCrit = FXGLMath.random(0,100) <= critChance;
+        if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == EnchantmentType.Crit) isCrit = FXGLMath.random(0,100) <= critChance * MagicSkillComponent.ENCHANTMENT_CRITCHANCE_MULT;
+
+        if(isCrit) {
             e.getComponent(HealthDoubleComponent.class).damage(damage * CRIT_MULT);
             if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == EnchantmentType.Lifesteal) {
                 player.getComponent(PlayerStatsComponent.class).heal(damage * CRIT_MULT * MagicSkillComponent.ENCHANTMENT_LIFESTEAL_RATE);

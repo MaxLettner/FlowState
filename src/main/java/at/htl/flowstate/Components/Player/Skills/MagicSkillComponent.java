@@ -25,6 +25,8 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 public class MagicSkillComponent extends SkillComponent {
     private static final double ENCHANTMENT_MANA_DRAIN_RATE = 2.0;
     public static final double ENCHANTMENT_LIFESTEAL_RATE = 0.05;
+    private static final double ENCHANTMENT_SPEED_MULT = 1.3;
+    public static final double ENCHANTMENT_CRITCHANCE_MULT = 2;
 
     private static final double ICON_X_OFFSET = 0.955;
     private static final double ICON_Y = 115;
@@ -73,7 +75,7 @@ public class MagicSkillComponent extends SkillComponent {
 
     @Override
     public void doSub3() { //Enchanting
-
+        activate(EnchantmentType.Crit);
     }
 
     //-----Skills of Arcane-----
@@ -195,7 +197,6 @@ public class MagicSkillComponent extends SkillComponent {
     @Override
     public void doSub3Skill1() { //Lifesteal
         activate(EnchantmentType.Lifesteal);
-        entity.getComponent(PlayerRouterComponent.class).setCurrentSelection("M13");
     }
 
     @Override
@@ -203,8 +204,8 @@ public class MagicSkillComponent extends SkillComponent {
         activate(EnchantmentType.Piercing);
     }
 
-    @Override public void doSub3Skill3() { //crit
-        activate(EnchantmentType.Crit);
+    @Override public void doSub3Skill3() { //speed
+        activate(EnchantmentType.Speed);
     }
 
     //-----Builder-----
@@ -308,5 +309,10 @@ public class MagicSkillComponent extends SkillComponent {
 
     public boolean isManaRegenEnabled() {
         return currentActiveEnchantment == null; //needs to be changed when levitation and manashield are added
+    }
+
+    public double getCurrentSpeedMult() {
+        if(currentActiveEnchantment == EnchantmentType.Speed) return ENCHANTMENT_SPEED_MULT;
+        return 1;
     }
 }

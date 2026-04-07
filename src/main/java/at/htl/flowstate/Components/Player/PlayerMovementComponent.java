@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components.Player;
 
+import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -10,7 +11,6 @@ import javafx.geometry.Point2D;
 import java.util.List;
 
 public class PlayerMovementComponent extends Component {
-
     private PhysicsComponent physics;
 
     private static final double JUMP_FORCE = 600.0;
@@ -117,7 +117,7 @@ public class PlayerMovementComponent extends Component {
     }
 
     private void move(int direction) {
-        double speed = (MAX_MOVE_SPEED / 100.0) * (START_MOVE_SPEED_PCT + ((100.0 - START_MOVE_SPEED_PCT) / 100.0) * (currentRunningFrames / MAX_SPEED_FRAMES) * 100.0);
+        double speed = (MAX_MOVE_SPEED * entity.getComponent(MagicSkillComponent.class).getCurrentSpeedMult() / 100.0) * (START_MOVE_SPEED_PCT + ((100.0 - START_MOVE_SPEED_PCT) / 100.0) * (currentRunningFrames / MAX_SPEED_FRAMES) * 100.0);
 
         if (isGrounded) {
             if (currentRunningFrames < MAX_SPEED_FRAMES) currentRunningFrames++;
