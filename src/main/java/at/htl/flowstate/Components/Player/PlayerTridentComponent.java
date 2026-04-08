@@ -2,30 +2,35 @@ package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
+import at.htl.flowstate.Components.Player.Skills.RangedSkillComponent;
 import at.htl.flowstate.Game;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.sun.security.jgss.GSSUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TridentComponent extends Component {
-    private static final double DAMAGE = 25;
+public class PlayerTridentComponent extends Component {
     private final Entity player;
+    private final double damage;
+
+    private final List<Entity> alreadyHit;
 
     private boolean isOnGround;
 
-    public TridentComponent() {
+    public PlayerTridentComponent(double damage) {
+        this.damage = damage;
         player = Game.getPlayer();
         isOnGround = false;
+        alreadyHit = new ArrayList<>();
     }
 
     @Override
     public void onRemoved() {
-        player.getComponent(PlayerStatsComponent.class).addAttackWeight(10);
+        player.getComponent(RangedSkillComponent.class).addAttackWeight(10);
     }
 
     @Override
@@ -44,7 +49,10 @@ public class TridentComponent extends Component {
             if(entity.isColliding(player)) entity.removeFromWorld();
         }else {
             getEnemies().forEach(e -> {
-                hitEnemy(e);
+                if(e.isColliding(entity) && ! alreadyHit.contains(e)) {
+                    alreadyHit.add(e);
+                    hitEnemy(e);
+                }
             });
         }
     }
@@ -55,7 +63,7 @@ public class TridentComponent extends Component {
     }
 
     protected void hitEnemy(Entity e) {
-        e.getComponent(HealthDoubleComponent.class).damage(DAMAGE);
+        e.getComponent(HealthDoubleComponent.class).damage(damage);
     }
 
     private List<Entity> getEnemies() {

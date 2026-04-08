@@ -1,18 +1,19 @@
 package at.htl.flowstate.Components.Player.Skills;
 
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
-import at.htl.flowstate.Components.Player.TridentComponent;
+import at.htl.flowstate.Components.Player.PlayerTridentComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
-import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class RangedSkillComponent extends SkillComponent{
+    private int attackWeight = 10;
+    private static final int MAX_ATTACK_WEIGHT = 10;
+
     @Override
     public void doDefault() { //Basic Bow
 
@@ -30,7 +31,17 @@ public class RangedSkillComponent extends SkillComponent{
 
     @Override
     public void doSub3() { //Trident
-        tridentBuilder(300, new TridentComponent());
+        tridentBuilder(
+                "BasicTrident.png",
+                100,
+                0,
+                0,
+                0,
+                50,
+                20,
+                300,
+                new PlayerTridentComponent(25)
+        );
     }
 
     //-----Arcane-----
@@ -81,16 +92,28 @@ public class RangedSkillComponent extends SkillComponent{
 
     }
 
-    private void tridentBuilder(double speed, TridentComponent tridentComponent) {
-        if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
+    private void tridentBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double projSpeed, PlayerTridentComponent tridentComponent) {
+        if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .at(entity.getCenter())
-                    .viewWithBBox(new Rectangle(50, 20, Color.HOTPINK))
+                    .viewWithBBox(new Rectangle(projWidth, projHeight, Color.HOTPINK))
                     .zIndex(-1)
-                    .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), speed))
+                    .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
                     .with(new OffscreenCleanComponent())
                     .with(tridentComponent)
                     .buildAndAttach();
         }
+    }
+
+    //-----Attack Checkers-----
+    public void addAttackWeight(int v) {
+        attackWeight += v;
+        if(attackWeight > MAX_ATTACK_WEIGHT) attackWeight = MAX_ATTACK_WEIGHT;
+    }
+
+    public boolean takeAttackWeight(int v) {
+        if(attackWeight - v < 0) return false;
+        attackWeight -= v;
+        return true;
     }
 }
