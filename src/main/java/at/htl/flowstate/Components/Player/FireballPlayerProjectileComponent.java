@@ -32,7 +32,7 @@ public class FireballPlayerProjectileComponent extends PlayerProjectileComponent
         entityBuilder()
                 .at(entity.getCenter())
                 .viewWithBBox(new Circle(1, Paint.valueOf("#835142")))
-                .with(new PlayerBlastComponent(blastDamage, blastRadius, blastDuration))
+                .with(new FireballBlastComponent(blastDamage, blastRadius, blastDuration, 2))
                 .zIndex(5)
                 .buildAndAttach();
     }

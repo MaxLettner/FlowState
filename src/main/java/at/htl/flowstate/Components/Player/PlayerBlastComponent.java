@@ -2,32 +2,25 @@ package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerBlastComponent extends Component {
-    private final double blastDamage;
+public abstract class PlayerBlastComponent extends Component {
     private final double blastRadius;
     private final double blastDuration;
 
     private static final double FADEOUT_TIME = 2;
-    private double fadeoutTimer;
+    private double fadeoutTime;
 
     private final List<Entity> alreadyHit = new ArrayList<>();
 
-    public PlayerBlastComponent(double blastDamage, double blastRadius, double blastDuration) {
-        this.blastDamage = blastDamage;
+    public PlayerBlastComponent(double blastRadius, double blastDuration, double fadeoutTime) {
+        this.fadeoutTime = fadeoutTime;
         this.blastRadius = blastRadius;
         this.blastDuration = blastDuration;
-    }
-
-    @Override
-    public void onAdded() {
-        fadeoutTimer = FADEOUT_TIME;
     }
 
     @Override
@@ -40,10 +33,12 @@ public class PlayerBlastComponent extends Component {
         }
     }
 
+    protected abstract void hitEnemy(Entity e);
+
     private void checkHit() {
         getEnemies().forEach(e -> {
             if(entity.isColliding(e) && !alreadyHit.contains(e)) {
-                e.getComponent(HealthDoubleComponent.class).damage(blastDamage);
+                hitEnemy(e);
                 alreadyHit.add(e);
             }
         });
@@ -59,10 +54,10 @@ public class PlayerBlastComponent extends Component {
     }
 
     private void fadeout(double tpf) {
-        fadeoutTimer -= tpf;
-        entity.setOpacity(fadeoutTimer/FADEOUT_TIME);
+        fadeoutTime -= tpf;
+        entity.setOpacity(fadeoutTime /FADEOUT_TIME);
 
-        if(fadeoutTimer <= 0) entity.removeFromWorld();
+        if(fadeoutTime <= 0) entity.removeFromWorld();
     }
 
     private List<Entity> getEnemies() {
