@@ -17,6 +17,14 @@ import java.net.URL;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
 public class MeeleSkillComponent extends SkillComponent {
+    //value to determine whether the player can attack;
+    //different weapons use different values;
+    //eg swords use 10 because only one at a time
+    //fisticuffs use 5 because 2 at a time
+    //value gets subtracted in respective SkillComponent and added back by the animation ending
+    private int attackWeight = 10;
+    private static final int MAX_ATTACK_WEIGHT = 10;
+
     public MeeleSkillComponent() {}
 
     //-----Start Weapon-----
@@ -40,7 +48,7 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Default Meele Skill-----
     @Override
     public void doDefault () {
-        if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
+        if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
                     .with(new WeaponDamageComponent(entity, 5, 0, 0))
@@ -53,7 +61,7 @@ public class MeeleSkillComponent extends SkillComponent {
     //-----Skills of the Subtrees-----
     @Override
     public void doSub1() { // basic sword
-        if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(10)) {
+        if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
                     .with(new WeaponDamageComponent(entity, 10, 0, 0))
@@ -215,7 +223,7 @@ public class MeeleSkillComponent extends SkillComponent {
     }
 
     private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, double stunDuration, double critChance, boolean debug) {
-        if(entity.getComponent(PlayerStatsComponent.class).takeAttackWeight(attackWeight)) {
+        if(this.takeAttackWeight(attackWeight)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
             assert url != null;
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
@@ -244,5 +252,17 @@ public class MeeleSkillComponent extends SkillComponent {
         }
 
 
+    }
+
+    //-----Attack Checkers-----
+    public void addAttackWeight(int v) {
+        attackWeight += v;
+        if(attackWeight > MAX_ATTACK_WEIGHT) attackWeight = MAX_ATTACK_WEIGHT;
+    }
+
+    public boolean takeAttackWeight(int v) {
+        if(attackWeight - v < 0) return false;
+        attackWeight -= v;
+        return true;
     }
 }
