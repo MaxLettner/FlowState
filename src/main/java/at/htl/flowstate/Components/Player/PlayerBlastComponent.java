@@ -12,7 +12,7 @@ public abstract class PlayerBlastComponent extends Component {
     private final double blastRadius;
     private final double blastDuration;
 
-    private static final double FADEOUT_TIME = 2;
+    private final double maxFadeoutTime;
     private double fadeoutTime;
 
     private final List<Entity> alreadyHit = new ArrayList<>();
@@ -21,6 +21,7 @@ public abstract class PlayerBlastComponent extends Component {
         this.fadeoutTime = fadeoutTime;
         this.blastRadius = blastRadius;
         this.blastDuration = blastDuration;
+        maxFadeoutTime = fadeoutTime;
     }
 
     @Override
@@ -55,7 +56,7 @@ public abstract class PlayerBlastComponent extends Component {
 
     private void fadeout(double tpf) {
         fadeoutTime -= tpf;
-        entity.setOpacity(fadeoutTime /FADEOUT_TIME);
+        entity.setOpacity(fadeoutTime /maxFadeoutTime);
 
         if(fadeoutTime <= 0) entity.removeFromWorld();
     }

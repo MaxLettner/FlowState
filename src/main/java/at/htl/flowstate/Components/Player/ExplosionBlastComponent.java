@@ -3,10 +3,10 @@ package at.htl.flowstate.Components.Player;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 
-public class FireballBlastComponent extends PlayerBlastComponent{
+public class ExplosionBlastComponent extends PlayerBlastComponent{
     private final double damage;
 
-    public FireballBlastComponent(double damage, double blastRadius, double duration, double fadeoutTime) {
+    public ExplosionBlastComponent(double damage, double blastRadius, double duration, double fadeoutTime) {
         this.damage = damage;
         super(blastRadius, duration, fadeoutTime);
     }

@@ -93,7 +93,7 @@ public class RangedSkillComponent extends SkillComponent{
                 50,
                 20,
                 700,
-                new PlayerIceTridentComponent(25, 0.8)
+                new PlayerIceTridentComponent(25, 0.8, 200, 0.1, 0.2)
         );
     }
 

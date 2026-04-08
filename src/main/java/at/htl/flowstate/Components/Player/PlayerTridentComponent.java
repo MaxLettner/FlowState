@@ -19,7 +19,7 @@ public class PlayerTridentComponent extends Component {
 
     private final List<Entity> alreadyHit;
 
-    private boolean isOnGround;
+    protected boolean isOnGround;
 
     public PlayerTridentComponent(double damage) {
         this.damage = damage;
@@ -39,12 +39,6 @@ public class PlayerTridentComponent extends Component {
     }
 
     private void checkHit() {
-        getPlatforms().forEach(e -> {
-            if(entity.isColliding(e)) {
-                hitGround();
-            }
-        });
-
         if(isOnGround) {
             if(entity.isColliding(player)) entity.removeFromWorld();
         }else {
@@ -52,6 +46,12 @@ public class PlayerTridentComponent extends Component {
                 if(e.isColliding(entity) && ! alreadyHit.contains(e)) {
                     alreadyHit.add(e);
                     hitEnemy(e);
+                }
+            });
+
+            getPlatforms().forEach(e -> {
+                if(entity.isColliding(e)) {
+                    hitGround();
                 }
             });
         }
