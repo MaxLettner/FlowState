@@ -1,7 +1,7 @@
 package at.htl.flowstate.Components.Player.Skills;
 
-import at.htl.flowstate.Components.Player.PlayerIceTridentComponent;
-import at.htl.flowstate.Components.Player.PlayerTridentComponent;
+import at.htl.flowstate.Components.Player.IceTridentComponent;
+import at.htl.flowstate.Components.Player.TridentComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import javafx.scene.paint.Color;
@@ -40,7 +40,7 @@ public class RangedSkillComponent extends SkillComponent{
                 50,
                 20,
                 700,
-                new PlayerTridentComponent(25)
+                new TridentComponent(25)
         );
     }
 
@@ -93,7 +93,7 @@ public class RangedSkillComponent extends SkillComponent{
                 50,
                 20,
                 700,
-                new PlayerIceTridentComponent(25, 0.8, 200, 0.1, 0.2)
+                new IceTridentComponent(25, 0.8, 200, 0.1, 0.2)
         );
     }
 
@@ -102,7 +102,7 @@ public class RangedSkillComponent extends SkillComponent{
 
     }
 
-    private void tridentBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double projSpeed, PlayerTridentComponent tridentComponent) {
+    private void tridentBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double projSpeed, TridentComponent tridentComponent) {
         if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .at(entity.getCenter())

@@ -108,7 +108,7 @@ public class MagicSkillComponent extends SkillComponent {
                 30,
                 500,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new FireballPlayerProjectileComponent(30, 20, 200, 0.5, 2),
+                new FireballProjectileComponent(30, 20, 200, 0.5, 2),
                 false
         );
     }
@@ -126,7 +126,7 @@ public class MagicSkillComponent extends SkillComponent {
                 15,
                 1000,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new IceciclePlayerProjectileComponent(20, 5),
+                new IcecicleProjectileComponent(20, 5),
                 false
         );
     }
@@ -158,7 +158,7 @@ public class MagicSkillComponent extends SkillComponent {
                 0,
                 800,
                 dir,
-                new PoisonDartPlayerProjectileComponent(10),
+                new PoisonDartProjectileComponent(10),
                 false
         );
 
@@ -173,7 +173,7 @@ public class MagicSkillComponent extends SkillComponent {
                 0,
                 800,
                 topDir,
-                new PoisonDartPlayerProjectileComponent(10),
+                new PoisonDartProjectileComponent(10),
                 false
         );
 
@@ -188,7 +188,7 @@ public class MagicSkillComponent extends SkillComponent {
                 0,
                 800,
                 bottomDir,
-                new PoisonDartPlayerProjectileComponent(10),
+                new PoisonDartProjectileComponent(10),
                 false
         );
     }

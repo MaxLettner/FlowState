@@ -8,7 +8,7 @@ import com.almasb.fxgl.entity.component.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PlayerBlastComponent extends Component {
+public abstract class BlastComponent extends Component {
     private final double blastRadius;
     private final double blastDuration;
 
@@ -17,7 +17,7 @@ public abstract class PlayerBlastComponent extends Component {
 
     private final List<Entity> alreadyHit = new ArrayList<>();
 
-    public PlayerBlastComponent(double blastRadius, double blastDuration, double fadeoutTime) {
+    public BlastComponent(double blastRadius, double blastDuration, double fadeoutTime) {
         this.fadeoutTime = fadeoutTime;
         this.blastRadius = blastRadius;
         this.blastDuration = blastDuration;

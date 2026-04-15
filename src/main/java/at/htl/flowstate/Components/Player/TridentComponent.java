@@ -13,7 +13,7 @@ import com.almasb.fxgl.entity.component.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerTridentComponent extends Component {
+public class TridentComponent extends Component {
     private final Entity player;
     private final double damage;
 
@@ -21,7 +21,7 @@ public class PlayerTridentComponent extends Component {
 
     protected boolean isOnGround;
 
-    public PlayerTridentComponent(double damage) {
+    public TridentComponent(double damage) {
         this.damage = damage;
         player = Game.getPlayer();
         isOnGround = false;

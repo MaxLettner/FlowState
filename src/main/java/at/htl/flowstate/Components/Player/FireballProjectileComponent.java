@@ -6,13 +6,13 @@ import javafx.scene.shape.Circle;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
-public class FireballPlayerProjectileComponent extends PlayerProjectileComponent{
+public class FireballProjectileComponent extends PlayerProjectileComponent{
     private final double blastDamage;
     private final double blastRadius;
     private final double blastDuration;
     private final double blastFadeoutTime;
 
-    public FireballPlayerProjectileComponent(double projectileDamage, double blastDamage, double blastRadius, double blastDuration, double blastFadeoutTime) {
+    public FireballProjectileComponent(double projectileDamage, double blastDamage, double blastRadius, double blastDuration, double blastFadeoutTime) {
         super(projectileDamage, 1);
         this.blastDamage = blastDamage;
         this.blastRadius = blastRadius;

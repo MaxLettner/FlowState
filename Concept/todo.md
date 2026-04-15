@@ -14,4 +14,4 @@ basic elemental
 piercing
 ~~crit?~~
 tridents
-attackweight is class specific
+~~attackweight is class specific~~
