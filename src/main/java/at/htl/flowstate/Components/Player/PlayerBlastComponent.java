@@ -24,6 +24,15 @@ public abstract class PlayerBlastComponent extends Component {
         maxFadeoutTime = fadeoutTime;
     }
 
+    private double originX;
+    private double originY;
+
+    @Override
+    public void onAdded() {
+        originX = entity.getCenter().getX();
+        originY = entity.getCenter().getY();
+    }
+
     @Override
     public void onUpdate(double tpf) {
         if(entity.getScaleY() < blastRadius) {
@@ -37,8 +46,14 @@ public abstract class PlayerBlastComponent extends Component {
     protected abstract void hitEnemy(Entity e);
 
     private void checkHit() {
+        double radius = entity.getScaleX();
+
         getEnemies().forEach(e -> {
-            if(entity.isColliding(e) && !alreadyHit.contains(e)) {
+            double ex = e.getCenter().getX();
+            double ey = e.getCenter().getY();
+            double dist = Math.hypot(originX - ex, originY - ey);
+
+            if (dist <= radius && !alreadyHit.contains(e)) {
                 hitEnemy(e);
                 alreadyHit.add(e);
             }
