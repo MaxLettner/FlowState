@@ -115,7 +115,7 @@ public class Game extends GameApplication {
 
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameWorld().addEntityFactory(new EnemyFactory());
-        getGameScene().setBackgroundColor(Color.LIGHTBLUE);
+        getGameScene().setBackgroundColor(Color.WHITESMOKE);
         //URL url = MeeleSkillComponent.class.getResource("/assets/textures/bg1.jpg");
         //Image img = new Image(url.toExternalForm(), 2150, 1200, false, true);
         //getGameScene().setBackgroundRepeat(img);

@@ -2,6 +2,7 @@ package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
 import com.almasb.fxgl.entity.Entity;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -37,7 +38,7 @@ public class IceTridentComponent extends TridentComponent {
     private void createBlast() {
         entityBuilder()
                 .at(entity.getCenter())
-                .viewWithBBox(new Circle(1, Color.BLUE))
+                .viewWithBBox(new Circle(1, Color.LIGHTBLUE))
                 .with(new IceBlastComponent(freezeDuration, blastRadius, blastDuration, blastFadeoutTime))
                 .zIndex(5)
                 .buildAndAttach();
