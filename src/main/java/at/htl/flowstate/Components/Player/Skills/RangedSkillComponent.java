@@ -1,5 +1,6 @@
 package at.htl.flowstate.Components.Player.Skills;
 
+import at.htl.flowstate.Components.Player.HeavyTridentComponent;
 import at.htl.flowstate.Components.Player.IceTridentComponent;
 import at.htl.flowstate.Components.Player.TridentComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
@@ -45,7 +46,7 @@ public class RangedSkillComponent extends SkillComponent{
                 45,
                 30,
                 30,
-                1100,
+                1300,
                 new TridentComponent(25),
                 true
         );
@@ -99,7 +100,7 @@ public class RangedSkillComponent extends SkillComponent{
                 45,
                 10,
                 30,
-                1100,
+                1300,
                 new IceTridentComponent(25, 0.8, 200, 0.1, 0.2),
                 false
         );
@@ -109,15 +110,15 @@ public class RangedSkillComponent extends SkillComponent{
     public void doSub3Skill3() { //Heavy Trident
         tridentBuilder(
                 "HeavyTrident.png",
-                130,
-                -80,
-                -50,
+                160,
+                -100,
+                -64,
                 45,
                 30,
                 30,
-                1100,
-                new TridentComponent(25),
-                true
+                1300,
+                new HeavyTridentComponent(45),
+                false
         );
     }
 

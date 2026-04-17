@@ -15,3 +15,15 @@ piercing
 ~~crit?~~
 tridents
 ~~attackweight is class specific~~
+
+
+###johni
+fix basic not selectable
+####textures
++ magic missile
++ default arcane
++ default elemental
++ bg
++ player
++ enemy
++ 
