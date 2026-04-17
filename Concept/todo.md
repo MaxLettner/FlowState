@@ -26,4 +26,3 @@ fix basic not selectable
 + bg
 + player
 + enemy
-+ 

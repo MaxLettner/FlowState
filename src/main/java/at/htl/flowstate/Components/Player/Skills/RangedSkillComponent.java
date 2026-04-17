@@ -1,16 +1,16 @@
 package at.htl.flowstate.Components.Player.Skills;
 
-import at.htl.flowstate.Components.Player.HeavyTridentComponent;
-import at.htl.flowstate.Components.Player.IceTridentComponent;
-import at.htl.flowstate.Components.Player.TridentComponent;
+import at.htl.flowstate.Components.Player.*;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
+import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 
@@ -48,6 +48,7 @@ public class RangedSkillComponent extends SkillComponent{
                 30,
                 1300,
                 new TridentComponent(25),
+                null,
                 true
         );
     }
@@ -87,7 +88,19 @@ public class RangedSkillComponent extends SkillComponent{
     //-----Enchanting----
     @Override
     public void doSub3Skill1() { //Recall Trident
-
+        tridentBuilder(
+                "RecallTrident.png",
+                250,
+                -160,
+                -110,
+                45,
+                30,
+                30,
+                1300,
+                new RecallTridentComponent(25),
+                new HomingProjectileComponent(entity, 600, 200),
+                false
+        );
     }
 
     @Override
@@ -102,6 +115,7 @@ public class RangedSkillComponent extends SkillComponent{
                 30,
                 1300,
                 new IceTridentComponent(25, 0.8, 200, 0.1, 0.2),
+                null,
                 false
         );
     }
@@ -118,11 +132,12 @@ public class RangedSkillComponent extends SkillComponent{
                 30,
                 1300,
                 new HeavyTridentComponent(45),
+                null,
                 false
         );
     }
 
-    private void tridentBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double projSpeed, TridentComponent tridentComponent, boolean debug) {
+    private void tridentBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double projSpeed, TridentComponent tridentComponent, @Nullable Component optionalComponent, boolean debug) {
         if(this.takeAttackWeight(10)) {
             URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
@@ -130,27 +145,54 @@ public class RangedSkillComponent extends SkillComponent{
             texture.setTranslateX(textureOffsetX);
             texture.setTranslateY(textureOffsetY);
 
-            if(debug) {
-                entityBuilder()
-                        .at(entity.getCenter())
-                        .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
-                        .view(new Rectangle(projWidth, projHeight))
-                        .view(texture)
-                        .zIndex(-1)
-                        .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
-                        .with(new OffscreenCleanComponent())
-                        .with(tridentComponent)
-                        .buildAndAttach();
+            if(optionalComponent == null) {
+                if(debug) {
+                    entityBuilder()
+                            .at(entity.getCenter())
+                            .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
+                            .view(new Rectangle(projWidth, projHeight))
+                            .view(texture)
+                            .zIndex(-1)
+                            .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                            .with(new OffscreenCleanComponent())
+                            .with(tridentComponent)
+                            .buildAndAttach();
+                }else {
+                    entityBuilder()
+                            .at(entity.getCenter())
+                            .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
+                            .view(texture)
+                            .zIndex(-1)
+                            .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                            .with(new OffscreenCleanComponent())
+                            .with(tridentComponent)
+                            .buildAndAttach();
+                }
             }else {
-                entityBuilder()
-                        .at(entity.getCenter())
-                        .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
-                        .view(texture)
-                        .zIndex(-1)
-                        .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
-                        .with(new OffscreenCleanComponent())
-                        .with(tridentComponent)
-                        .buildAndAttach();
+                if(debug) {
+                    entityBuilder()
+                            .at(entity.getCenter())
+                            .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
+                            .view(new Rectangle(projWidth, projHeight))
+                            .view(texture)
+                            .zIndex(-1)
+                            .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                            .with(optionalComponent)
+                            .with(new OffscreenCleanComponent())
+                            .with(tridentComponent)
+                            .buildAndAttach();
+                }else {
+                    entityBuilder()
+                            .at(entity.getCenter())
+                            .bbox(new HitBox(BoundingShape.box(projWidth, projHeight)))
+                            .view(texture)
+                            .zIndex(-1)
+                            .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), projSpeed))
+                            .with(optionalComponent)
+                            .with(new OffscreenCleanComponent())
+                            .with(tridentComponent)
+                            .buildAndAttach();
+                }
             }
         }
     }
