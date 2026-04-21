@@ -1,5 +1,6 @@
-package at.htl.flowstate.Components.Player;
+package at.htl.flowstate.Components.Player.MagicProjectiles;
 
+import at.htl.flowstate.Components.Player.Blasts.ExplosionBlastComponent;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;

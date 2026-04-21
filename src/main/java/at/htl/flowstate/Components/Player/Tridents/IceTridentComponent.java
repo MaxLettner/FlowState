@@ -1,8 +1,8 @@
-package at.htl.flowstate.Components.Player;
+package at.htl.flowstate.Components.Player.Tridents;
 
 import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
+import at.htl.flowstate.Components.Player.Blasts.IceBlastComponent;
 import com.almasb.fxgl.entity.Entity;
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 

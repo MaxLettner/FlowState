@@ -1,6 +1,10 @@
 package at.htl.flowstate.Components.Player.Skills;
 
-import at.htl.flowstate.Components.Player.*;
+import at.htl.flowstate.Components.Player.Helpers.HomingProjectileComponent;
+import at.htl.flowstate.Components.Player.Tridents.HeavyTridentComponent;
+import at.htl.flowstate.Components.Player.Tridents.IceTridentComponent;
+import at.htl.flowstate.Components.Player.Tridents.RecallTridentComponent;
+import at.htl.flowstate.Components.Player.Tridents.TridentComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.component.Component;

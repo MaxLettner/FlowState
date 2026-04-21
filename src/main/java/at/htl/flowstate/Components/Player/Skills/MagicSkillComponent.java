@@ -1,6 +1,10 @@
 package at.htl.flowstate.Components.Player.Skills;
 
 import at.htl.flowstate.Components.Player.*;
+import at.htl.flowstate.Components.Player.MagicProjectiles.FireballProjectileComponent;
+import at.htl.flowstate.Components.Player.MagicProjectiles.IcecicleProjectileComponent;
+import at.htl.flowstate.Components.Player.MagicProjectiles.PlayerProjectileComponent;
+import at.htl.flowstate.Components.Player.MagicProjectiles.PoisonDartProjectileComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;

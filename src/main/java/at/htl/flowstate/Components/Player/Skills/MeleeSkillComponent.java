@@ -1,8 +1,8 @@
 package at.htl.flowstate.Components.Player.Skills;
 
 
-import at.htl.flowstate.Components.Player.AttackAnimations.SwordAnimationComponent;
-import at.htl.flowstate.Components.Player.WeaponDamageComponent;
+import at.htl.flowstate.Components.Player.Melee.AttackAnimations.SwordAnimationComponent;
+import at.htl.flowstate.Components.Player.Melee.WeaponDamageComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;

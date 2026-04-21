@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components.Player;
+package at.htl.flowstate.Components.Player.Tridents;
 
 public class HeavyTridentComponent extends TridentComponent {
 

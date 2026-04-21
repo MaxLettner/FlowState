@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components.Player;
+package at.htl.flowstate.Components.Player.Blasts;
 
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;

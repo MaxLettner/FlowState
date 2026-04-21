@@ -18,12 +18,22 @@ module at.htl.flowstate {
     opens at.htl.flowstate.Generation to com.almasb.fxgl.core;
     exports at.htl.flowstate.Components.Identifier;
     opens at.htl.flowstate.Components.Identifier to com.almasb.fxgl.core;
-    exports at.htl.flowstate.Components.Player.AttackAnimations;
-    opens at.htl.flowstate.Components.Player.AttackAnimations to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.Melee.AttackAnimations;
+    opens at.htl.flowstate.Components.Player.Melee.AttackAnimations to com.almasb.fxgl.core;
     exports at.htl.flowstate.Components.Enemies;
     opens at.htl.flowstate.Components.Enemies to com.almasb.fxgl.core;
     exports at.htl.flowstate.Components.Player;
     opens at.htl.flowstate.Components.Player to com.almasb.fxgl.core;
     exports at.htl.flowstate.Components.Player.Skills;
     opens at.htl.flowstate.Components.Player.Skills to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.Blasts;
+    opens at.htl.flowstate.Components.Player.Blasts to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.Tridents;
+    opens at.htl.flowstate.Components.Player.Tridents to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.MagicProjectiles;
+    opens at.htl.flowstate.Components.Player.MagicProjectiles to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.Melee;
+    opens at.htl.flowstate.Components.Player.Melee to com.almasb.fxgl.core;
+    exports at.htl.flowstate.Components.Player.Helpers;
+    opens at.htl.flowstate.Components.Player.Helpers to com.almasb.fxgl.core;
 }

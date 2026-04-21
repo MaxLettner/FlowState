@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components.Player.AttackAnimations;
+package at.htl.flowstate.Components.Player.Melee.AttackAnimations;
 
 import com.almasb.fxgl.entity.Entity;
 import javafx.geometry.Point2D;

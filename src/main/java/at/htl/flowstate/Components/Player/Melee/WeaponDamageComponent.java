@@ -1,7 +1,8 @@
-package at.htl.flowstate.Components.Player;
+package at.htl.flowstate.Components.Player.Melee;
 
 import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.Skills.EnchantmentType;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
 import com.almasb.fxgl.core.math.FXGLMath;

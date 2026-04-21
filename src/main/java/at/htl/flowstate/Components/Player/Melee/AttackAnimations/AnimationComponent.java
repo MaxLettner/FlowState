@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components.Player.AttackAnimations;
+package at.htl.flowstate.Components.Player.Melee.AttackAnimations;
 
 import at.htl.flowstate.Components.Player.PlayerMovementComponent;
 import at.htl.flowstate.Components.Player.Skills.MeleeSkillComponent;

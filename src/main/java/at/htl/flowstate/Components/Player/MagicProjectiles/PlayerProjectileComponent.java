@@ -1,4 +1,4 @@
-package at.htl.flowstate.Components.Player;
+package at.htl.flowstate.Components.Player.MagicProjectiles;
 
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
