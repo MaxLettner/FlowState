@@ -3,7 +3,7 @@
 knockback
 fix poison
 ~~crit~~
-fix melee grammar
+~~fix melee grammar~~
 basic melee weapon
 basic sword
 magic missile
@@ -19,7 +19,7 @@ tridents
 ~~attackweight is class specific~~
 
 
-###johni
+# John
 fix basic not selectable
 ####textures
 + magic missile
@@ -28,20 +28,9 @@ fix basic not selectable
 + bg
 + player
 + enemy
-+ knueppel
-+ speer (enemy)
++ ~~knueppel~~
++ ~~speer (enemy)~~
 
 
-
-# Jon
-Player
-Enemy
-Magic missile
-Default arcane
-default elemental
-Background
-Chest
-~~Spear (for enemy)~~
-~~knuppel~~
 
 
