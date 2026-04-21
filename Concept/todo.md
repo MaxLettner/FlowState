@@ -1,3 +1,5 @@
+# Max
+
 knockback
 fix poison
 ~~crit~~
@@ -13,3 +15,18 @@ basic elemental
 ~~lifesteal~~
 piercing
 ~~crit?~~
+
+
+
+# Jon
+Player
+Enemy
+Magic missile
+Default arcane
+default elemental
+Background
+Chest
+~~Spear (for enemy)~~
+~~knuppel~~
+
+
