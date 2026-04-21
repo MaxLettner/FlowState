@@ -1,2 +1,2 @@
 Normal Trident doesnt come back
-Works meele and ranged
+Works melee and ranged

@@ -137,7 +137,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Skilltree/Meele/Meele.md",
+                "file": "Skilltree/Melee/Melee.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -147,7 +147,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Meele"
+              "title": "Backlinks for Melee"
             }
           },
           {
@@ -156,12 +156,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Skilltree/Meele/Meele.md",
+                "file": "Skilltree/Melee/Melee.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Meele"
+              "title": "Outgoing links from Melee"
             }
           },
           {
@@ -199,13 +199,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Skilltree/Meele/Meele.md",
+                "file": "Skilltree/Melee/Melee.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Meele"
+              "title": "Outline of Melee"
             }
           }
         ]
@@ -236,30 +236,30 @@
     "Skilltree/Magic/Enchanting/Life Steal.md",
     "Skilltree/Magic/Elemental/Poison Darts.md",
     "Skilltree/Magic/Enchanting/Fire Aspect.md",
-    "Skilltree/Meele/Blunt/Weopons/Hammer.md",
+    "Skilltree/Melee/Blunt/Weopons/Hammer.md",
     "Skilltree/Ranged/Crossbow/Crossbow.md",
     "Skilltree/Ranged/Crossbow/Poison Crossbow.md",
     "Skilltree/Ranged/Crossbow/Dual Crossbow.md",
     "Skilltree/Ranged/Bow/War-Bow.md",
     "Skilltree/Ranged/Trident/Heavy Trident.md",
     "Skilltree/Ranged/Trident/Ice Trident.md",
-    "Skilltree/Meele/Meele.md",
+    "Skilltree/Melee/Melee.md",
     "Skilltree/Magic/Magic.md",
     "SkillTree.md",
     "Skilltree/Magic/Enchanting/Enchanting.md",
     "Skilltree/Magic/Elemental/Elemental.md",
     "Skilltree/Magic/Arcane/Arcane.md",
-    "Skilltree/Meele/Spear/Spear.md",
-    "Skilltree/Meele/Two Handed/Two Handed.md",
-    "Skilltree/Meele/One Handed/One Handed.md",
+    "Skilltree/Melee/Spear/Spear.md",
+    "Skilltree/Melee/Two Handed/Two Handed.md",
+    "Skilltree/Melee/One Handed/One Handed.md",
     "Skilltree/Ranged/Bow/Bow.md",
     "Skilltree/Ranged/Trident/Trident.md",
     "Skilltree/Ranged/Trident",
     "Skilltree/Ranged/Crossbow",
     "Skilltree/Ranged/Bow",
-    "Skilltree/Meele/Spear/Weopons",
-    "Skilltree/Meele/Spear/Skills",
-    "Skilltree/Meele/Spear",
+    "Skilltree/Melee/Spear/Weopons",
+    "Skilltree/Melee/Spear/Skills",
+    "Skilltree/Melee/Spear",
     "Skilltree/Ranged",
     "Skilltree/Magic/Enchanting",
     "Skilltree/Magic/Arcane"

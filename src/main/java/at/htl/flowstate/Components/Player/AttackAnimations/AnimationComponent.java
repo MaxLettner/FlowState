@@ -1,8 +1,7 @@
 package at.htl.flowstate.Components.Player.AttackAnimations;
 
 import at.htl.flowstate.Components.Player.PlayerMovementComponent;
-import at.htl.flowstate.Components.Player.PlayerStatsComponent;
-import at.htl.flowstate.Components.Player.Skills.MeeleSkillComponent;
+import at.htl.flowstate.Components.Player.Skills.MeleeSkillComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 
@@ -17,7 +16,7 @@ public abstract class AnimationComponent extends Component {
 
     protected void endAnimation() { //needs to be called from the childs to properly exit the animation and reset the attack cooldown
         entity.removeFromWorld();
-        player.getComponent(MeeleSkillComponent.class).addAttackWeight(attackWeight);
+        player.getComponent(MeleeSkillComponent.class).addAttackWeight(attackWeight);
     }
 
     protected int getCurrentWatchDirection() {

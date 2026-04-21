@@ -18,7 +18,7 @@ public class SkillList {
 
                 // Top level
                 new Skill("Magic skill tree", SkillType.MAGIC),
-                new Skill("Meele skill tree", SkillType.MEELE),
+                new Skill("Melee skill tree", SkillType.MELEE),
                 new Skill("Ranged skill tree", SkillType.RANGED),
 
                 // Magic sub-trees
@@ -41,10 +41,10 @@ public class SkillList {
                 new Skill("Steals health based on outputted DMG", SkillType.ENCHANTING_LIFE_STEAL),
                 new Skill("Adds pierce to projectiles", SkillType.ENCHANTING_PIERCING),
 
-                // Meele sub-trees
-                new Skill("Swords skill tree", SkillType.MEELE_SWORDS),
-                new Skill("Fisticuffs skill tree", SkillType.MEELE_FISTICUFFS),
-                new Skill("Blunt skill tree", SkillType.MEELE_BLUNT),
+                // Melee sub-trees
+                new Skill("Swords skill tree", SkillType.MELEE_SWORDS),
+                new Skill("Fisticuffs skill tree", SkillType.MELEE_FISTICUFFS),
+                new Skill("Blunt skill tree", SkillType.MELEE_BLUNT),
 
                 // Swords weapons
                 new Skill("Short range, medium DMG, medium speed", SkillType.SWORDS_SHORTSWORD),
@@ -78,7 +78,7 @@ public class SkillList {
 
                 // Trident weapons
                 new Skill("Flies straight, infinite pierce, high damage", SkillType.TRIDENT_HEAVY_TRIDENT),
-                new Skill("Freezes enemies with AOE, slows on meele hit", SkillType.TRIDENT_ICE_TRIDENT),
+                new Skill("Freezes enemies with AOE, slows on melee hit", SkillType.TRIDENT_ICE_TRIDENT),
                 new Skill("Medium range/close damage, no pierce, comes back", SkillType.TRIDENT_RECALL_TRIDENT),
 
         };

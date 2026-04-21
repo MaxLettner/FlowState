@@ -8,7 +8,6 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.Nullable;
 
@@ -139,7 +138,7 @@ public class RangedSkillComponent extends SkillComponent{
 
     private void tridentBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double projSpeed, TridentComponent tridentComponent, @Nullable Component optionalComponent, boolean debug) {
         if(this.takeAttackWeight(10)) {
-            URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
+            URL url = MeleeSkillComponent.class.getResource("/assets/textures/" + textureName);
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
             texture.setRotate(textureRotation);
             texture.setTranslateX(textureOffsetX);

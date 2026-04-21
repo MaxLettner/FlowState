@@ -211,7 +211,7 @@ public class MagicSkillComponent extends SkillComponent {
     //-----Builder-----
     public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double manaCost, double projSpeed, Point2D target, @NotNull PlayerProjectileComponent specificComponent, boolean debug) {
         if (entity.getComponent(PlayerStatsComponent.class).takeMana(manaCost)) {
-            URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
+            URL url = MeleeSkillComponent.class.getResource("/assets/textures/" + textureName);
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
             texture.setRotate(textureRotation);
             texture.setTranslateX(textureOffsetX);

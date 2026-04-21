@@ -4,14 +4,13 @@ import at.htl.flowstate.Components.Player.PlayerRouterComponent;
 import at.htl.flowstate.Components.Player.PlayerMovementComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
-import at.htl.flowstate.Components.Player.Skills.MeeleSkillComponent;
+import at.htl.flowstate.Components.Player.Skills.MeleeSkillComponent;
 import at.htl.flowstate.Components.Player.Skills.RangedSkillComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
 import at.htl.flowstate.Menu.SkillTree.SkillTree;
 import at.htl.flowstate.Menu.GameMenu;
-import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.app.scene.SceneFactory;
@@ -102,7 +101,7 @@ public class Game extends GameApplication {
         //-----Just For testing-----
         getInput().addAction(new UserAction("SpawnTestEnemy") {
             @Override protected void onActionBegin() {
-                spawnMeeleEnemy(player.getX(), player.getY());
+                spawnMeleeEnemy(player.getX(), player.getY());
             }
         }, MouseButton.SECONDARY);
         //------
@@ -116,7 +115,7 @@ public class Game extends GameApplication {
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameWorld().addEntityFactory(new EnemyFactory());
         getGameScene().setBackgroundColor(Color.WHITESMOKE);
-        //URL url = MeeleSkillComponent.class.getResource("/assets/textures/bg1.jpg");
+        //URL url = MeleeSkillComponent.class.getResource("/assets/textures/bg1.jpg");
         //Image img = new Image(url.toExternalForm(), 2150, 1200, false, true);
         //getGameScene().setBackgroundRepeat(img);
 
@@ -136,7 +135,7 @@ public class Game extends GameApplication {
                 .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
                 .with(physics)
                 .with(new PlayerMovementComponent())
-                .with(new MeeleSkillComponent())
+                .with(new MeleeSkillComponent())
                 .with(new RangedSkillComponent())
                 .with(new MagicSkillComponent())
                 .with(new PlayerStatsComponent())
@@ -210,9 +209,9 @@ public class Game extends GameApplication {
         addUINode(mpBar);
     }
 
-    private void spawnMeeleEnemy(double x, double y) {
+    private void spawnMeleeEnemy(double x, double y) {
         //y = levelGeneration.getBaseY() - 150
-        spawn("meeleEnemy", new SpawnData(x, y)
+        spawn("meleeEnemy", new SpawnData(x, y)
                 .put("player", player));
     }
 

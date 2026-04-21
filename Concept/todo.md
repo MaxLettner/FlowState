@@ -3,7 +3,7 @@
 knockback
 fix poison
 ~~crit~~
-fix meele grammar
+fix melee grammar
 basic melee weapon
 basic sword
 magic missile

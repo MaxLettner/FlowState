@@ -5,7 +5,7 @@ public enum SkillType {
 
     // Top level
     MAGIC("Magic"),
-    MEELE("Meele"),
+    MELEE("Melee"),
     RANGED("Ranged"),
 
     // Magic sub-trees
@@ -28,10 +28,10 @@ public enum SkillType {
     ENCHANTING_PIERCING("Piercing"),
     ENCHANTING_SPEED("Speed"),
 
-    // Meele sub-trees
-    MEELE_SWORDS("Swords"),
-    MEELE_FISTICUFFS("Fisticuffs"),
-    MEELE_BLUNT("Blunt"),
+    // Melee sub-trees
+    MELEE_SWORDS("Swords"),
+    MELEE_FISTICUFFS("Fisticuffs"),
+    MELEE_BLUNT("Blunt"),
 
     // Swords weapons
     SWORDS_SHORTSWORD("Shortsword"),

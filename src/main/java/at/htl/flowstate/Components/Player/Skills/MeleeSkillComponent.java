@@ -2,7 +2,6 @@ package at.htl.flowstate.Components.Player.Skills;
 
 
 import at.htl.flowstate.Components.Player.AttackAnimations.SwordAnimationComponent;
-import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.WeaponDamageComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
@@ -16,7 +15,7 @@ import java.net.URL;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
-public class MeeleSkillComponent extends SkillComponent {
+public class MeleeSkillComponent extends SkillComponent {
     //value to determine whether the player can attack;
     //different weapons use different values;
     //eg swords use 10 because only one at a time
@@ -25,7 +24,7 @@ public class MeeleSkillComponent extends SkillComponent {
     private int attackWeight = 10;
     private static final int MAX_ATTACK_WEIGHT = 10;
 
-    public MeeleSkillComponent() {}
+    public MeleeSkillComponent() {}
 
     //-----Start Weapon-----
     public void doStart () {
@@ -45,7 +44,7 @@ public class MeeleSkillComponent extends SkillComponent {
         );
     }
 
-    //-----Default Meele Skill-----
+    //-----Default Melee Skill-----
     @Override
     public void doDefault () {
         if(this.takeAttackWeight(10)) {
@@ -224,7 +223,7 @@ public class MeeleSkillComponent extends SkillComponent {
 
     private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, double stunDuration, double critChance, boolean debug) {
         if(this.takeAttackWeight(attackWeight)) {
-            URL url = MeeleSkillComponent.class.getResource("/assets/textures/" + textureName);
+            URL url = MeleeSkillComponent.class.getResource("/assets/textures/" + textureName);
             assert url != null;
             Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
             texture.setRotate(135);

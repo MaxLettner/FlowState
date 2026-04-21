@@ -21,7 +21,7 @@ public class EnemyFactory implements EntityFactory {
     private static final short CATEGORY_TERRAIN = 0x0001;
     private static final short CATEGORY_ENEMY   = 0x0004;
 
-    @Spawns("meeleEnemy")
+    @Spawns("meleeEnemy")
     public Entity newEnemy(SpawnData data) {
         Entity player = data.get("player");
 

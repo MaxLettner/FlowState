@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 public class SkillTree extends SkillTreeParent {
 
     private SkillTreeNode magicNode;
-    private SkillTreeNode meeleNode;
+    private SkillTreeNode meleeNode;
     private SkillTreeNode rangedNode;
 
     private boolean[] skillUnlockStatus = new boolean[3];
@@ -23,7 +23,7 @@ public class SkillTree extends SkillTreeParent {
      * false == first time unlocked
      * true == was already unlocked before
      * 1 == magic
-     * 2 == meele
+     * 2 == melee
      * 3 == ranged
      * */
 
@@ -31,7 +31,7 @@ public class SkillTree extends SkillTreeParent {
     private VBox contentBox;
     private VBox mainContainer;
 
-    private Button meeleBtn;
+    private Button meleeBtn;
     private Button magicBtn;
     private Button rangedBtn;
 
@@ -66,26 +66,26 @@ public class SkillTree extends SkillTreeParent {
 
         magicNode = new SkillTreeNode(SkillType.MAGIC, null, new SkillTreeNode[]{arcaneNode, elementalNode, enchantingNode});
 
-        // Meele sub-trees
-        SkillTreeNode swordsNode = new SkillTreeNode(SkillType.MEELE_SWORDS, SkillType.MEELE, new SkillTreeNode[]{
-                new SkillTreeNode(SkillType.SWORDS_SHORTSWORD, SkillType.MEELE_SWORDS, null),
-                new SkillTreeNode(SkillType.SWORDS_DUAL_WIELDING, SkillType.MEELE_SWORDS, null),
-                new SkillTreeNode(SkillType.SWORDS_ZWEIHANDER, SkillType.MEELE_SWORDS, null)
+        // Melee sub-trees
+        SkillTreeNode swordsNode = new SkillTreeNode(SkillType.MELEE_SWORDS, SkillType.MELEE, new SkillTreeNode[]{
+                new SkillTreeNode(SkillType.SWORDS_SHORTSWORD, SkillType.MELEE_SWORDS, null),
+                new SkillTreeNode(SkillType.SWORDS_DUAL_WIELDING, SkillType.MELEE_SWORDS, null),
+                new SkillTreeNode(SkillType.SWORDS_ZWEIHANDER, SkillType.MELEE_SWORDS, null)
         });
 
-        SkillTreeNode fisticuffsNode = new SkillTreeNode(SkillType.MEELE_FISTICUFFS, SkillType.MEELE, new SkillTreeNode[]{
-                new SkillTreeNode(SkillType.FISTICUFFS_LEATHER, SkillType.MEELE_FISTICUFFS, null),
-                new SkillTreeNode(SkillType.FISTICUFFS_METAL_GLOVES, SkillType.MEELE_FISTICUFFS, null),
-                new SkillTreeNode(SkillType.FISTICUFFS_SPIKE_GLOVES, SkillType.MEELE_FISTICUFFS, null)
+        SkillTreeNode fisticuffsNode = new SkillTreeNode(SkillType.MELEE_FISTICUFFS, SkillType.MELEE, new SkillTreeNode[]{
+                new SkillTreeNode(SkillType.FISTICUFFS_LEATHER, SkillType.MELEE_FISTICUFFS, null),
+                new SkillTreeNode(SkillType.FISTICUFFS_METAL_GLOVES, SkillType.MELEE_FISTICUFFS, null),
+                new SkillTreeNode(SkillType.FISTICUFFS_SPIKE_GLOVES, SkillType.MELEE_FISTICUFFS, null)
         });
 
-        SkillTreeNode bluntNode = new SkillTreeNode(SkillType.MEELE_BLUNT, SkillType.MEELE, new SkillTreeNode[]{
-                new SkillTreeNode(SkillType.BLUNT_HAMMER, SkillType.MEELE_BLUNT, null),
-                new SkillTreeNode(SkillType.BLUNT_MORNINGSTAR, SkillType.MEELE_BLUNT, null),
-                new SkillTreeNode(SkillType.BLUNT_SPRING_HAMMER, SkillType.MEELE_BLUNT, null)
+        SkillTreeNode bluntNode = new SkillTreeNode(SkillType.MELEE_BLUNT, SkillType.MELEE, new SkillTreeNode[]{
+                new SkillTreeNode(SkillType.BLUNT_HAMMER, SkillType.MELEE_BLUNT, null),
+                new SkillTreeNode(SkillType.BLUNT_MORNINGSTAR, SkillType.MELEE_BLUNT, null),
+                new SkillTreeNode(SkillType.BLUNT_SPRING_HAMMER, SkillType.MELEE_BLUNT, null)
         });
 
-        meeleNode = new SkillTreeNode(SkillType.MEELE, null, new SkillTreeNode[]{swordsNode, fisticuffsNode, bluntNode});
+        meleeNode = new SkillTreeNode(SkillType.MELEE, null, new SkillTreeNode[]{swordsNode, fisticuffsNode, bluntNode});
 
         // Ranged sub-trees
         SkillTreeNode bowNode = new SkillTreeNode(SkillType.RANGED_BOW, SkillType.RANGED, new SkillTreeNode[]{
@@ -133,7 +133,7 @@ public class SkillTree extends SkillTreeParent {
         contentBox.getChildren().clear();
         currentCategoryNode = null;
 
-        meeleBtn  = createButton(SkillType.MEELE.getName(),   SkillType.MEELE);
+        meleeBtn = createButton(SkillType.MELEE.getName(),   SkillType.MELEE);
         magicBtn  = createButton(SkillType.MAGIC.getName(),   SkillType.MAGIC);
         rangedBtn = createButton(SkillType.RANGED.getName(),  SkillType.RANGED);
 
@@ -142,8 +142,8 @@ public class SkillTree extends SkillTreeParent {
             magicBtn.setOnMouseExited(e -> magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
         }
         if (skillUnlockStatus[1]) {
-            meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
-            meeleBtn.setOnMouseExited(e -> meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+            meleeBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+            meleeBtn.setOnMouseExited(e -> meleeBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
         }
         if (skillUnlockStatus[2]) {
             rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
@@ -151,12 +151,12 @@ public class SkillTree extends SkillTreeParent {
         }
 
         magicBtn.setOnAction(e  -> handleMagicUnlock());
-        meeleBtn.setOnAction(e  -> handleMeeleUnlock());
+        meleeBtn.setOnAction(e  -> handleMeleeUnlock());
         rangedBtn.setOnAction(e -> handleRangedUnlock());
 
         HBox categoryBox = new HBox(20);
         categoryBox.setAlignment(Pos.CENTER);
-        categoryBox.getChildren().addAll(meeleBtn, magicBtn, rangedBtn);
+        categoryBox.getChildren().addAll(meleeBtn, magicBtn, rangedBtn);
 
         contentBox.getChildren().add(categoryBox);
     }
@@ -171,12 +171,12 @@ public class SkillTree extends SkillTreeParent {
             skillUnlockStatus[0] = true;
         }
     }
-    private void handleMeeleUnlock() {
-        meeleNode.onClick();
-        meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
-        meeleBtn.setOnMouseExited(e -> meeleBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
+    private void handleMeleeUnlock() {
+        meleeNode.onClick();
+        meleeBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
+        meleeBtn.setOnMouseExited(e -> meleeBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
         if(skillUnlockStatus[1]) {
-            displayFullTree(meeleNode);
+            displayFullTree(meleeNode);
         } else {
             skillUnlockStatus[1] = true;
         }
