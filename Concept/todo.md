@@ -26,3 +26,5 @@ fix basic not selectable
 + bg
 + player
 + enemy
++ knueppel
++ speer (enemy)

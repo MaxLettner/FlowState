@@ -49,7 +49,7 @@ public class RangedSkillComponent extends SkillComponent{
                 1300,
                 new TridentComponent(25),
                 null,
-                true
+                false
         );
     }
 
