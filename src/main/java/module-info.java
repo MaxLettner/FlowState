@@ -6,6 +6,7 @@ module at.htl.flowstate {
     requires java.desktop;
     requires com.fasterxml.jackson.databind;
     requires annotations;
+    requires jdk.security.jgss;
 
     opens at.htl.flowstate to com.almasb.fxgl.core;
     exports at.htl.flowstate;

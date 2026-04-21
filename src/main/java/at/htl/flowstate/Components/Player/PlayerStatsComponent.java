@@ -19,14 +19,6 @@ public class PlayerStatsComponent extends Component {
     private static final int MAX_INVINCIBILITY_FRAMES = 60;
     private int currentInvincibilityFrames = 0;
 
-    //value to determine whether the player can attack;
-    //different weapons use different values;
-    //eg swords use 10 because only one at a time
-    //fisticuffs use 5 because 2 at a time
-    //value gets subtracted in respective SkillComponent and added back by the animation ending
-    private int attackWeight = 10;
-    private static final int MAX_ATTACK_WEIGHT = 10;
-
     @Override
     public void onUpdate(double tpf) {
         regenerate(tpf);
@@ -80,18 +72,6 @@ public class PlayerStatsComponent extends Component {
 
     public double getMaxHealth() {
         return maxHealth;
-    }
-
-    //-----Attack Checkers-----
-    public void addAttackWeight(int v) {
-        attackWeight += v;
-        if(attackWeight > MAX_ATTACK_WEIGHT) attackWeight = MAX_ATTACK_WEIGHT;
-    }
-
-    public boolean takeAttackWeight(int v) {
-        if(attackWeight - v < 0) return false;
-        attackWeight -= v;
-        return true;
     }
 
     public boolean takeMana(double m) {

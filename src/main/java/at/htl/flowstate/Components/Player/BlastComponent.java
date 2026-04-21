@@ -2,32 +2,35 @@ package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerBlastComponent extends Component {
-    private final double blastDamage;
+public abstract class BlastComponent extends Component {
     private final double blastRadius;
     private final double blastDuration;
 
-    private static final double FADEOUT_TIME = 2;
-    private double fadeoutTimer;
+    private final double maxFadeoutTime;
+    private double fadeoutTime;
 
     private final List<Entity> alreadyHit = new ArrayList<>();
 
-    public PlayerBlastComponent(double blastDamage, double blastRadius, double blastDuration) {
-        this.blastDamage = blastDamage;
+    public BlastComponent(double blastRadius, double blastDuration, double fadeoutTime) {
+        this.fadeoutTime = fadeoutTime;
         this.blastRadius = blastRadius;
         this.blastDuration = blastDuration;
+        maxFadeoutTime = fadeoutTime;
     }
+
+    private double originX;
+    private double originY;
 
     @Override
     public void onAdded() {
-        fadeoutTimer = FADEOUT_TIME;
+        originX = entity.getCenter().getX();
+        originY = entity.getCenter().getY();
     }
 
     @Override
@@ -40,10 +43,18 @@ public class PlayerBlastComponent extends Component {
         }
     }
 
+    protected abstract void hitEnemy(Entity e);
+
     private void checkHit() {
+        double radius = entity.getScaleX();
+
         getEnemies().forEach(e -> {
-            if(entity.isColliding(e) && !alreadyHit.contains(e)) {
-                e.getComponent(HealthDoubleComponent.class).damage(blastDamage);
+            double ex = e.getCenter().getX();
+            double ey = e.getCenter().getY();
+            double dist = Math.hypot(originX - ex, originY - ey);
+
+            if (dist <= radius && !alreadyHit.contains(e)) {
+                hitEnemy(e);
                 alreadyHit.add(e);
             }
         });
@@ -59,10 +70,10 @@ public class PlayerBlastComponent extends Component {
     }
 
     private void fadeout(double tpf) {
-        fadeoutTimer -= tpf;
-        entity.setOpacity(fadeoutTimer/FADEOUT_TIME);
+        fadeoutTime -= tpf;
+        entity.setOpacity(fadeoutTime /maxFadeoutTime);
 
-        if(fadeoutTimer <= 0) entity.removeFromWorld();
+        if(fadeoutTime <= 0) entity.removeFromWorld();
     }
 
     private List<Entity> getEnemies() {
