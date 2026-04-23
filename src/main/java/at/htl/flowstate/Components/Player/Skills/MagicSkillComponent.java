@@ -28,18 +28,18 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class MagicSkillComponent extends SkillComponent {
     private static final double ENCHANTMENT_MANA_DRAIN_RATE = 2.0;
-    private static final double LEVITATION_MANA_DRAIN_RATE  = 2.0;
-    private static final double SHIELD_MANA_DRAIN_RATE      = 2.0;
+    private static final double LEVITATION_MANA_DRAIN_RATE = 2.0;
+    private static final double SHIELD_MANA_DRAIN_RATE = 2.0;
 
-    public static final double ENCHANTMENT_LIFESTEAL_RATE   = 0.05;
-    private static final double ENCHANTMENT_SPEED_MULT      = 1.3;
-    public static final double ENCHANTMENT_CRITCHANCE_MULT  = 2;
+    public static final double ENCHANTMENT_LIFESTEAL_RATE = 0.05;
+    private static final double ENCHANTMENT_SPEED_MULT = 1.3;
+    public static final double ENCHANTMENT_CRITCHANCE_MULT = 2;
 
     private static final double ENCHANTMENT_ICON_X_OFFSET = 0.955;
-    private static final double LEVITATION_ICON_X_OFFSET  = 0.930;
-    private static final double SHIELD_ICON_X_OFFSET      = 0.905;
+    private static final double LEVITATION_ICON_X_OFFSET = 0.930;
+    private static final double SHIELD_ICON_X_OFFSET = 0.905;
 
-    private static final double ICON_Y    = 115;
+    private static final double ICON_Y = 115;
     private static final double ICON_SIZE = 40;
 
     private IconType  currentActiveEnchantment = null;
@@ -73,17 +73,35 @@ public class MagicSkillComponent extends SkillComponent {
     //-----Skill actions-----
     @Override
     public void doDefault() {
-        projectileBuilder("MagicMissile.png", 80, -30, -28.5, 0, 20, 20, 20, 600,
+        projectileBuilder(
+                "MagicMissile.png",
+                80,
+                -30,
+                -28.5,
+                0,
+                20,
+                20,
+                20,
+                600,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new PlayerProjectileComponent(20, 1), false);
+                new PlayerProjectileComponent(20, 1), false
+        );
     }
 
-    @Override public void doSub1() {}
-    @Override public void doSub2() {}
-    @Override public void doSub3() { activateEnchantment(IconType.Crit); }
+    @Override public void doSub1() {
+        //basic arcane
+    }
+    @Override public void doSub2() {
+        //basic elemental
+    }
+    @Override public void doSub3() {
+        activateEnchantment(IconType.Crit);
+    }
 
     //-----Skills of Arcane-----
-    @Override public void doSub1Skill1() {}
+    @Override public void doSub1Skill1() {
+        //magic missile
+    }
 
     @Override
     public void doSub1Skill2() { //mana shield
@@ -100,16 +118,36 @@ public class MagicSkillComponent extends SkillComponent {
     //-----Skills of Elemental-----
     @Override
     public void doSub2Skill1() {
-        projectileBuilder("FireBall.png", 130, -50, -52, 0, 30, 30, 30, 500,
+        projectileBuilder(
+                "FireBall.png",
+                130,
+                -50,
+                -52,
+                0,
+                30,
+                30,
+                30,
+                500,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new FireballProjectileComponent(30, 20, 200, 0.5, 2), false);
+                new FireballProjectileComponent(30, 20, 200, 0.5, 2), false
+        );
     }
 
     @Override
     public void doSub2Skill2() {
-        projectileBuilder("Icecicle.png", 80, -15, -31, 0, 50, 15, 15, 1000,
+        projectileBuilder(
+                "Icecicle.png",
+                80,
+                -15,
+                -31,
+                0,
+                50,
+                15,
+                15,
+                1000,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new IcecicleProjectileComponent(20, 5), false);
+                new IcecicleProjectileComponent(20, 5), false
+        );
     }
 
     @Override
@@ -121,18 +159,60 @@ public class MagicSkillComponent extends SkillComponent {
         double cos = Math.cos(spread);
         double sin = Math.sin(spread);
 
-        Point2D topDir    = new Point2D(dir.getX() * cos - dir.getY() * sin,  dir.getX() * sin + dir.getY() * cos);
-        Point2D bottomDir = new Point2D(dir.getX() * cos + dir.getY() * sin, -dir.getX() * sin + dir.getY() * cos);
+        Point2D topDir = new Point2D( //calculations for the vector of the top dart
+                dir.getX() * cos - dir.getY() * sin,
+                dir.getX() * sin + dir.getY() * cos
+        );
+        Point2D bottomDir = new Point2D( //for the bottom dart
+                dir.getX() * cos + dir.getY() * sin,
+                -dir.getX() * sin + dir.getY() * cos
+        );
 
-        projectileBuilder("PoisonDart.png", 80, -30, -31, 0, 30, 15, 0, 800, dir,       new PoisonDartProjectileComponent(10), false);
-        projectileBuilder("PoisonDart.png", 80, -30, -31, 0, 30, 15, 0, 800, topDir,    new PoisonDartProjectileComponent(10), false);
-        projectileBuilder("PoisonDart.png", 80, -30, -31, 0, 30, 15, 0, 800, bottomDir, new PoisonDartProjectileComponent(10), false);
+        projectileBuilder( //middle dart
+                "PoisonDart.png",
+                80,
+                -30,
+                -31,
+                0,
+                30,
+                15,
+                0,
+                800,
+                dir,
+                new PoisonDartProjectileComponent(10), false
+        );
+        projectileBuilder( //top dart
+                "PoisonDart.png",
+                80,
+                -30,
+                -31,
+                0,
+                30,
+                15,
+                0,
+                800,
+                topDir,
+                new PoisonDartProjectileComponent(10), false
+        );
+        projectileBuilder(
+                "PoisonDart.png",
+                80,
+                -30,
+                -31,
+                0,
+                30,
+                15,
+                0,
+                800,
+                bottomDir,
+                new PoisonDartProjectileComponent(10), false
+        );
     }
 
     //-----Skills of Enchanting-----
     @Override public void doSub3Skill1() { activateEnchantment(IconType.Lifesteal); }
-    @Override public void doSub3Skill2() { activateEnchantment(IconType.Piercing);  }
-    @Override public void doSub3Skill3() { activateEnchantment(IconType.Speed);     }
+    @Override public void doSub3Skill2() { activateEnchantment(IconType.Piercing); }
+    @Override public void doSub3Skill3() { activateEnchantment(IconType.Speed); }
 
     //-----Enchantment lifecycle-----
     public void activateEnchantment(IconType type) {
@@ -233,23 +313,23 @@ public class MagicSkillComponent extends SkillComponent {
 
     private Color iconColor(IconType type) {
         return switch (type) {
-            case Crit      -> Color.ORANGE;
-            case Speed     -> Color.YELLOW;
+            case Crit -> Color.ORANGE;
+            case Speed -> Color.YELLOW;
             case Lifesteal -> Color.CRIMSON;
-            case Piercing  -> Color.CYAN;
+            case Piercing -> Color.CYAN;
             case Levitation -> Color.BLUE;
-            case Shield    -> Color.DARKBLUE;
+            case Shield -> Color.DARKBLUE;
         };
     }
 
     private String iconLabel(IconType type) {
         return switch (type) {
-            case Crit      -> "CRT";
-            case Speed     -> "SPD";
+            case Crit -> "CRT";
+            case Speed -> "SPD";
             case Lifesteal -> "LST";
-            case Piercing  -> "PRC";
+            case Piercing -> "PRC";
             case Levitation -> "LEV";
-            case Shield    -> "SLD";
+            case Shield -> "SLD";
         };
     }
 
@@ -289,8 +369,8 @@ public class MagicSkillComponent extends SkillComponent {
 
     //-----Getters-----
     public IconType getCurrentActiveEnchantment() { return currentActiveEnchantment; }
-    public boolean isLevitationActive()           { return isLevitationActive; }
-    public boolean isShieldActive()               { return isShieldActive; }
+    public boolean isLevitationActive() { return isLevitationActive; }
+    public boolean isShieldActive() { return isShieldActive; }
 
     public boolean isManaRegenEnabled() {
         return currentActiveEnchantment == null && !isLevitationActive && !isShieldActive;
