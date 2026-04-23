@@ -69,21 +69,21 @@ public class Game extends GameApplication {
     @Override
     protected void initInput() {
         getInput().addAction(new UserAction("Left") {
-            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).moveLeft(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stop(); }
+            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).startMoveLeft(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopHorizontalMovement(); }
         }, KeyCode.A);
 
         getInput().addAction(new UserAction("Right") {
-            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).moveRight(); }
-            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stop(); }
+            @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).startMoveRight(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopHorizontalMovement(); }
         }, KeyCode.D);
 
         getInput().addAction(new UserAction("Jump") {
-            @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).jump(); }
+            @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).startJump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopJump(); }
         }, KeyCode.W);
         getInput().addAction(new UserAction("Down") {
-            @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).down(); }
+            @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).startDown(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopDown(); }
         }, KeyCode.S);
         getInput().addAction(new UserAction("Toggle Skill Tree") {

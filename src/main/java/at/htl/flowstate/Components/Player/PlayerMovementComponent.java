@@ -102,18 +102,18 @@ public class PlayerMovementComponent extends Component {
         }
     }
 
-    public void moveRight() {
+    public void startMoveRight() {
         lastMoveDirection = 1;
         move( 1);
         currentWatchDirection = 1;
     }
-    public void moveLeft() {
+    public void startMoveLeft() {
         lastMoveDirection = -1;
         move(-1);
         currentWatchDirection = -1;
     }
 
-    public void stop() {
+    public void stopHorizontalMovement() {
         lastMoveDirection = 0;
         currentRunningFrames = 0;
         physics.setVelocityX(0);
@@ -131,27 +131,37 @@ public class PlayerMovementComponent extends Component {
         physics.setVelocityX(speed * direction);
     }
 
-    public void jump() {
-        if ((isGrounded || coyoteTimer > 0) && !jumpConsumed) {
-            physics.setVelocityY(-JUMP_FORCE);
-            jumpConsumed = true;
-            isGrounded = false;
-            coyoteTimer = 0;
+    public void startJump() {
+        if(isLevitationActive) {
+            //code for up levitation start
+        }else {
+            if ((isGrounded || coyoteTimer > 0) && !jumpConsumed) {
+                physics.setVelocityY(-JUMP_FORCE);
+                jumpConsumed = true;
+                isGrounded = false;
+                coyoteTimer = 0;
+            }
         }
     }
 
     public void stopJump() {
-        if (physics.getVelocityY() < 0) {
-            physics.setVelocityY(physics.getVelocityY() * 0.45);
+        if(isLevitationActive) {
+            //code for up levitation end
+        } else {
+            if (physics.getVelocityY() < 0) {
+                physics.setVelocityY(physics.getVelocityY() * 0.45);
+            }
         }
     }
 
-    public void down() {
+    public void startDown() {
         if(!isLevitationActive) return;
+        //code for down levitation start
     }
 
     public void stopDown() {
         if(!isLevitationActive) return;
+        //code for down levitation end
     }
 
     private void updateGroundState() {
