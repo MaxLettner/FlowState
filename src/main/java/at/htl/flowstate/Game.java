@@ -82,6 +82,10 @@ public class Game extends GameApplication {
             @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).jump(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopJump(); }
         }, KeyCode.W);
+        getInput().addAction(new UserAction("Down") {
+            @Override protected void onActionBegin() { player.getComponent(PlayerMovementComponent.class).down(); }
+            @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopDown(); }
+        }, KeyCode.S);
         getInput().addAction(new UserAction("Toggle Skill Tree") {
             @Override
             protected void onActionBegin() {

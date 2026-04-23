@@ -36,6 +36,8 @@ public class PlayerMovementComponent extends Component {
     private int lastMoveDirection = 0;
     private int currentWatchDirection = 1;
 
+    private boolean isLevitationActive = false;
+
     @Override
     public void onAdded() {
         physics = entity.getComponent(PhysicsComponent.class);
@@ -43,6 +45,7 @@ public class PlayerMovementComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        isLevitationActive = entity.getComponent(MagicSkillComponent.class).isLevitationActive();
         updateGroundState();
         keepOnScreen();
         if (isGrounded && lastMoveDirection != 0) {
@@ -100,7 +103,7 @@ public class PlayerMovementComponent extends Component {
     }
 
     public void moveRight() {
-        lastMoveDirection =  1;
+        lastMoveDirection = 1;
         move( 1);
         currentWatchDirection = 1;
     }
@@ -132,8 +135,8 @@ public class PlayerMovementComponent extends Component {
         if ((isGrounded || coyoteTimer > 0) && !jumpConsumed) {
             physics.setVelocityY(-JUMP_FORCE);
             jumpConsumed = true;
-            isGrounded   = false;
-            coyoteTimer  = 0;
+            isGrounded = false;
+            coyoteTimer = 0;
         }
     }
 
@@ -141,6 +144,14 @@ public class PlayerMovementComponent extends Component {
         if (physics.getVelocityY() < 0) {
             physics.setVelocityY(physics.getVelocityY() * 0.45);
         }
+    }
+
+    public void down() {
+        if(!isLevitationActive) return;
+    }
+
+    public void stopDown() {
+        if(!isLevitationActive) return;
     }
 
     private void updateGroundState() {
