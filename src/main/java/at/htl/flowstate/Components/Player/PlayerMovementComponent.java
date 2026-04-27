@@ -19,14 +19,12 @@ public class PlayerMovementComponent extends Component {
     private static final double MAX_SPEED_FRAMES = 80;
     private static final double MAX_SPEED_THRESHOLD = 20;
     private static final int COYOTE_FRAMES = 5;
+    private static final double LEVITATION_SPEED = 300.0;
 
     private static final double PLAYER_WIDTH = 40.0;
     private static final double PLAYER_HEIGHT = 80.0;
     private static final double STEP_HEIGHT = 20.0;
     private static final double STEP_LOOK_AHEAD = 12.0;
-
-    //after snapping push the player this many px forward so the ledge face
-    //is no longer in the way next frame breaking the snap feedback loop
     private static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
 
     private boolean isGrounded = false;
@@ -37,6 +35,8 @@ public class PlayerMovementComponent extends Component {
     private int currentWatchDirection = 1;
 
     private boolean isLevitationActive = false;
+    private boolean isLevitatingUp = false;
+    private boolean isLevitatingDown = false;
 
     @Override
     public void onAdded() {
@@ -46,14 +46,26 @@ public class PlayerMovementComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
         isLevitationActive = entity.getComponent(MagicSkillComponent.class).isLevitationActive();
-        updateGroundState();
-        keepOnScreen();
-        if (isGrounded && lastMoveDirection != 0) {
-            tryStep(lastMoveDirection);
+
+        if (isLevitationActive) {
+            //override Y velocity every frame so that gravity has no effect
+            if (isLevitatingUp) {
+                physics.setVelocityY(-LEVITATION_SPEED);
+            } else if (isLevitatingDown) {
+                physics.setVelocityY(LEVITATION_SPEED);
+            } else {
+                physics.setVelocityY(2);
+            }
+            isGrounded = false; //never grounded while levitating
+        } else {
+            updateGroundState();
+            if (isGrounded && lastMoveDirection != 0) {
+                tryStep(lastMoveDirection);
+            }
         }
+
+        keepOnScreen();
     }
-
-
 
     private void tryStep(int direction) {
         double feetY = entity.getY() + PLAYER_HEIGHT;
@@ -79,9 +91,6 @@ public class PlayerMovementComponent extends Component {
             double stepSize = feetY - platTop;
             if (stepSize < 1.0 || stepSize > STEP_HEIGHT) continue;
 
-            //snap up and nudge forward so the ledge face exits the look-ahead-zone
-            //which prevents the feedback loop where gravity drops the player 1px and
-            //triggers another snap next frame
             double savedVelX = physics.getVelocityX();
             double newX = entity.getX() + direction * STEP_FORWARD_NUDGE;
             double newY = platTop - PLAYER_HEIGHT;
@@ -103,11 +112,12 @@ public class PlayerMovementComponent extends Component {
     }
 
     public void startMoveRight() {
-        lastMoveDirection = 1;
+        lastMoveDirection =  1;
         move( 1);
-        currentWatchDirection = 1;
+        currentWatchDirection =  1;
     }
-    public void startMoveLeft() {
+
+    public void startMoveLeft()  {
         lastMoveDirection = -1;
         move(-1);
         currentWatchDirection = -1;
@@ -120,7 +130,8 @@ public class PlayerMovementComponent extends Component {
     }
 
     private void move(int direction) {
-        double speed = (MAX_MOVE_SPEED * entity.getComponent(MagicSkillComponent.class).getCurrentSpeedMult() / 100.0) * (START_MOVE_SPEED_PCT + ((100.0 - START_MOVE_SPEED_PCT) / 100.0) * (currentRunningFrames / MAX_SPEED_FRAMES) * 100.0);
+        double speed = (MAX_MOVE_SPEED * entity.getComponent(MagicSkillComponent.class).getCurrentSpeedMult() / 100.0)
+                * (START_MOVE_SPEED_PCT + ((100.0 - START_MOVE_SPEED_PCT) / 100.0) * (currentRunningFrames / MAX_SPEED_FRAMES) * 100.0);
 
         if (isGrounded) {
             if (currentRunningFrames < MAX_SPEED_FRAMES) currentRunningFrames++;
@@ -132,9 +143,9 @@ public class PlayerMovementComponent extends Component {
     }
 
     public void startJump() {
-        if(isLevitationActive) {
-            //code for up levitation start
-        }else {
+        if (isLevitationActive) {
+            isLevitatingUp = true;
+        } else {
             if ((isGrounded || coyoteTimer > 0) && !jumpConsumed) {
                 physics.setVelocityY(-JUMP_FORCE);
                 jumpConsumed = true;
@@ -145,8 +156,8 @@ public class PlayerMovementComponent extends Component {
     }
 
     public void stopJump() {
-        if(isLevitationActive) {
-            //code for up levitation end
+        if (isLevitationActive) {
+            isLevitatingUp = false;
         } else {
             if (physics.getVelocityY() < 0) {
                 physics.setVelocityY(physics.getVelocityY() * 0.45);
@@ -155,13 +166,13 @@ public class PlayerMovementComponent extends Component {
     }
 
     public void startDown() {
-        if(!isLevitationActive) return;
-        //code for down levitation start
+        if (!isLevitationActive) return;
+        isLevitatingDown = true;
     }
 
     public void stopDown() {
-        if(!isLevitationActive) return;
-        //code for down levitation end
+        if (!isLevitationActive) return;
+        isLevitatingDown = false;
     }
 
     private void updateGroundState() {
@@ -179,5 +190,4 @@ public class PlayerMovementComponent extends Component {
     }
 
     public int getCurrentWatchDirection() { return currentWatchDirection; }
-
 }
