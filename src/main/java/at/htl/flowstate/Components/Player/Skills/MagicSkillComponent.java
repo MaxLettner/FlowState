@@ -28,7 +28,7 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class MagicSkillComponent extends SkillComponent {
     private static final double ENCHANTMENT_MANA_DRAIN_RATE = 2.0;
-    private static final double LEVITATION_MANA_DRAIN_RATE = 2.0;
+    private static final double LEVITATION_MANA_DRAIN_RATE = 5.0;
     private static final double SHIELD_MANA_DRAIN_RATE = 2.0;
 
     public static final double ENCHANTMENT_LIFESTEAL_RATE = 0.05;
