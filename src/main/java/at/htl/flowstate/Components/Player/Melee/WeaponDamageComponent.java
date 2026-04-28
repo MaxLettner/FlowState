@@ -2,6 +2,7 @@ package at.htl.flowstate.Components.Player.Melee;
 
 import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
+import at.htl.flowstate.Components.Player.PlayerMovementComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.Skills.IconType;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
@@ -18,15 +19,17 @@ public class WeaponDamageComponent extends Component {
     private final double damage;
     private final double stunDuration;
     private final double critChance;
+    private final double knockbackStrength;
     private final Entity player;
     private static final double CRIT_MULT = 5;
     List<Entity> alreadyHit = new ArrayList<>();
 
-    public WeaponDamageComponent(Entity player, double damage, double stunDuration, double critChance) {
+    public WeaponDamageComponent(Entity player, double damage, double stunDuration, double critChance, double knockbackStrength) {
         this.player = player;
         this.damage = damage;
         this.stunDuration = stunDuration;
         this.critChance = critChance;
+        this.knockbackStrength = knockbackStrength;
     }
 
     @Override
@@ -55,6 +58,7 @@ public class WeaponDamageComponent extends Component {
             }
         }
         if(stunDuration > 0) e.getComponent(EnemyStatsComponent.class).stun(stunDuration);
+        e.getComponent(EnemyStatsComponent.class).applyKnockback(knockbackStrength, player.getComponent(PlayerMovementComponent.class).getCurrentWatchDirection());
         //TODO: implement knockback code
     }
 

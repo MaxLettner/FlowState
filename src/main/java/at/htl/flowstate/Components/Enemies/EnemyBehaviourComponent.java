@@ -40,10 +40,11 @@ public abstract class EnemyBehaviourComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
         updateGroundState();
-        if(!entity.getComponent(EnemyStatsComponent.class).getIsCurrentlyStunned()) {
+        EnemyStatsComponent stats = entity.getComponent(EnemyStatsComponent.class);
+        if(!stats.getIsCurrentlyStunned() && !stats.isKnockedBack()) {
             chasePlayer();
             attack();
-        }else {
+        } else if(!stats.isKnockedBack()) {
             physics.setVelocityX(0);
         }
     }

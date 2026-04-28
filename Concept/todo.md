@@ -3,7 +3,7 @@
 + fix poison
 + ~~crit~~
 + ~~fix melee grammar~~
-+ basic melee weapon
++ ~~basic melee weapon~~
 + basic sword
 + magic missile
 + basic arcane
