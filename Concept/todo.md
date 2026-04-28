@@ -1,5 +1,5 @@
 # Max
-+ knockback
++ ~~knockback~~
 + fix poison
 + ~~crit~~
 + ~~fix melee grammar~~

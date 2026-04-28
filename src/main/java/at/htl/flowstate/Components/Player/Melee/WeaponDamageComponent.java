@@ -59,7 +59,6 @@ public class WeaponDamageComponent extends Component {
         }
         if(stunDuration > 0) e.getComponent(EnemyStatsComponent.class).stun(stunDuration);
         e.getComponent(EnemyStatsComponent.class).applyKnockback(knockbackStrength, player.getComponent(PlayerMovementComponent.class).getCurrentWatchDirection());
-        //TODO: implement knockback code
     }
 
     private List<Entity> getEnemies() {
