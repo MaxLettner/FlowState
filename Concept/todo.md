@@ -7,7 +7,7 @@
 + basic sword
 + magic missile
 + basic arcane
-+ levitation
++ ~~levitation~~
 + shield
 + basic elemental
 + ~~basic enchant~~
@@ -16,6 +16,8 @@
 + ~~crit?~~
 + ~~tridents~~
 + ~~attackweight is class specific~~
++ enemies textures
++ player textures
 
 
 # John
