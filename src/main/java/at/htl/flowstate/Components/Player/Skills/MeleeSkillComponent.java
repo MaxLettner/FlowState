@@ -40,7 +40,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1,
                 0,
                 1,
-                500,
+                200,
                 false
         );
     }
@@ -90,7 +90,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1.5,
                 0.75,
                 1,
-                500,
+                400,
                 false
         );
     }
@@ -110,7 +110,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 0.5,
                 0,
                 3,
-                500,
+                250,
                 false
         );
 
@@ -130,7 +130,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1.2,
                 0,
                 2,
-                500,
+                250,
                 false
         );
     }
@@ -205,7 +205,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1.5,
                 0,
                 4,
-                500,
+                400,
                 false
         );
     }
@@ -224,7 +224,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1,
                 0,
                 0,
-                5000,
+                1000,
                 false
         );
     }
