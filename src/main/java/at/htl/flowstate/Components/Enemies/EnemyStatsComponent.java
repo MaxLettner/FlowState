@@ -48,9 +48,11 @@ public class EnemyStatsComponent extends Component {
     }
 
     private void calculateStun(double tpf) {
-        stunDurationLeft -= tpf;
-        if(stunDurationLeft < 0) stunDurationLeft = 0;
-        isCurrentlyStunned = stunDurationLeft > 0;
+        if(knockbackVelocity == 0) {
+            stunDurationLeft -= tpf;
+            if(stunDurationLeft < 0) stunDurationLeft = 0;
+            isCurrentlyStunned = stunDurationLeft > 0;
+        }
     }
 
     //-----Knockback-----
