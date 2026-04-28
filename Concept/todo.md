@@ -21,9 +21,9 @@
 # John
 + fix basic not selectable
 + textures
-+ magic missile
-+ default arcane
-+ default elemental
++ ~~magic missile~~
++ ~default arcane~
++ ~default elemental~
 + bg
 + player
 + enemy
