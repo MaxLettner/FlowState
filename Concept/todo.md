@@ -26,7 +26,7 @@
 + ~~magic missile~~
 + ~default arcane~
 + ~default elemental~
-+ bg
++ ~bg~
 + player
 + enemy
 + ~~knueppel~~
