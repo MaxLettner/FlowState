@@ -28,23 +28,46 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getInput;
 
 public class MagicSkillComponent extends SkillComponent {
     private static final double ENCHANTMENT_MANA_DRAIN_RATE = 2.0;
+    private static final double LEVITATION_MANA_DRAIN_RATE = 5.0;
+    private static final double SHIELD_MANA_DRAIN_RATE = 2.0;
+
     public static final double ENCHANTMENT_LIFESTEAL_RATE = 0.05;
     private static final double ENCHANTMENT_SPEED_MULT = 1.3;
     public static final double ENCHANTMENT_CRITCHANCE_MULT = 2;
 
-    private static final double ICON_X_OFFSET = 0.955;
+    private static final double ENCHANTMENT_ICON_X_OFFSET = 0.955;
+    private static final double LEVITATION_ICON_X_OFFSET = 0.930;
+    private static final double SHIELD_ICON_X_OFFSET = 0.905;
+
     private static final double ICON_Y = 115;
     private static final double ICON_SIZE = 40;
 
-    private EnchantmentType currentActiveEnchantment = null;
+    private IconType  currentActiveEnchantment = null;
+    private boolean   isLevitationActive = false;
+    private boolean   isShieldActive = false;
 
-    private StackPane activeIcon = null;
+    private StackPane activeEnchantmentIcon = null;
+    private StackPane activeLevitationIcon = null;
+    private StackPane activeShieldIcon = null;
 
     @Override
     public void onUpdate(double tpf) {
-        if (currentActiveEnchantment == null) return;
-        boolean hasMana = entity.getComponent(PlayerStatsComponent.class).takeMana(ENCHANTMENT_MANA_DRAIN_RATE * tpf);
-        if (!hasMana) deactivate();
+        if (currentActiveEnchantment != null) {
+            if (!entity.getComponent(PlayerStatsComponent.class).takeMana(ENCHANTMENT_MANA_DRAIN_RATE * tpf))
+                deactivateEnchantment();
+        }
+        if (isLevitationActive) {
+            if (!entity.getComponent(PlayerStatsComponent.class).takeMana(LEVITATION_MANA_DRAIN_RATE * tpf))
+                deactivateLevitation();
+        }
+        if (isShieldActive) {
+            if (!entity.getComponent(PlayerStatsComponent.class).takeMana(SHIELD_MANA_DRAIN_RATE * tpf))
+                deactivateShield();
+        }
+
+        System.out.println(currentActiveEnchantment);
+        System.out.println(isLevitationActive);
+        System.out.println(isShieldActive);
     }
 
     //-----Skill actions-----
@@ -61,46 +84,40 @@ public class MagicSkillComponent extends SkillComponent {
                 20,
                 600,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new PlayerProjectileComponent(20, 1),
-                false
+                new PlayerProjectileComponent(20, 1), false
         );
     }
 
-    //-----Subskilltrees
-    @Override
-    public void doSub1() { //Arcane
-
+    @Override public void doSub1() {
+        //basic arcane
     }
-
-    @Override
-    public void doSub2() { //Elemental
-
+    @Override public void doSub2() {
+        //basic elemental
     }
-
-    @Override
-    public void doSub3() { //Enchanting
-        activate(EnchantmentType.Crit);
+    @Override public void doSub3() {
+        activateEnchantment(IconType.Crit);
     }
 
     //-----Skills of Arcane-----
-    @Override
-    public void doSub1Skill1() { //magic missile
-
+    @Override public void doSub1Skill1() {
+        //magic missile
     }
 
     @Override
     public void doSub1Skill2() { //mana shield
-
+        if (isShieldActive) deactivateShield();
+        else activateShield();
     }
 
     @Override
     public void doSub1Skill3() { //levitation
-
+        if (isLevitationActive) deactivateLevitation();
+        else activateLevitation();
     }
 
     //-----Skills of Elemental-----
     @Override
-    public void doSub2Skill1() { //fireball
+    public void doSub2Skill1() {
         projectileBuilder(
                 "FireBall.png",
                 130,
@@ -112,13 +129,12 @@ public class MagicSkillComponent extends SkillComponent {
                 30,
                 500,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new FireballProjectileComponent(30, 20, 200, 0.5, 2),
-                false
+                new FireballProjectileComponent(30, 20, 200, 0.5, 2), false
         );
     }
 
     @Override
-    public void doSub2Skill2() { //icecicle
+    public void doSub2Skill2() {
         projectileBuilder(
                 "Icecicle.png",
                 80,
@@ -130,13 +146,12 @@ public class MagicSkillComponent extends SkillComponent {
                 15,
                 1000,
                 getInput().getVectorToMouse(entity.getCenter()),
-                new IcecicleProjectileComponent(20, 5),
-                false
+                new IcecicleProjectileComponent(20, 5), false
         );
     }
 
     @Override
-    public void doSub2Skill3() { //poison darts
+    public void doSub2Skill3() {
         if (!entity.getComponent(PlayerStatsComponent.class).takeMana(15)) return;
 
         Point2D dir = getInput().getVectorToMouse(entity.getCenter());
@@ -144,14 +159,16 @@ public class MagicSkillComponent extends SkillComponent {
         double cos = Math.cos(spread);
         double sin = Math.sin(spread);
 
-        Point2D topDir = new Point2D(
+        Point2D topDir = new Point2D( //calculations for the vector of the top dart
                 dir.getX() * cos - dir.getY() * sin,
-                dir.getX() * sin + dir.getY() * cos);
-        Point2D bottomDir = new Point2D(
+                dir.getX() * sin + dir.getY() * cos
+        );
+        Point2D bottomDir = new Point2D( //for the bottom dart
                 dir.getX() * cos + dir.getY() * sin,
-                -dir.getX() * sin + dir.getY() * cos);
+                -dir.getX() * sin + dir.getY() * cos
+        );
 
-        projectileBuilder(
+        projectileBuilder( //middle dart
                 "PoisonDart.png",
                 80,
                 -30,
@@ -162,11 +179,9 @@ public class MagicSkillComponent extends SkillComponent {
                 0,
                 800,
                 dir,
-                new PoisonDartProjectileComponent(10),
-                false
+                new PoisonDartProjectileComponent(10), false
         );
-
-        projectileBuilder(
+        projectileBuilder( //top dart
                 "PoisonDart.png",
                 80,
                 -30,
@@ -177,10 +192,8 @@ public class MagicSkillComponent extends SkillComponent {
                 0,
                 800,
                 topDir,
-                new PoisonDartProjectileComponent(10),
-                false
+                new PoisonDartProjectileComponent(10), false
         );
-
         projectileBuilder(
                 "PoisonDart.png",
                 80,
@@ -192,24 +205,132 @@ public class MagicSkillComponent extends SkillComponent {
                 0,
                 800,
                 bottomDir,
-                new PoisonDartProjectileComponent(10),
-                false
+                new PoisonDartProjectileComponent(10), false
         );
     }
 
     //-----Skills of Enchanting-----
-    @Override
-    public void doSub3Skill1() { //Lifesteal
-        activate(EnchantmentType.Lifesteal);
+    @Override public void doSub3Skill1() { activateEnchantment(IconType.Lifesteal); }
+    @Override public void doSub3Skill2() { activateEnchantment(IconType.Piercing); }
+    @Override public void doSub3Skill3() { activateEnchantment(IconType.Speed); }
+
+    //-----Enchantment lifecycle-----
+    public void activateEnchantment(IconType type) {
+        if (currentActiveEnchantment != null) deactivateEnchantment();
+        currentActiveEnchantment = type;
+        showEnchantmentIcon(type);
     }
 
-    @Override
-    public void doSub3Skill2() { //piercing
-        activate(EnchantmentType.Piercing); //TODO: implement
+    public void deactivateEnchantment() {
+        if (currentActiveEnchantment == null) return;
+        currentActiveEnchantment = null;
+        removeEnchantmentIcon();
     }
 
-    @Override public void doSub3Skill3() { //speed
-        activate(EnchantmentType.Speed);
+    //-----Levitation lifecycle-----
+    public void activateLevitation() {
+        isLevitationActive = true;
+        showLevitationIcon();
+    }
+
+    public void deactivateLevitation() {
+        isLevitationActive = false;
+        removeLevitationIcon();
+    }
+
+    //-----Shield lifecycle-----
+    public void activateShield() {
+        isShieldActive = true;
+        showShieldIcon();
+    }
+
+    public void deactivateShield() {
+        isShieldActive = false;
+        removeShieldIcon();
+    }
+
+    //-----Icons-----
+    private void showEnchantmentIcon(IconType type) {
+        activeEnchantmentIcon = buildIcon(type, ENCHANTMENT_ICON_X_OFFSET);
+        activeEnchantmentIcon.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) deactivateEnchantment();
+        });
+        FXGL.getGameScene().addUINode(activeEnchantmentIcon);
+    }
+
+    private void removeEnchantmentIcon() {
+        if (activeEnchantmentIcon != null) {
+            FXGL.getGameScene().removeUINode(activeEnchantmentIcon);
+            activeEnchantmentIcon = null;
+        }
+    }
+
+    private void showLevitationIcon() {
+        activeLevitationIcon = buildIcon(IconType.Levitation, LEVITATION_ICON_X_OFFSET);
+        activeLevitationIcon.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) deactivateLevitation();
+        });
+        FXGL.getGameScene().addUINode(activeLevitationIcon);
+    }
+
+    private void removeLevitationIcon() {
+        if (activeLevitationIcon != null) {
+            FXGL.getGameScene().removeUINode(activeLevitationIcon);
+            activeLevitationIcon = null;
+        }
+    }
+
+    private void showShieldIcon() {
+        activeShieldIcon = buildIcon(IconType.Shield, SHIELD_ICON_X_OFFSET);
+        activeShieldIcon.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) deactivateShield();
+        });
+        FXGL.getGameScene().addUINode(activeShieldIcon);
+    }
+
+    private void removeShieldIcon() {
+        if (activeShieldIcon != null) {
+            FXGL.getGameScene().removeUINode(activeShieldIcon);
+            activeShieldIcon = null;
+        }
+    }
+
+    private StackPane buildIcon(IconType type, double xOffset) {
+        Rectangle bg = new Rectangle(ICON_SIZE, ICON_SIZE, iconColor(type));
+        bg.setArcWidth(6);
+        bg.setArcHeight(6);
+
+        Text label = new Text(iconLabel(type));
+        label.setFill(Color.WHITE);
+        label.setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
+
+        StackPane icon = new StackPane(bg, label);
+        icon.setAlignment(Pos.CENTER);
+        icon.setLayoutX(FXGL.getAppWidth() * xOffset);
+        icon.setLayoutY(ICON_Y);
+        return icon;
+    }
+
+    private Color iconColor(IconType type) {
+        return switch (type) {
+            case Crit -> Color.ORANGE;
+            case Speed -> Color.YELLOW;
+            case Lifesteal -> Color.CRIMSON;
+            case Piercing -> Color.CYAN;
+            case Levitation -> Color.BLUE;
+            case Shield -> Color.DARKBLUE;
+        };
+    }
+
+    private String iconLabel(IconType type) {
+        return switch (type) {
+            case Crit -> "CRT";
+            case Speed -> "SPD";
+            case Lifesteal -> "LST";
+            case Piercing -> "PRC";
+            case Levitation -> "LEV";
+            case Shield -> "SLD";
+        };
     }
 
     //-----Builder-----
@@ -246,77 +367,17 @@ public class MagicSkillComponent extends SkillComponent {
         }
     }
 
-    //-----Enchantment lifecycle-----
-    public void activate(EnchantmentType type) {
-        if (currentActiveEnchantment != null) deactivate();
-        currentActiveEnchantment = type;
-        showIcon(type);
-    }
-
-    public void deactivate() {
-        if (currentActiveEnchantment == null) return;
-        currentActiveEnchantment = null;
-        removeIcon();
-    }
-
-    //-----Icon-----
-    private void showIcon(EnchantmentType type) {
-        Rectangle bg = new Rectangle(ICON_SIZE, ICON_SIZE, iconColor(type));
-        bg.setArcWidth(6);
-        bg.setArcHeight(6);
-
-        Text label = new Text(iconLabel(type));
-        label.setFill(Color.WHITE);
-        label.setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
-
-        activeIcon = new StackPane(bg, label);
-        activeIcon.setAlignment(Pos.CENTER);
-        activeIcon.setLayoutX(FXGL.getAppWidth() * ICON_X_OFFSET);
-        activeIcon.setLayoutY(ICON_Y);
-
-        activeIcon.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) deactivate();
-        });
-
-        FXGL.getGameScene().addUINode(activeIcon);
-    }
-
-    private void removeIcon() {
-        if (activeIcon != null) {
-            FXGL.getGameScene().removeUINode(activeIcon);
-            activeIcon = null;
-        }
-    }
-
-    private Color iconColor(EnchantmentType type) {
-        return switch (type) {
-            case Crit -> Color.ORANGE;
-            case Speed -> Color.YELLOW;
-            case Lifesteal -> Color.CRIMSON;
-            case Piercing -> Color.CYAN;
-        };
-    }
-
-    private String iconLabel(EnchantmentType type) {
-        return switch (type) {
-            case Crit -> "CRT";
-            case Speed -> "SPD";
-            case Lifesteal -> "LST";
-            case Piercing -> "PRC";
-        };
-    }
-
     //-----Getters-----
-    public EnchantmentType getCurrentActiveEnchantment() {
-        return currentActiveEnchantment;
-    }
+    public IconType getCurrentActiveEnchantment() { return currentActiveEnchantment; }
+    public boolean isLevitationActive() { return isLevitationActive; }
+    public boolean isShieldActive() { return isShieldActive; }
 
     public boolean isManaRegenEnabled() {
-        return currentActiveEnchantment == null; //needs to be changed when levitation and manashield are added
+        return currentActiveEnchantment == null && !isLevitationActive && !isShieldActive;
     }
 
     public double getCurrentSpeedMult() {
-        if(currentActiveEnchantment == EnchantmentType.Speed) return ENCHANTMENT_SPEED_MULT;
+        if (currentActiveEnchantment == IconType.Speed) return ENCHANTMENT_SPEED_MULT;
         return 1;
     }
 }

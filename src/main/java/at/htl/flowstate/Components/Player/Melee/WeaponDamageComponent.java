@@ -3,7 +3,7 @@ package at.htl.flowstate.Components.Player.Melee;
 import at.htl.flowstate.Components.Enemies.EnemyStatsComponent;
 import at.htl.flowstate.Components.Identifier.EnemyIdentifierComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
-import at.htl.flowstate.Components.Player.Skills.EnchantmentType;
+import at.htl.flowstate.Components.Player.Skills.IconType;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
@@ -41,16 +41,16 @@ public class WeaponDamageComponent extends Component {
     private void hit(Entity e) {
         alreadyHit.add(e);
         boolean isCrit = FXGLMath.random(0,100) <= critChance;
-        if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == EnchantmentType.Crit) isCrit = FXGLMath.random(0,100) <= critChance * MagicSkillComponent.ENCHANTMENT_CRITCHANCE_MULT;
+        if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == IconType.Crit) isCrit = FXGLMath.random(0,100) <= critChance * MagicSkillComponent.ENCHANTMENT_CRITCHANCE_MULT;
 
         if(isCrit) {
             e.getComponent(HealthDoubleComponent.class).damage(damage * CRIT_MULT);
-            if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == EnchantmentType.Lifesteal) {
+            if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == IconType.Lifesteal) {
                 player.getComponent(PlayerStatsComponent.class).heal(damage * CRIT_MULT * MagicSkillComponent.ENCHANTMENT_LIFESTEAL_RATE);
             }
         }else {
             e.getComponent(HealthDoubleComponent.class).damage(damage);
-            if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == EnchantmentType.Lifesteal) {
+            if(player.getComponent(MagicSkillComponent.class).getCurrentActiveEnchantment() == IconType.Lifesteal) {
                 player.getComponent(PlayerStatsComponent.class).heal(damage * MagicSkillComponent.ENCHANTMENT_LIFESTEAL_RATE);
             }
         }

@@ -1,8 +1,10 @@
 package at.htl.flowstate.Components.Player.Skills;
 
-public enum EnchantmentType {
+public enum IconType {
     Crit,
     Speed,
     Lifesteal,
-    Piercing
+    Piercing,
+    Levitation,
+    Shield
 }

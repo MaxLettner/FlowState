@@ -25,10 +25,10 @@ public class HomingProjectileComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
-        if (!isActive) return;
+        if (!isActive) return; //instant return if the component is not active
 
         if (!initialized) {
-            directionAngle = angleToTarget(); // entity position is stable by now
+            directionAngle = angleToTarget();
             initialized = true;
         }
 
@@ -63,7 +63,7 @@ public class HomingProjectileComponent extends Component {
     }
 
     private double angleToTarget() {
-        Point2D selfCenter   = entity.getCenter();
+        Point2D selfCenter = entity.getCenter();
         Point2D targetCenter = target.getCenter();
         double dx = targetCenter.getX() - selfCenter.getX();
         double dy = targetCenter.getY() - selfCenter.getY();
