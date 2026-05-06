@@ -40,6 +40,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1,
                 0,
                 1,
+                200,
                 false
         );
     }
@@ -50,7 +51,7 @@ public class MeleeSkillComponent extends SkillComponent {
         if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
-                    .with(new WeaponDamageComponent(entity, 5, 0, 0))
+                    .with(new WeaponDamageComponent(entity, 5, 0, 0, 0))
                     .with(new SwordAnimationComponent(entity, 10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
@@ -63,7 +64,7 @@ public class MeleeSkillComponent extends SkillComponent {
         if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
-                    .with(new WeaponDamageComponent(entity, 10, 0, 0))
+                    .with(new WeaponDamageComponent(entity, 10, 0, 0, 0))
                     .with(new SwordAnimationComponent(entity, 10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
@@ -89,6 +90,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1.5,
                 0.75,
                 1,
+                400,
                 false
         );
     }
@@ -108,6 +110,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 0.5,
                 0,
                 3,
+                250,
                 false
         );
 
@@ -127,6 +130,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1.2,
                 0,
                 2,
+                250,
                 false
         );
     }
@@ -145,6 +149,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 2,
                 0,
                 2,
+                500,
                 false
         );
 
@@ -181,6 +186,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 2,
                 1.5,
                 2,
+                500,
                 false
         );
     }
@@ -199,6 +205,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 1.5,
                 0,
                 4,
+                400,
                 false
         );
     }
@@ -217,11 +224,12 @@ public class MeleeSkillComponent extends SkillComponent {
                 1,
                 0,
                 0,
+                1000,
                 false
         );
     }
 
-    private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, double stunDuration, double critChance, boolean debug) {
+    private void weaponBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double weaponWidth, double weaponHeight, double weaponDamage, int attackWeight, double duration, double stunDuration, double critChance, double knockbackStrength, boolean debug) {
         if(this.takeAttackWeight(attackWeight)) {
             URL url = MeleeSkillComponent.class.getResource("/assets/textures/" + textureName);
             assert url != null;
@@ -235,7 +243,7 @@ public class MeleeSkillComponent extends SkillComponent {
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(new Rectangle(weaponWidth, weaponHeight))
                         .view(texture)
-                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance))
+                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance, knockbackStrength))
                         .with(new SwordAnimationComponent(entity, attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();
@@ -243,7 +251,7 @@ public class MeleeSkillComponent extends SkillComponent {
                 entityBuilder()
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(texture)
-                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance))
+                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance, knockbackStrength))
                         .with(new SwordAnimationComponent(entity, attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();

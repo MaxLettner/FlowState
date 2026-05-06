@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -21,6 +22,10 @@ public abstract class EnemyBehaviourComponent extends Component {
     protected static final double JUMP_LOOK_AHEAD = 30.0;
     protected static final double MAX_JUMP_HEIGHT = 300.0;
 
+    protected final double specificMoveSpeed = MOVE_SPEED * FXGLMath.random(0.9, 1.1); //are specific for every enemy
+    protected final double specificJumpForce = JUMP_FORCE * FXGLMath.random(0.9, 1.1);
+
+
     protected static final double ENEMY_WIDTH = 40.0;
     protected static final double ENEMY_HEIGHT = 80.0;
 
@@ -40,10 +45,11 @@ public abstract class EnemyBehaviourComponent extends Component {
     @Override
     public void onUpdate(double tpf) {
         updateGroundState();
-        if(!entity.getComponent(EnemyStatsComponent.class).getIsCurrentlyStunned()) {
+        EnemyStatsComponent stats = entity.getComponent(EnemyStatsComponent.class);
+        if(!stats.getIsCurrentlyStunned() && !stats.isKnockedBack()) {
             chasePlayer();
             attack();
-        }else {
+        } else if(!stats.isKnockedBack()) {
             physics.setVelocityX(0);
         }
     }
@@ -54,7 +60,7 @@ public abstract class EnemyBehaviourComponent extends Component {
         double dx = player.getX() - entity.getX();
         int direction = dx < 10 && dx > -10 ? 0 : dx > 0 ? 1 : -1;
 
-        physics.setVelocityX(MOVE_SPEED * direction);
+        physics.setVelocityX(specificMoveSpeed * direction);
 
         if (isGrounded) {
             tryStep(direction);
@@ -108,7 +114,7 @@ public abstract class EnemyBehaviourComponent extends Component {
             double obstacleHeight = feetY - platTop;
             if (obstacleHeight <= STEP_HEIGHT || obstacleHeight > MAX_JUMP_HEIGHT) continue;
 
-            physics.setVelocityY(-JUMP_FORCE);
+            physics.setVelocityY(-specificJumpForce);
             jumpConsumed = true;
             return;
         }

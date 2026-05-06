@@ -134,7 +134,7 @@ public class RangedSkillComponent extends SkillComponent{
                 30,
                 30,
                 1300,
-                new HeavyTridentComponent(45),
+                new HeavyTridentComponent(45, 500, 200),
                 null,
                 false
         );

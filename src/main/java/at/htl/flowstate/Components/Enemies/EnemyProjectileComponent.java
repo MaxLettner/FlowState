@@ -29,7 +29,6 @@ public class EnemyProjectileComponent extends Component {
         }
         getPlatforms().forEach(e -> {
             if(entity.isColliding(e)) {
-                System.out.println(1);
                 entity.removeFromWorld();
             }
         });

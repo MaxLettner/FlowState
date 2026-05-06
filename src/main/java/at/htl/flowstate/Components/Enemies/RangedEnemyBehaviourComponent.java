@@ -46,7 +46,7 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
             direction = dx > 0 ? 1 : -1;
         }
 
-        physics.setVelocityX(MOVE_SPEED * direction);
+        physics.setVelocityX(specificMoveSpeed * direction);
 
         if (isGrounded) {
             tryStep(direction);
