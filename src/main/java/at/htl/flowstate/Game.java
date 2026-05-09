@@ -21,12 +21,15 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.almasb.fxgl.ui.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -46,6 +49,11 @@ public class Game extends GameApplication {
 
     private ProgressBar hpBar;
     private ProgressBar mpBar;
+
+    private static final double BG_SCROLL_FACTOR = 0.2;
+    private ImageView bg1;
+    private ImageView bg2;
+    private double bgWidth;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -119,9 +127,8 @@ public class Game extends GameApplication {
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameWorld().addEntityFactory(new EnemyFactory());
         getGameScene().setBackgroundColor(Color.WHITESMOKE);
-        //URL url = MeleeSkillComponent.class.getResource("/assets/textures/bg1.jpg");
-        //Image img = new Image(url.toExternalForm(), 2150, 1200, false, true);
-        //getGameScene().setBackgroundRepeat(img);
+
+
 
         levelGeneration = new LevelGeneration();
 
@@ -153,6 +160,31 @@ public class Game extends GameApplication {
 
         initHealthBar();
         initManaBar();
+
+        //background
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/assets/textures/bg.png")));
+        bg1 = new ImageView(img);
+        bg2 = new ImageView(img);
+
+        bg1.setFitHeight(WINDOW_HEIGHT);
+        bg1.setPreserveRatio(true);
+        bg1.setSmooth(false);
+        bg1.setCache(false);
+        bg1.setLayoutX(0);
+        bg1.setLayoutY(0);
+
+        bg2.setFitHeight(WINDOW_HEIGHT);
+        bg2.setPreserveRatio(true);
+        bg2.setSmooth(false);
+        bg2.setCache(false);
+
+        bgWidth = img.getWidth() * (WINDOW_HEIGHT / img.getHeight());
+        bg2.setLayoutX(bgWidth);
+        bg2.setLayoutY(0);
+
+        getGameScene().getRoot().getChildren().add(0, bg1);
+        getGameScene().getRoot().getChildren().add(1, bg2);
+
     }
 
     @Override
@@ -163,9 +195,18 @@ public class Game extends GameApplication {
         updateCamera();
         levelGeneration.generateLevel(player.getX());
         cleanupPlatforms();
+        scrollBg();
 
         hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
         mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
+    }
+
+    //-----BACKGROUND-----
+    private void scrollBg() {
+        double offset = -(getGameScene().getViewport().getX() * BG_SCROLL_FACTOR) % bgWidth;
+        if (offset > 0) offset -= bgWidth;
+        bg1.setLayoutX(Math.round(offset));
+        bg2.setLayoutX(Math.round(offset + bgWidth));
     }
 
     //-----CAMERA-----

@@ -64,10 +64,6 @@ public class MagicSkillComponent extends SkillComponent {
             if (!entity.getComponent(PlayerStatsComponent.class).takeMana(SHIELD_MANA_DRAIN_RATE * tpf))
                 deactivateShield();
         }
-
-        System.out.println(currentActiveEnchantment);
-        System.out.println(isLevitationActive);
-        System.out.println(isShieldActive);
     }
 
     //-----Skill actions-----
