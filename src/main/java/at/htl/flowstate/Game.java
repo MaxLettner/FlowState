@@ -270,13 +270,11 @@ public class Game extends GameApplication {
     }
 
     private void spawnMeleeEnemy(double x, double y) {
-        spawn("meleeEnemy", new SpawnData(x, y)
-                .put("player", player));
+        spawn("meleeEnemy", new SpawnData(x, y));
     }
 
     private void spawnRangedEnemy(double x, double y) {
-        spawn("rangedEnemy", new SpawnData(x, y)
-                .put("player", player));
+        spawn("rangedEnemy", new SpawnData(x, y));
     }
 
     public static void main(String[] args) {

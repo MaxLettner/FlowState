@@ -45,14 +45,12 @@ public class LevelGeneration {
 
 
     //-----INIT-----
-
     public LevelGeneration() {
         structureGeneration = new StructureGeneration();
     }
 
 
     //-----GENERATON-----
-
     public void generateLevel(double playerX) {
         while (playerX + SPAWN_DISTANCE > lastGeneratedX) {
             spawnNextSegment();

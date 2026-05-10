@@ -23,8 +23,8 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
     private boolean inAttackMode = false;
     private double attackCooldown = 0;
 
-    public RangedEnemyBehaviourComponent(Entity player) {
-        super(player);
+    public RangedEnemyBehaviourComponent() {
+
     }
 
     @Override
@@ -78,7 +78,7 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
                 .from(new SpawnData(spawnX, spawnY))
                 .viewWithBBox(new Rectangle(14, 4, Color.SADDLEBROWN))
                 .with(projPhysics)
-                .with(new EnemyProjectileComponent(player, DAMAGE))
+                .with(new EnemyProjectileComponent(DAMAGE))
                 .with(new DeleteAfterTimeComponent(10))
                 .with(new OffscreenCleanComponent())
                 .buildAndAttach();

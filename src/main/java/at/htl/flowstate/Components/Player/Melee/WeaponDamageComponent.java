@@ -6,6 +6,7 @@ import at.htl.flowstate.Components.Player.PlayerMovementComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.Skills.IconType;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
+import at.htl.flowstate.Game;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
@@ -24,8 +25,8 @@ public class WeaponDamageComponent extends Component {
     private static final double CRIT_MULT = 5;
     List<Entity> alreadyHit = new ArrayList<>();
 
-    public WeaponDamageComponent(Entity player, double damage, double stunDuration, double critChance, double knockbackStrength) {
-        this.player = player;
+    public WeaponDamageComponent(double damage, double stunDuration, double critChance, double knockbackStrength) {
+        this.player = Game.getPlayer();
         this.damage = damage;
         this.stunDuration = stunDuration;
         this.critChance = critChance;

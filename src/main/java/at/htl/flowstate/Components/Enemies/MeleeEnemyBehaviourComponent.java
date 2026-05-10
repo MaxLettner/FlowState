@@ -5,8 +5,7 @@ import com.almasb.fxgl.entity.Entity;
 
 public class MeleeEnemyBehaviourComponent extends EnemyBehaviourComponent {
 
-    public MeleeEnemyBehaviourComponent(Entity player) {
-        super(player);
+    public MeleeEnemyBehaviourComponent() {
     }
 
     public void attack() {

@@ -42,9 +42,9 @@ public class MagicSkillComponent extends SkillComponent {
     private static final double ICON_Y = 115;
     private static final double ICON_SIZE = 40;
 
-    private IconType  currentActiveEnchantment = null;
-    private boolean   isLevitationActive = false;
-    private boolean   isShieldActive = false;
+    private IconType currentActiveEnchantment = null;
+    private boolean isLevitationActive = false;
+    private boolean isShieldActive = false;
 
     private StackPane activeEnchantmentIcon = null;
     private StackPane activeLevitationIcon = null;

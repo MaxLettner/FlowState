@@ -2,6 +2,7 @@ package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Game;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -12,8 +13,8 @@ public class EnemyProjectileComponent extends Component {
     private final Entity player;
     private final double damage;
 
-    public EnemyProjectileComponent(Entity player, double damage) {
-        this.player = player;
+    public EnemyProjectileComponent(double damage) {
+        this.player = Game.getPlayer();
         this.damage = damage;
     }
 

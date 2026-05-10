@@ -12,9 +12,9 @@ public class SwordAnimationComponent extends AnimationComponent {
 
     private double elapsed = 0;
 
-    public SwordAnimationComponent(Entity player, int attackWeight, double duration) {
+    public SwordAnimationComponent(int attackWeight, double duration) {
         this.duration = duration;
-        super(player, attackWeight);
+        super(attackWeight);
     }
 
     @Override

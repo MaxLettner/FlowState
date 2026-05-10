@@ -51,8 +51,8 @@ public class MeleeSkillComponent extends SkillComponent {
         if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
-                    .with(new WeaponDamageComponent(entity, 5, 0, 0, 0))
-                    .with(new SwordAnimationComponent(entity, 10, 1))
+                    .with(new WeaponDamageComponent(5, 0, 0, 0))
+                    .with(new SwordAnimationComponent(10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
         }
@@ -64,8 +64,8 @@ public class MeleeSkillComponent extends SkillComponent {
         if(this.takeAttackWeight(10)) {
             entityBuilder()
                     .viewWithBBox(new Rectangle(10, 70, Color.GRAY))
-                    .with(new WeaponDamageComponent(entity, 10, 0, 0, 0))
-                    .with(new SwordAnimationComponent(entity, 10, 1))
+                    .with(new WeaponDamageComponent(10, 0, 0, 0))
+                    .with(new SwordAnimationComponent(10, 1))
                     .zIndex(-1)
                     .buildAndAttach();
         }
@@ -243,16 +243,16 @@ public class MeleeSkillComponent extends SkillComponent {
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(new Rectangle(weaponWidth, weaponHeight))
                         .view(texture)
-                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance, knockbackStrength))
-                        .with(new SwordAnimationComponent(entity, attackWeight, duration))
+                        .with(new WeaponDamageComponent(weaponDamage, stunDuration, critChance, knockbackStrength))
+                        .with(new SwordAnimationComponent(attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();
             } else {
                 entityBuilder()
                         .bbox(new HitBox(BoundingShape.box(weaponWidth, weaponHeight)))
                         .view(texture)
-                        .with(new WeaponDamageComponent(entity, weaponDamage, stunDuration, critChance, knockbackStrength))
-                        .with(new SwordAnimationComponent(entity, attackWeight, duration))
+                        .with(new WeaponDamageComponent(weaponDamage, stunDuration, critChance, knockbackStrength))
+                        .with(new SwordAnimationComponent(attackWeight, duration))
                         .zIndex(-1)
                         .buildAndAttach();
             }

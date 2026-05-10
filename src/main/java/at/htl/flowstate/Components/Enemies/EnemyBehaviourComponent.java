@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
+import at.htl.flowstate.Game;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -34,7 +35,9 @@ public abstract class EnemyBehaviourComponent extends Component {
     protected boolean isGrounded = false;
     protected boolean jumpConsumed = false;
 
-    public EnemyBehaviourComponent(Entity player) { this.player = player; }
+    public EnemyBehaviourComponent() {
+        this.player = Game.getPlayer();
+    }
 
     @Override
     public void onAdded() {

@@ -5,7 +5,6 @@ import com.almasb.fxgl.entity.component.Component;
 import javafx.geometry.Point2D;
 
 public class HomingProjectileComponent extends Component {
-
     private final Entity target;
     private final double speed;
     private final double maxTurnRateRad;

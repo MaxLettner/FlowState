@@ -14,9 +14,7 @@ public class StructureGeneration {
     //list containing all chests on the map so it can be checked whether the player is inside
     private List<Entity> chests = new ArrayList<>();
 
-    public StructureGeneration() {
-
-    }
+    public StructureGeneration() { }
 
     //-----STRUCTURES-----
 
