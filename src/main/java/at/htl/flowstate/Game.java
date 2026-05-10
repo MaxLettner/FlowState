@@ -1,7 +1,5 @@
 package at.htl.flowstate;
 
-import at.htl.flowstate.Components.Player.Melee.AttackAnimations.SwordAnimationComponent;
-import at.htl.flowstate.Components.Player.Melee.WeaponDamageComponent;
 import at.htl.flowstate.Components.Player.PlayerRouterComponent;
 import at.htl.flowstate.Components.Player.PlayerMovementComponent;
 import at.htl.flowstate.Components.Player.PlayerStatsComponent;
@@ -19,8 +17,6 @@ import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.BoundingShape;
-import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
@@ -31,10 +27,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
@@ -64,10 +60,11 @@ public class Game extends GameApplication {
     @Override
     protected void initSettings(GameSettings settings) {
         settings.setTitle("FlowState");
-        settings.setVersion("0.4.1");
+        settings.setVersion("0.6.1");
         settings.setWidth((int) WINDOW_WIDTH);
         settings.setHeight((int) WINDOW_HEIGHT);
         settings.setSceneFactory(new SceneFactory() {
+            @NotNull
             @Override
             public com.almasb.fxgl.app.scene.FXGLMenu newGameMenu() {
                 return new GameMenu();
@@ -82,6 +79,7 @@ public class Game extends GameApplication {
 
     @Override
     protected void initInput() {
+        //------User Actions-----
         getInput().addAction(new UserAction("Left") {
             @Override protected void onAction() { player.getComponent(PlayerMovementComponent.class).startMoveLeft(); }
             @Override protected void onActionEnd() { player.getComponent(PlayerMovementComponent.class).stopHorizontalMovement(); }
@@ -127,17 +125,29 @@ public class Game extends GameApplication {
 
     @Override
     protected void initGame() {
+        setupBars();
+        setupFactories();
+        levelGeneration = new LevelGeneration();
+        setupPlayer();
+        getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT); //setup bounds
+        skillTree = new SkillTree();
+        initHealthBar();
+        initManaBar();
+        setupBg();
+    }
+
+    //------SETUP-----
+    private void setupBars() {
         hpBar = new ProgressBar();
         mpBar = new ProgressBar();
+    }
 
+    private void setupFactories() {
         getGameWorld().addEntityFactory(new LevelFactory());
         getGameWorld().addEntityFactory(new EnemyFactory());
-        getGameScene().setBackgroundColor(Color.WHITESMOKE);
+    }
 
-
-
-        levelGeneration = new LevelGeneration();
-
+    private void setupPlayer() {
         FixtureDef playerFd = new FixtureDef().friction(0).density(1.0f);
         playerFd.getFilter().categoryBits = CATEGORY_PLAYER;
         playerFd.getFilter().maskBits = CATEGORY_TERRAIN;
@@ -159,15 +169,9 @@ public class Game extends GameApplication {
                 .with(new PlayerRouterComponent())
                 .collidable()
                 .buildAndAttach();
+    }
 
-        getGameScene().getViewport().setBounds(0, 0, Integer.MAX_VALUE, (int) WINDOW_HEIGHT);
-
-        skillTree = new SkillTree();
-
-        initHealthBar();
-        initManaBar();
-
-        //background
+    private void setupBg() {
         URL url = MeleeSkillComponent.class.getResource("/assets/textures/bg.png");
         assert url != null;
 
@@ -191,26 +195,6 @@ public class Game extends GameApplication {
                 .view(t2)
                 .zIndex(-100)
                 .buildAndAttach();
-
-//        bg1 = texture;
-//        bg1.setFitHeight(WINDOW_HEIGHT);
-//        bg1.setPreserveRatio(true);
-//        bg1.setSmooth(false);
-//        bg1.setLayoutX(0);
-//        bg1.setLayoutY(0);
-//
-//        bg2 = bg1.copy();
-//        bg2.setLayoutX(bgWidth);
-//        bg2.setLayoutY(0);
-//
-//        bgWidth = texture.getWidth() * (WINDOW_HEIGHT / texture.getHeight());
-//        bg2.setLayoutX(bgWidth);
-//        bg2.setLayoutY(0);
-//
-//        getGameScene().getRoot().getChildren().add(0, bg1);
-//        getGameScene().getRoot().getChildren().add(1, bg2);
-//        bg1.setSmooth(false);
-
     }
 
     @Override
@@ -222,9 +206,7 @@ public class Game extends GameApplication {
         levelGeneration.generateLevel(player.getX());
         cleanupPlatforms();
         scrollBg();
-
-        hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
-        mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
+        updateBars();
     }
 
     //-----BACKGROUND-----
@@ -245,13 +227,7 @@ public class Game extends GameApplication {
         }
     }
 
-    //-----HELPERS-----
-    private void cleanupPlatforms() {
-        double viewX = getGameScene().getViewport().getX();
-        List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
-        toRemove.forEach(Entity::removeFromWorld);
-    }
-
+    //-----BARS-----
     private void initHealthBar() {
         hpBar.setMinValue(0);
         hpBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxHealth());
@@ -281,14 +257,24 @@ public class Game extends GameApplication {
         addUINode(mpBar);
     }
 
+    private void updateBars() {
+        hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
+        mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
+    }
+
+    //-----HELPERS-----
+    private void cleanupPlatforms() {
+        double viewX = getGameScene().getViewport().getX();
+        List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
+        toRemove.forEach(Entity::removeFromWorld);
+    }
+
     private void spawnMeleeEnemy(double x, double y) {
-        //y = levelGeneration.getBaseY() - 150
         spawn("meleeEnemy", new SpawnData(x, y)
                 .put("player", player));
     }
 
     private void spawnRangedEnemy(double x, double y) {
-        //y = levelGeneration.getBaseY() - 150
         spawn("rangedEnemy", new SpawnData(x, y)
                 .put("player", player));
     }
