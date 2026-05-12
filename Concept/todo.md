@@ -22,13 +22,13 @@
 
 # John
 + fix basic not selectable
-+ textures
++ ~textures~
 + ~~magic missile~~
 + ~default arcane~
 + ~default elemental~
 + ~bg~
-+ player
-+ enemy
++ ~player~
++ ~enemy~
 + ~~knueppel~~
 + ~~speer (enemy)~~
 
