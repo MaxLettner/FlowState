@@ -1,5 +1,8 @@
 package at.htl.flowstate.Components.Enemies;
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Game;
 import com.almasb.fxgl.dsl.components.HealthDoubleComponent;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 public class EnemyStatsComponent extends Component {
@@ -9,6 +12,11 @@ public class EnemyStatsComponent extends Component {
     private double stunDurationLeft = 0;
     private double knockbackVelocity = 0;
     private final double KNOCKBACK_FRICTION = 600;
+    private final Entity player;
+
+    public EnemyStatsComponent() {
+        player = Game.getPlayer();
+    }
 
     @Override
     public void onUpdate(double tpf) {
@@ -21,6 +29,7 @@ public class EnemyStatsComponent extends Component {
     //-----Health Check-----
     private void checkIfStillAlive() {
         if(entity.getComponent(HealthDoubleComponent.class).isZero()) {
+            player.getComponent(PlayerStatsComponent.class).addExperience();
             entity.removeFromWorld();
         }
     }

@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
 
 public class PlayerStatsComponent extends Component {
@@ -9,6 +10,8 @@ public class PlayerStatsComponent extends Component {
     private double mana = 100;
     private double maxMana = 100;
     private double strength = 100;
+    private double experience = 0;
+    private double maxExperience = 3;
     private double dexterity = 100;
     private double level = 0;
     private double skillPoints = 0;
@@ -74,9 +77,31 @@ public class PlayerStatsComponent extends Component {
         return maxHealth;
     }
 
+    public double getExperience() {
+        return experience;
+    }
+
+    public double getMaxExperience() {
+        return maxExperience;
+    }
+
     public boolean takeMana(double m) {
         if(mana - m < 0) return false;
         mana -= m;
         return true;
+    }
+
+    public void addExperience() {
+        experience++;
+        if(experience == maxExperience) {
+            level++;
+            skillPoints++;
+            maxExperience = Math.ceil(maxExperience * 1.5);
+            experience = 0;
+        }
+    }
+
+    public void addSkillPoints() {
+        skillPoints++;
     }
 }

@@ -267,7 +267,7 @@ public class Game extends GameApplication {
 
     private void initExpBar() {
         epBar.setMinValue(0);
-        epBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxHealth());
+        epBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxExperience());
 
         epBar.setFill(Color.DARKGOLDENROD);
         epBar.setHeight(15);
@@ -282,7 +282,8 @@ public class Game extends GameApplication {
     private void updateBars() {
         hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
         mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
-        epBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
+        epBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxExperience());
+        epBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getExperience());
     }
 
     //-----HELPERS-----
