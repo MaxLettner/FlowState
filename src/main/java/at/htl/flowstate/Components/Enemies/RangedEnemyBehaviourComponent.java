@@ -1,17 +1,23 @@
 package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Player.Helpers.DeleteAfterTimeComponent;
+import at.htl.flowstate.Components.Player.Skills.MeleeSkillComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.net.URL;
+
 import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
+import static com.almasb.fxgl.dsl.FXGL.text;
 
 public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
     private static final double ATTACK_INTERVAL = 2.0;
@@ -61,21 +67,27 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
         Point2D vel = calculateBallisticVelocity();
         if (vel == null) return; //target out of range
 
-        //offset spawn so the arrow clears the enemys own collider
+        //offset spawn so the arrow clears the enemies own collider
         double spawnX = entity.getCenter().getX() + Math.signum(vel.getX()) * 30;
         double spawnY = entity.getCenter().getY();
 
         PhysicsComponent projPhysics = new PhysicsComponent();
         projPhysics.setBodyType(BodyType.DYNAMIC);
-        projPhysics.setFixtureDef(new FixtureDef().density(0.1f).friction(0));
         projPhysics.setOnPhysicsInitialized(() -> {
             projPhysics.setVelocityX(vel.getX());
             projPhysics.setVelocityY(vel.getY());
             projPhysics.getBody().setFixedRotation(false);
         });
 
+        URL url = MeleeSkillComponent.class.getResource("/assets/textures/Spear.png");
+        assert url != null;
+        Texture texture = new Texture(new Image(url.toExternalForm(), 100, 100, false, true));
+
+        //TODO: fix texture
+
         entityBuilder()
                 .from(new SpawnData(spawnX, spawnY))
+                .view(texture)
                 .viewWithBBox(new Rectangle(14, 4, Color.SADDLEBROWN))
                 .with(projPhysics)
                 .with(new EnemyProjectileComponent(DAMAGE))
