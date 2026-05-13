@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
+import at.htl.flowstate.Components.SpriteComponents.SpriteComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
@@ -21,6 +22,8 @@ public class PlayerMovementComponent extends Component {
     private static final int COYOTE_FRAMES = 5;
     private static final double LEVITATION_SPEED = 300.0;
 
+    private static final int LANDING_FRAMES_TEXTURES = 12;
+
     private static final double PLAYER_WIDTH = 40.0;
     private static final double PLAYER_HEIGHT = 80.0;
     private static final double STEP_HEIGHT = 20.0;
@@ -28,11 +31,13 @@ public class PlayerMovementComponent extends Component {
     private static final double STEP_FORWARD_NUDGE = STEP_LOOK_AHEAD + 2.0;
 
     private boolean isGrounded = false;
+    private boolean wasGrounded = false;
     private boolean jumpConsumed = false;
     private int coyoteTimer = 0;
-    private double  currentRunningFrames = 0;
+    private double currentRunningFrames = 0;
     private int lastMoveDirection = 0;
     private int currentWatchDirection = 1;
+    private int landingTimer = 0;
 
     private boolean isLevitationActive = false;
     private boolean isLevitatingUp = false;
@@ -47,8 +52,9 @@ public class PlayerMovementComponent extends Component {
     public void onUpdate(double tpf) {
         isLevitationActive = entity.getComponent(MagicSkillComponent.class).isLevitationActive();
 
+        wasGrounded = isGrounded;
+
         if (isLevitationActive) {
-            //override Y velocity every frame so that gravity has no effect
             if (isLevitatingUp) {
                 physics.setVelocityY(-LEVITATION_SPEED);
             } else if (isLevitatingDown) {
@@ -56,7 +62,7 @@ public class PlayerMovementComponent extends Component {
             } else {
                 physics.setVelocityY(2);
             }
-            isGrounded = false; //never grounded while levitating
+            isGrounded = false;
         } else {
             updateGroundState();
             if (isGrounded && lastMoveDirection != 0) {
@@ -65,6 +71,26 @@ public class PlayerMovementComponent extends Component {
         }
 
         keepOnScreen();
+        updateSprite();
+    }
+
+    private void updateSprite() {
+        SpriteComponent sprite = entity.getComponent(SpriteComponent.class);
+
+        if (!wasGrounded && isGrounded) {
+            landingTimer = LANDING_FRAMES_TEXTURES;
+        }
+
+        if (landingTimer > 0) {
+            landingTimer--;
+            sprite.setLand();
+        } else if (!isGrounded) {
+            sprite.setJump();
+        } else if (lastMoveDirection != 0) {
+            sprite.setWalk();
+        } else {
+            sprite.setIdle();
+        }
     }
 
     private void tryStep(int direction) {
@@ -117,7 +143,7 @@ public class PlayerMovementComponent extends Component {
         currentWatchDirection =  1;
     }
 
-    public void startMoveLeft()  {
+    public void startMoveLeft() {
         lastMoveDirection = -1;
         move(-1);
         currentWatchDirection = -1;
@@ -176,13 +202,13 @@ public class PlayerMovementComponent extends Component {
     }
 
     private void updateGroundState() {
-        boolean wasGrounded = isGrounded;
+        boolean wasGroundedLocal = isGrounded;
         isGrounded = Math.abs(physics.getVelocityY()) < 0.1;
 
-        if (wasGrounded && !isGrounded) {
+        if (wasGroundedLocal && !isGrounded) {
             coyoteTimer = COYOTE_FRAMES;
         } else if (isGrounded) {
-            coyoteTimer  = 0;
+            coyoteTimer = 0;
             jumpConsumed = false;
         } else if (coyoteTimer > 0) {
             coyoteTimer--;
