@@ -91,6 +91,12 @@ public class PlayerStatsComponent extends Component {
         return true;
     }
 
+    public boolean takeSkillPoints(double s) {
+        if(skillPoints - s < 0) return false;
+        skillPoints -= s;
+        return true;
+    }
+
     public void addExperience() {
         experience++;
         if(experience == maxExperience) {
@@ -101,7 +107,7 @@ public class PlayerStatsComponent extends Component {
         }
     }
 
-    public void addSkillPoints() {
+    public void addSkillPoint() {
         skillPoints++;
     }
 }

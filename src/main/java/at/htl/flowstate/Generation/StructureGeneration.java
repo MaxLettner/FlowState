@@ -21,11 +21,11 @@ public class StructureGeneration {
     public double spawnStructure(double lastGeneratedX, double currentY) {
         int rand = FXGLMath.random(0,2);
 
-        switch(rand) {
-            case 0: return spawnChestStructure(lastGeneratedX, currentY);
-            case 1: return spawnChallengeStructure(lastGeneratedX, currentY);
-        }
-        return lastGeneratedX;
+        return switch (rand) {
+            case 0 -> spawnChestStructure(lastGeneratedX, currentY);
+            case 1 -> spawnChallengeStructure(lastGeneratedX, currentY);
+            default -> lastGeneratedX;
+        };
     }
 
     private double  spawnChestStructure(double lastGeneratedX, double currentY) {

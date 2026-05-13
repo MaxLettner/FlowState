@@ -1,5 +1,6 @@
 package at.htl.flowstate.Factories;
 
+import at.htl.flowstate.Components.Chests.ChestComponent;
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -45,6 +46,7 @@ public class LevelFactory implements EntityFactory {
 
         return FXGL.entityBuilder(data)
                 .viewWithBBox(new Rectangle(w, h, color))
+                .with(new ChestComponent())
                 .collidable()
                 .zIndex(-1)
                 .buildAndAttach();
