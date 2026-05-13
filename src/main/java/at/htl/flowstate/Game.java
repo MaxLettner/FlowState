@@ -6,6 +6,7 @@ import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
 import at.htl.flowstate.Components.Player.Skills.MeleeSkillComponent;
 import at.htl.flowstate.Components.Player.Skills.RangedSkillComponent;
+import at.htl.flowstate.Components.SpriteComponents.SpriteComponent;
 import at.htl.flowstate.Factories.EnemyFactory;
 import at.htl.flowstate.Factories.LevelFactory;
 import at.htl.flowstate.Generation.LevelGeneration;
@@ -17,6 +18,8 @@ import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
@@ -118,6 +121,7 @@ public class Game extends GameApplication {
         getInput().addAction(new UserAction("SpawnTestEnemy") {
             @Override protected void onActionBegin() {
                 spawnMeleeEnemy(player.getX(), player.getY());
+                //player.getComponent(SpriteComponent.class).setLand();
             }
         }, MouseButton.SECONDARY);
         //------
@@ -159,7 +163,8 @@ public class Game extends GameApplication {
 
         player = entityBuilder()
                 .at(300, levelGeneration.getBaseY() - 150)
-                .viewWithBBox(new Rectangle(40, 80, Color.DODGERBLUE))
+                .view(new Rectangle(40, 80, Color.BLACK))
+                .bbox(new HitBox(BoundingShape.box(40, 80)))
                 .with(physics)
                 .with(new PlayerMovementComponent())
                 .with(new MeleeSkillComponent())
@@ -167,6 +172,7 @@ public class Game extends GameApplication {
                 .with(new MagicSkillComponent())
                 .with(new PlayerStatsComponent())
                 .with(new PlayerRouterComponent())
+                .with(new SpriteComponent("Player.png", "PlayerWalking.png", "PlayerAirborne.png", "PlayerLanding.png", 100))
                 .collidable()
                 .buildAndAttach();
     }
