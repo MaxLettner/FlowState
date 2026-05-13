@@ -4,12 +4,8 @@ import at.htl.flowstate.Components.Player.PlayerStatsComponent;
 import com.almasb.fxgl.entity.Entity;
 
 public class MeleeEnemyBehaviourComponent extends EnemyBehaviourComponent {
-
-    public MeleeEnemyBehaviourComponent() {
-    }
-
     public void attack() {
-        // manual overlap since physics collision between enemy and player is disabled
+        //manual overlap since physics collision between enemy and player is disabled
         double ex = entity.getX(), ey = entity.getY();
         double px = player.getX(), py = player.getY();
 

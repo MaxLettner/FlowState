@@ -30,7 +30,7 @@ public class EnemyFactory implements EntityFactory {
         PhysicsComponent physics = physicsBuilder();
 
         return FXGL.entityBuilder(data)
-                .view(new Rectangle(40, 80, Color.GREEN))
+                //.view(new Rectangle(40, 80, Color.GREEN))
                 .bbox(new HitBox(BoundingShape.box(40, 80)))
                 .with(physics)
                 .with(new MeleeEnemyBehaviourComponent())
@@ -47,7 +47,7 @@ public class EnemyFactory implements EntityFactory {
         PhysicsComponent physics = physicsBuilder();
 
         return FXGL.entityBuilder(data)
-                .view(new Rectangle(40, 80, Color.GREEN))
+                //.view(new Rectangle(40, 80, Color.GREEN))
                 .bbox(new HitBox(BoundingShape.box(40, 80)))
                 .with(physics)
                 .with(new RangedEnemyBehaviourComponent())

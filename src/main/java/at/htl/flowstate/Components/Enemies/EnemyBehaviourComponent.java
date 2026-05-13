@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.Enemies;
 
 import at.htl.flowstate.Components.Identifier.PlatformIdentifierComponent;
+import at.htl.flowstate.Components.SpriteComponents.SpriteComponent;
 import at.htl.flowstate.Game;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
@@ -23,7 +24,7 @@ public abstract class EnemyBehaviourComponent extends Component {
     protected static final double JUMP_LOOK_AHEAD = 30.0;
     protected static final double MAX_JUMP_HEIGHT = 300.0;
 
-    protected final double specificMoveSpeed = MOVE_SPEED * FXGLMath.random(0.9, 1.1); //are specific for every enemy
+    protected final double specificMoveSpeed = MOVE_SPEED * FXGLMath.random(0.9, 1.1);
     protected final double specificJumpForce = JUMP_FORCE * FXGLMath.random(0.9, 1.1);
 
     protected static final double ENEMY_WIDTH = 40.0;
@@ -32,7 +33,9 @@ public abstract class EnemyBehaviourComponent extends Component {
     protected static final double DAMAGE = 10.0;
 
     protected boolean isGrounded = false;
+    protected boolean wasGrounded = false;
     protected boolean jumpConsumed = false;
+    protected int lastMoveDirection = 1;
 
     public EnemyBehaviourComponent() {
         this.player = Game.getPlayer();
@@ -46,14 +49,18 @@ public abstract class EnemyBehaviourComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        wasGrounded = isGrounded;
         updateGroundState();
+
         EnemyStatsComponent stats = entity.getComponent(EnemyStatsComponent.class);
-        if(!stats.getIsCurrentlyStunned() && !stats.isKnockedBack()) {
+        if (!stats.getIsCurrentlyStunned() && !stats.isKnockedBack()) {
             chasePlayer();
             attack();
-        } else if(!stats.isKnockedBack()) {
+        } else if (!stats.isKnockedBack()) {
             physics.setVelocityX(0);
         }
+
+        updateSprite();
     }
 
     public abstract void attack();
@@ -62,11 +69,27 @@ public abstract class EnemyBehaviourComponent extends Component {
         double dx = player.getX() - entity.getX();
         int direction = dx < 10 && dx > -10 ? 0 : dx > 0 ? 1 : -1;
 
+        if (direction != 0) lastMoveDirection = direction;
         physics.setVelocityX(specificMoveSpeed * direction);
 
         if (isGrounded) {
             tryStep(direction);
             tryJump(direction);
+        }
+    }
+
+    private void updateSprite() {
+        SpriteComponent sprite = entity.getComponent(SpriteComponent.class);
+
+        if (!isGrounded) {
+            if (lastMoveDirection >= 0) sprite.setJumpRight();
+            else                        sprite.setJumpLeft();
+        } else if (Math.abs(physics.getVelocityX()) > 1.0) {
+            if (lastMoveDirection >= 0) sprite.setWalkRight();
+            else                        sprite.setWalkLeft();
+        } else {
+            if (lastMoveDirection >= 0) sprite.setIdleRight();
+            else                        sprite.setIdleLeft();
         }
     }
 

@@ -121,7 +121,7 @@ public class Game extends GameApplication {
         //-----Just For testing-----
         getInput().addAction(new UserAction("SpawnTestEnemy") {
             @Override protected void onActionBegin() {
-                spawnMeleeEnemy(player.getX(), player.getY());
+                spawnRangedEnemy(player.getX(), player.getY());
             }
         }, MouseButton.SECONDARY);
         //------
