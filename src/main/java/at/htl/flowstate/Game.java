@@ -54,6 +54,7 @@ public class Game extends GameApplication {
 
     private ProgressBar hpBar;
     private ProgressBar mpBar;
+    private ProgressBar epBar;
 
     private static final double BG_SCROLL_FACTOR = 0.05;
     private Entity bg1;
@@ -136,6 +137,7 @@ public class Game extends GameApplication {
         skillTree = new SkillTree();
         initHealthBar();
         initManaBar();
+        initExpBar();
         setupBg();
     }
 
@@ -143,6 +145,7 @@ public class Game extends GameApplication {
     private void setupBars() {
         hpBar = new ProgressBar();
         mpBar = new ProgressBar();
+        epBar = new ProgressBar();
     }
 
     private void setupFactories() {
@@ -262,9 +265,24 @@ public class Game extends GameApplication {
         addUINode(mpBar);
     }
 
+    private void initExpBar() {
+        epBar.setMinValue(0);
+        epBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxHealth());
+
+        epBar.setFill(Color.DARKGOLDENROD);
+        epBar.setHeight(15);
+        epBar.setWidth(300);
+
+        epBar.setLayoutX(WINDOW_WIDTH * 0.82);
+        epBar.setLayoutY(110);
+
+        addUINode(epBar);
+    }
+
     private void updateBars() {
         hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
         mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
+        epBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
     }
 
     //-----HELPERS-----
