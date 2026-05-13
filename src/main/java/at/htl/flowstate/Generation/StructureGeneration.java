@@ -49,7 +49,6 @@ public class StructureGeneration {
     }
 
     //-----HELPERS-----
-
     private void spawnAirPlatform(double x, double y, double width, double height) {
         spawn("platform", new SpawnData(x, y)
                 .put("color", Color.SADDLEBROWN)

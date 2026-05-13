@@ -39,7 +39,7 @@ public class MagicSkillComponent extends SkillComponent {
     private static final double LEVITATION_ICON_X_OFFSET = 0.930;
     private static final double SHIELD_ICON_X_OFFSET = 0.905;
 
-    private static final double ICON_Y = 115;
+    private static final double ICON_Y = 145;
     private static final double ICON_SIZE = 40;
 
     private IconType currentActiveEnchantment = null;

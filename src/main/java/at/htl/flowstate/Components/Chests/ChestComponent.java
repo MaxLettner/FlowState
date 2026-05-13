@@ -19,6 +19,7 @@ public class ChestComponent extends Component {
         if(entity.isColliding(player) && isClosed) {
             player.getComponent(PlayerStatsComponent.class).addSkillPoint();
             isClosed = false;
+            //entity.getViewComponent().clearChildren();
             //TODO: texture
         }
     }
