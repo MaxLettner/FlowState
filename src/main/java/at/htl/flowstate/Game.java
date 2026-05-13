@@ -162,6 +162,7 @@ public class Game extends GameApplication {
 
         player = entityBuilder()
                 .at(300, levelGeneration.getBaseY() - 150)
+                //.view(new Rectangle(40, 80, Color.BLACK))
                 .bbox(new HitBox(BoundingShape.box(40, 80)))
                 .with(physics)
                 .with(new PlayerMovementComponent())

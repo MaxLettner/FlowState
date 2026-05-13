@@ -83,13 +83,29 @@ public class PlayerMovementComponent extends Component {
 
         if (landingTimer > 0) {
             landingTimer--;
-            sprite.setLand();
+            if(currentWatchDirection == 1) {
+                sprite.setLandRight();
+            }else {
+                sprite.setLandLeft();
+            }
         } else if (!isGrounded) {
-            sprite.setJump();
+            if(currentWatchDirection == 1) {
+                sprite.setJumpRight();
+            }else {
+                sprite.setJumpLeft();
+            }
         } else if (lastMoveDirection != 0) {
-            sprite.setWalk();
+            if(currentWatchDirection == 1) {
+                sprite.setWalkRight();
+            }else {
+                sprite.setWalkLeft();
+            }
         } else {
-            sprite.setIdle();
+            if(currentWatchDirection == 1) {
+                sprite.setIdleRight();
+            }else {
+                sprite.setIdleLeft();
+            }
         }
     }
 
