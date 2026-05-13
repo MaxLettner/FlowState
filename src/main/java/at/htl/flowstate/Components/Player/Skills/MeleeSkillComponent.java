@@ -29,6 +29,26 @@ public class MeleeSkillComponent extends SkillComponent {
     //-----Start Weapon-----
     public void doStart () {
         weaponBuilder(
+                "Knuppel.png",
+                80,
+                -35,
+                3,
+                10,
+                80,
+                1,
+                10,
+                1,
+                0,
+                0,
+                200,
+                true
+        );
+    }
+
+    //-----Default Melee Skill-----
+    @Override
+    public void doDefault () {
+        weaponBuilder(
                 "RustySword.png",
                 80,
                 -35,
@@ -43,19 +63,6 @@ public class MeleeSkillComponent extends SkillComponent {
                 200,
                 false
         );
-    }
-
-    //-----Default Melee Skill-----
-    @Override
-    public void doDefault () {
-        if(this.takeAttackWeight(10)) {
-            entityBuilder()
-                    .viewWithBBox(new Rectangle(10, 50, Color.GRAY))
-                    .with(new WeaponDamageComponent(5, 0, 0, 0))
-                    .with(new SwordAnimationComponent(10, 1))
-                    .zIndex(-1)
-                    .buildAndAttach();
-        }
     }
 
     //-----Skills of the Subtrees-----
