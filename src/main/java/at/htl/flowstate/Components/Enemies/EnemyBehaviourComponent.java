@@ -26,7 +26,6 @@ public abstract class EnemyBehaviourComponent extends Component {
     protected final double specificMoveSpeed = MOVE_SPEED * FXGLMath.random(0.9, 1.1); //are specific for every enemy
     protected final double specificJumpForce = JUMP_FORCE * FXGLMath.random(0.9, 1.1);
 
-
     protected static final double ENEMY_WIDTH = 40.0;
     protected static final double ENEMY_HEIGHT = 80.0;
 

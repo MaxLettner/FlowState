@@ -4,7 +4,6 @@ import com.almasb.fxgl.entity.Entity;
 import javafx.geometry.Point2D;
 
 public class SwordAnimationComponent extends AnimationComponent {
-
     private static final double START_ANGLE = 220.0;
     private static final double END_ANGLE = 45.0;
 
