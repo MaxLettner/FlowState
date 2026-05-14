@@ -63,34 +63,24 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
         if (!inAttackMode || attackCooldown > 0) return;
 
         Point2D vel = calculateBallisticVelocity();
-        if (vel == null) return; //target out of range
+        if (vel == null) return;
 
-        //offset spawn so the arrow clears the enemies own collider
         double spawnX = entity.getCenter().getX() + Math.signum(vel.getX()) * 30;
         double spawnY = entity.getCenter().getY();
-
-        PhysicsComponent projPhysics = new PhysicsComponent();
-        projPhysics.setBodyType(BodyType.DYNAMIC);
-        projPhysics.setOnPhysicsInitialized(() -> {
-            projPhysics.setVelocityX(vel.getX());
-            projPhysics.setVelocityY(vel.getY());
-            projPhysics.getBody().setFixedRotation(true);
-        });
 
         URL url = MeleeSkillComponent.class.getResource("/assets/textures/Spear.png");
         assert url != null;
         Texture texture = new Texture(new Image(url.toExternalForm(), 100, 100, false, true));
         texture.setScaleX(-1);
-        texture.setRotate(135);
-        texture.setTranslateX(-100);
+        texture.setRotate(315);
+        texture.setTranslateX(15);
         texture.setTranslateY(-50);
 
         entityBuilder()
                 .from(new SpawnData(spawnX, spawnY))
                 .view(texture)
-                .bbox(new HitBox(BoundingShape.box(14, 4)))
-                .with(projPhysics)
-                .with(new RotateWithVelocityComponent())
+                .bbox(BoundingShape.box(14, 4))
+                .with(new BallisticProjectileComponent(vel.getX(), vel.getY()))
                 .with(new EnemyProjectileComponent(DAMAGE))
                 .with(new DeleteAfterTimeComponent(10))
                 .with(new OffscreenCleanComponent())
