@@ -41,17 +41,16 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
     protected void chasePlayer() {
         double dx = player.getX() - entity.getX();
         int direction;
-
         if (dx < 500 && dx > -500) {
             inAttackMode = true;
             direction = 0;
+            lastMoveDirection = dx >= 0 ? 1 : -1; // face the player while standing still
         } else {
             inAttackMode = false;
             direction = dx > 0 ? 1 : -1;
+            lastMoveDirection = direction;
         }
-
         physics.setVelocityX(specificMoveSpeed * direction);
-
         if (isGrounded) {
             tryStep(direction);
             tryJump(direction);
