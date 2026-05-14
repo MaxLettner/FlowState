@@ -5,6 +5,8 @@ import at.htl.flowstate.Components.Player.Skills.MeleeSkillComponent;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
@@ -28,10 +30,6 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
 
     private boolean inAttackMode = false;
     private double attackCooldown = 0;
-
-    public RangedEnemyBehaviourComponent() {
-
-    }
 
     @Override
     public void onUpdate(double tpf) {
@@ -76,20 +74,23 @@ public class RangedEnemyBehaviourComponent extends EnemyBehaviourComponent {
         projPhysics.setOnPhysicsInitialized(() -> {
             projPhysics.setVelocityX(vel.getX());
             projPhysics.setVelocityY(vel.getY());
-            projPhysics.getBody().setFixedRotation(false);
+            projPhysics.getBody().setFixedRotation(true);
         });
 
         URL url = MeleeSkillComponent.class.getResource("/assets/textures/Spear.png");
         assert url != null;
         Texture texture = new Texture(new Image(url.toExternalForm(), 100, 100, false, true));
-
-        //TODO: fix texture
+        texture.setScaleX(-1);
+        texture.setRotate(135);
+        texture.setTranslateX(-100);
+        texture.setTranslateY(-50);
 
         entityBuilder()
                 .from(new SpawnData(spawnX, spawnY))
                 .view(texture)
-                .viewWithBBox(new Rectangle(14, 4, Color.SADDLEBROWN))
+                .bbox(new HitBox(BoundingShape.box(14, 4)))
                 .with(projPhysics)
+                .with(new RotateWithVelocityComponent())
                 .with(new EnemyProjectileComponent(DAMAGE))
                 .with(new DeleteAfterTimeComponent(10))
                 .with(new OffscreenCleanComponent())
