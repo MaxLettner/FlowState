@@ -23,13 +23,12 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
-import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.ProgressBar;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -57,8 +56,8 @@ public class Game extends GameApplication {
     private ProgressBar epBar;
 
     private static final double BG_SCROLL_FACTOR = 0.05;
-    private Entity bg1;
-    private Entity bg2;
+    private ImageView bg1;
+    private ImageView bg2;
     private double bgWidth;
 
     @Override
@@ -165,7 +164,6 @@ public class Game extends GameApplication {
 
         player = entityBuilder()
                 .at(300, levelGeneration.getBaseY() - 150)
-                //.view(new Rectangle(40, 80, Color.BLACK))
                 .bbox(new HitBox(BoundingShape.box(40, 80)))
                 .with(physics)
                 .with(new PlayerMovementComponent())
@@ -183,26 +181,26 @@ public class Game extends GameApplication {
         URL url = MeleeSkillComponent.class.getResource("/assets/textures/bg.png");
         assert url != null;
 
-        Texture t1 = new Texture(new Image(url.toExternalForm(), WINDOW_HEIGHT/80*250, WINDOW_HEIGHT, false, true));
-        t1.setFitHeight(WINDOW_HEIGHT*1.05);
-        t1.setPreserveRatio(true);
-        t1.setSmooth(false);
+        Image img = new Image(url.toExternalForm(), WINDOW_HEIGHT/80*250, WINDOW_HEIGHT, false, true);
 
-        Texture t2 = t1.copy();
+        bg1 = new javafx.scene.image.ImageView(img);
+        bg1.setFitHeight(WINDOW_HEIGHT * 1.05);
+        bg1.setPreserveRatio(true);
+        bg1.setSmooth(false);
+        bg1.setLayoutX(0);
+        bg1.setLayoutY(0);
 
-        bgWidth = t1.getImage().getWidth() * (WINDOW_HEIGHT / t1.getImage().getHeight());
+        bg2 = new javafx.scene.image.ImageView(img);
+        bg2.setFitHeight(WINDOW_HEIGHT * 1.05);
+        bg2.setPreserveRatio(true);
+        bg2.setSmooth(false);
 
-        bg1 = entityBuilder()
-                .at(0, 0)
-                .view(t1)
-                .zIndex(-100)
-                .buildAndAttach();
+        bgWidth = (WINDOW_HEIGHT * 1.05) * (img.getWidth() / img.getHeight());
+        bg2.setLayoutX(bgWidth);
+        bg2.setLayoutY(0);
 
-        bg2 = entityBuilder()
-                .at(bgWidth, 0)
-                .view(t2)
-                .zIndex(-100)
-                .buildAndAttach();
+        getGameScene().getRoot().getChildren().add(0, bg1);
+        getGameScene().getRoot().getChildren().add(1, bg2);
     }
 
     @Override
@@ -219,11 +217,10 @@ public class Game extends GameApplication {
 
     //-----BACKGROUND-----
     private void scrollBg() {
-        double vpX = getGameScene().getViewport().getX();
         double offset = -(player.getX() * BG_SCROLL_FACTOR) % bgWidth;
         if (offset > 0) offset -= bgWidth;
-        bg1.setX(vpX + Math.round(offset));
-        bg2.setX(vpX + Math.round(offset + bgWidth));
+        bg1.setLayoutX(Math.round(offset));
+        bg2.setLayoutX(Math.round(offset + bgWidth));
     }
 
     //-----CAMERA-----
