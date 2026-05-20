@@ -82,31 +82,8 @@ public abstract class SkillTreeParent {
         return createStyledButton(name, skillType, false);
     }
 
-    protected Button createSkillButton(SkillType skillType) {
-        Button button = createStyledButton(skillType.getName(), skillType, true);
-
-        button.setOnAction(e -> {
-            skillList.unlockSkill(skillType);
-            ButtonState state = (ButtonState) button.getUserData();
-            state.isUnlocked = true;
-            updateButtonStyle(button, true);
-        });
-
-        return button;
-    }
-
     private void updateButtonStyle(Button button, boolean unlocked) {
         button.setStyle(unlocked ? STYLE_UNLOCKED : STYLE_DEFAULT);
-    }
-
-    protected void setUnlocked(Button button) {
-        ButtonState state = (ButtonState) button.getUserData();
-        if (state != null) {
-            state.isUnlocked = true;
-        } else {
-            button.setUserData(new ButtonState(true, button.getText()));
-        }
-        updateButtonStyle(button, true);
     }
 
     protected static class ButtonState {

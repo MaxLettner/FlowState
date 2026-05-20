@@ -9,35 +9,16 @@ import com.almasb.fxgl.entity.Entity;
 
 public class SkillTreeNode {
     private final SkillType skillType;
-    private final SkillType parentSkillType;
     private final SkillTreeNode[] children;
     private final SkillList skillList;
     private final Entity player;
-    private int firstTimeUnlock = -1;
 
-    public SkillTreeNode(SkillType skillType, SkillType parentSkillType, SkillTreeNode[] children) {
+    public SkillTreeNode(SkillType skillType, SkillTreeNode[] children) {
         this.skillType = skillType;
-        this.parentSkillType = parentSkillType;
         this.children = children;
         this.skillList = SkillList.getInstance();
         player = Game.getPlayer();
     }
-    public SkillTreeNode(SkillType skillType, SkillType parentSkillType, SkillTreeNode[] children, boolean isCategoryNode) {
-        this.skillType = skillType;
-        this.parentSkillType = parentSkillType;
-        this.children = children;
-        this.skillList = SkillList.getInstance();
-        player = Game.getPlayer();
-
-        if(isCategoryNode){
-            this.firstTimeUnlock = 0;
-        }
-    }
-
-    public int getFirstTimeUnlock() {
-        return firstTimeUnlock;
-    }
-
 
     public SkillType getSkillType() {
         return skillType;
@@ -55,26 +36,8 @@ public class SkillTreeNode {
         if (!isUnlocked()) {
             if(player.getComponent(PlayerStatsComponent.class).takeSkillPoints(skillList.getSkill(skillType).getCost())) {
                 skillList.unlockSkill(skillType);
-                firstTimeUnlock = 1;
                 //TODO: work out
             }
         }
-    }
-
-    public boolean isLeafNode() {
-        return children == null || children.length == 0;
-    }
-    public boolean canUnlock() {
-
-        if (isUnlocked()){
-            return false;
-        }
-        if(parentSkillType == null){
-            return true;
-        }
-        if(skillList.isSkillUnlocked(parentSkillType)){
-            return true;
-        }
-        return false;
     }
 }

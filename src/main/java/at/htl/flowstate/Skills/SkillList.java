@@ -2,6 +2,7 @@ package at.htl.flowstate.Skills;
 
 import at.htl.flowstate.Components.Player.PlayerRouterComponent;
 import at.htl.flowstate.Game;
+import com.almasb.fxgl.entity.Entity;
 
 import java.util.Arrays;
 
@@ -9,8 +10,11 @@ public class SkillList {
     private static SkillList instance;
     private final Skill[] skills;
     private int index_of_selected_skill;
+    private final Entity player;
 
     private SkillList() {
+        player = Game.getPlayer();
+
         index_of_selected_skill = 0;
 
         this.skills = new Skill[]{
@@ -129,7 +133,7 @@ public class SkillList {
     }
 
     private void updateSelected(){
-        Game.getPlayer().getComponent(PlayerRouterComponent.class).setCurrentSelection(skills[index_of_selected_skill].getType());
+        player.getComponent(PlayerRouterComponent.class).setCurrentSelection(skills[index_of_selected_skill].getType());
     }
 
 }
