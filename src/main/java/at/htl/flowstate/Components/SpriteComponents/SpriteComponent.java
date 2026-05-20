@@ -27,7 +27,6 @@ public class SpriteComponent extends Component {
         idleTextureLeft.setTranslateX(-32);
         idleTextureLeft.setTranslateY(-17);
 
-
         url = SpriteComponent.class.getResource("/assets/textures/" + walkTexturePath);
         assert url != null;
         walkTextureRight = new Texture(new Image(url.toExternalForm(), scale, scale, false, true));
