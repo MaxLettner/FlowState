@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public abstract class SkillTreeParent {
-
     protected final int nodeSize = 100;
     protected final VBox root;
     protected SkillList skillList;

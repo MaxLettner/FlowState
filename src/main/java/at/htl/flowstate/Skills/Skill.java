@@ -1,18 +1,20 @@
 package at.htl.flowstate.Skills;
 
 public class Skill {
-        private String name;
-        private String description;
+        private final String name;
+        private final String description;
         private boolean isUnlocked;
-        private SkillType type;
+        private final SkillType type;
+        private final int cost;
         private boolean isSelected;
 
 
-        public Skill(String description, SkillType type) {
+        public Skill(String description, SkillType type, int cost) {
             this.name = type.getName();
             this.description = description;
             this.isUnlocked = false;
             this.type = type;
+            this.cost = cost;
         }
 
         public String getName() {

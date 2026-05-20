@@ -13,12 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class SkillTree extends SkillTreeParent {
-
     private SkillTreeNode magicNode;
     private SkillTreeNode meleeNode;
     private SkillTreeNode rangedNode;
 
-    private boolean[] skillUnlockStatus = new boolean[3];
+    private final boolean[] skillUnlockStatus = new boolean[3];
     /*
      * false == first time unlocked
      * true == was already unlocked before
