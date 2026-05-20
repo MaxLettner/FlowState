@@ -44,9 +44,9 @@ public abstract class SkillTreeParent {
         return isOpen;
     }
 
-    private static final String STYLE_DEFAULT        = "-fx-font-size: 18px; -fx-background-color: #444; -fx-text-fill: white;";
-    private static final String STYLE_HOVER          = "-fx-font-size: 18px; -fx-background-color: #666; -fx-text-fill: white;";
-    private static final String STYLE_UNLOCKED       = "-fx-font-size: 18px; -fx-background-color: #008000; -fx-text-fill: white;";
+    private static final String STYLE_DEFAULT = "-fx-font-size: 18px; -fx-background-color: #444; -fx-text-fill: white;";
+    private static final String STYLE_HOVER = "-fx-font-size: 18px; -fx-background-color: #666; -fx-text-fill: white;";
+    private static final String STYLE_UNLOCKED = "-fx-font-size: 18px; -fx-background-color: #008000; -fx-text-fill: white;";
     private static final String STYLE_UNLOCKED_HOVER = "-fx-font-size: 18px; -fx-background-color: #00a000; -fx-text-fill: white;";
 
     protected Button createStyledButton(String name, SkillType skillType, boolean isSkillButton) {

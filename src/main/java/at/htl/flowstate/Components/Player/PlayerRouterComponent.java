@@ -72,7 +72,7 @@ public class PlayerRouterComponent extends Component {
             //elemental
             case SkillType.MAGIC_ELEMENTAL: magic.doSub2();break;
             case SkillType.ELEMENTAL_FIRE_BALL: magic.doSub2Skill1();break;
-            case SkillType.ELEMENTAL_ICECICLE: magic.doSub2Skill2();break;
+            case SkillType.ELEMENTAL_ICICLE: magic.doSub2Skill2();break;
             case SkillType.ELEMENTAL_POISON_DARTS: magic.doSub2Skill3();break;
             //enchanting
             case SkillType.MAGIC_ENCHANTING: magic.doSub3();break;

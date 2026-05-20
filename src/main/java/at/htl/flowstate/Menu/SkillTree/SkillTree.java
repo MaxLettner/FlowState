@@ -48,7 +48,7 @@ public class SkillTree extends SkillTreeParent {
 
         SkillTreeNode elementalNode = new SkillTreeNode(SkillType.MAGIC_ELEMENTAL, new SkillTreeNode[]{
                 new SkillTreeNode(SkillType.ELEMENTAL_FIRE_BALL, null),
-                new SkillTreeNode(SkillType.ELEMENTAL_ICECICLE, null),
+                new SkillTreeNode(SkillType.ELEMENTAL_ICICLE, null),
                 new SkillTreeNode(SkillType.ELEMENTAL_POISON_DARTS, null)
         });
 

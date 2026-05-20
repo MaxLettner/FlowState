@@ -39,15 +39,5 @@ public class GameMenu extends FXGLMenu {
         root.getChildren().addAll(title, resumeBtn, exitBtn);
         getContentRoot().getChildren().add(root);
     }
-
-    @Override
-    public void onCreate() {
-        // Called when menu is created
-    }
-
-    @Override
-    public void onUpdate(double tpf) {
-        // Called every frame
-    }
 }
 

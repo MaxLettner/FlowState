@@ -20,7 +20,7 @@ public enum SkillType {
 
     // Elemental skills
     ELEMENTAL_FIRE_BALL("Fire Ball"),
-    ELEMENTAL_ICECICLE("Icecicle"),
+    ELEMENTAL_ICICLE("Icicle"),
     ELEMENTAL_POISON_DARTS("Poison Darts"),
 
     // Enchanting skills

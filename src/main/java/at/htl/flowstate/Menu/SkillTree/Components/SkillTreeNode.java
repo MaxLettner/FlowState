@@ -6,7 +6,6 @@ import at.htl.flowstate.Skills.SkillList;
 import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.entity.Entity;
 
-
 public class SkillTreeNode {
     private final SkillType skillType;
     private final SkillTreeNode[] children;
@@ -36,7 +35,6 @@ public class SkillTreeNode {
         if (!isUnlocked()) {
             if(player.getComponent(PlayerStatsComponent.class).takeSkillPoints(skillList.getSkill(skillType).getCost())) {
                 skillList.unlockSkill(skillType);
-                //TODO: work out
             }
         }
     }
