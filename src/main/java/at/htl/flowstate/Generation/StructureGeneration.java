@@ -13,9 +13,6 @@ import static com.almasb.fxgl.dsl.FXGL.spawn;
 public class StructureGeneration {
     private static final double STRUCTURE_CHANCE = 0.03;
 
-    //list containing all chests on the map so it can be checked whether the player is inside
-    private List<Entity> chests = new ArrayList<>();
-
     public StructureGeneration() { }
 
     public Double trySpawn(double lastGeneratedX, double currentY) {
@@ -38,11 +35,10 @@ public class StructureGeneration {
 
         spawnChest(lastGeneratedX+10, currentY-50);
         LevelGeneration.spawnGroundSegment(lastGeneratedX, currentY, 100);
-        return lastGeneratedX += 100;
+        return lastGeneratedX + 100;
     }
 
     private double spawnChallengeStructure(double lastGeneratedX, double currentY) {
-
         spawnAirPlatform(lastGeneratedX, currentY - 200, 50, 50);
         spawnAirPlatform(lastGeneratedX + 200, currentY - 400, 50, 50);
         spawnAirPlatform(lastGeneratedX, currentY - 600, 50, 50);
@@ -51,7 +47,7 @@ public class StructureGeneration {
         spawnChest(lastGeneratedX + 210, currentY - 850);
 
         LevelGeneration.spawnGroundSegment(lastGeneratedX, currentY, 400);
-        return lastGeneratedX += 400;
+        return lastGeneratedX + 400;
     }
 
     //-----HELPERS-----
@@ -63,9 +59,9 @@ public class StructureGeneration {
     }
 
     private void spawnChest(double x, double y) {
-        chests.add(spawn("chest", new SpawnData(x, y)
+        spawn("chest", new SpawnData(x, y)
                 .put("color", Color.RED)
                 .put("width", 80.0)
-                .put("height", 50.0)));
+                .put("height", 50.0));
     }
 }
