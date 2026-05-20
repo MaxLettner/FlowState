@@ -1,10 +1,8 @@
 package at.htl.flowstate.Components.Player.Skills;
 
 import at.htl.flowstate.Components.Player.*;
-import at.htl.flowstate.Components.Player.MagicProjectiles.FireballProjectileComponent;
-import at.htl.flowstate.Components.Player.MagicProjectiles.IcecicleProjectileComponent;
-import at.htl.flowstate.Components.Player.MagicProjectiles.PlayerProjectileComponent;
-import at.htl.flowstate.Components.Player.MagicProjectiles.PoisonDartProjectileComponent;
+import at.htl.flowstate.Components.Player.Helpers.HomingProjectileComponent;
+import at.htl.flowstate.Components.Player.MagicProjectiles.*;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -70,7 +68,7 @@ public class MagicSkillComponent extends SkillComponent {
     @Override
     public void doDefault() {
         projectileBuilder(
-                "MagicMissile.png",
+                "MagicProjectile.png",
                 80,
                 -30,
                 -28.5,
@@ -96,7 +94,33 @@ public class MagicSkillComponent extends SkillComponent {
 
     //-----Skills of Arcane-----
     @Override public void doSub1Skill1() {
-        //magic missile
+        projectileBuilder(
+                "MagicMissile.png",
+                80,
+                -30,
+                -28.5,
+                0,
+                20,
+                20,
+                20,
+                600,
+                getInput().getVectorToMouse(entity.getCenter()),
+                new PlayerProjectileComponent(20, 1), false
+        );
+
+        if(entity.getComponent(PlayerStatsComponent.class).takeMana(20)) {
+            Texture texture = getTexture("MagicMissile.png", 80, -30, -28.5, 0);
+            entityBuilder()
+                    .at(entity.getCenter())
+                    .bbox(new HitBox(BoundingShape.box(20, 20)))
+                    .view(new Rectangle(20, 20))
+                    .view(texture)
+                    .with(new ProjectileComponent(getInput().getVectorToMouse(entity.getCenter()), 400))
+                    .with(new MissileProjectileComponent(20, 1))
+                    .with(new OffscreenCleanComponent())
+                    .zIndex(-1)
+                    .buildAndAttach();
+        }
     }
 
     @Override
@@ -332,11 +356,7 @@ public class MagicSkillComponent extends SkillComponent {
     //-----Builder-----
     public void projectileBuilder(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation, double projWidth, double projHeight, double manaCost, double projSpeed, Point2D target, @NotNull PlayerProjectileComponent specificComponent, boolean debug) {
         if (entity.getComponent(PlayerStatsComponent.class).takeMana(manaCost)) {
-            URL url = MeleeSkillComponent.class.getResource("/assets/textures/" + textureName);
-            Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
-            texture.setRotate(textureRotation);
-            texture.setTranslateX(textureOffsetX);
-            texture.setTranslateY(textureOffsetY);
+            Texture texture = getTexture(textureName, textureScale, textureOffsetX, textureOffsetY, textureRotation);
 
             if (debug) {
                 entityBuilder()
@@ -361,6 +381,17 @@ public class MagicSkillComponent extends SkillComponent {
                         .buildAndAttach();
             }
         }
+    }
+
+    private Texture getTexture(String textureName, double textureScale, double textureOffsetX, double textureOffsetY, double textureRotation) {
+        URL url = MeleeSkillComponent.class.getResource("/assets/textures/" + textureName);
+        assert url != null;
+        Texture texture = new Texture(new Image(url.toExternalForm(), textureScale, textureScale, false, true));
+        texture.setRotate(textureRotation);
+        texture.setTranslateX(textureOffsetX);
+        texture.setTranslateY(textureOffsetY);
+
+        return texture;
     }
 
     //-----Getters-----
