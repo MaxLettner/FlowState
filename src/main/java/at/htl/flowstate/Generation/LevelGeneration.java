@@ -8,7 +8,8 @@ import static com.almasb.fxgl.dsl.FXGL.spawn;
 
 public class LevelGeneration {
 
-    private StructureGeneration structureGeneration;
+    private final StructureGeneration structureGeneration;
+    private final EnemyGeneration enemyGeneration;
 
     //the floor of each ground segment fills from its top surface all the way
     //down to DEEP_FLOOR which is twice the window height well off-screen
@@ -16,19 +17,20 @@ public class LevelGeneration {
     private static final double DEEP_FLOOR = 1500;
 
     //terrain parameters
-    private final double BASE_Y = 950;  //the base level the terrain hovers around
-    private final double MIN_Y = 800;  //highest the terrain can rise
-    private final double MAX_Y = 1000; //lowest the terrain can sink before its a wall
+    private static final double BASE_Y = 950;  //the base level the terrain hovers around
+    private static final double MIN_Y = 800;  //highest the terrain can rise
+    private static final double MAX_Y = 1000; //lowest the terrain can sink before its a wall
 
     //pit parameters
-    private final double PIT_CHANCE = 0.06;  //in decimal
-    private final double PIT_MIN_WIDTH = 160;
-    private final double PIT_MAX_WIDTH = 280;
+    private static final double PIT_CHANCE = 0.06;  //in decimal
+    private static final double PIT_MIN_WIDTH = 160;
+    private static final double PIT_MAX_WIDTH = 280;
 
-    private final double STRUCTURE_CHANCE = 0.05;
+    private static final double STRUCTURE_CHANCE = 0.03;
+    private static final double ENEMY_CHANCE = 0.2;
 
     //how far ahead the world is generated
-    private final double SPAWN_DISTANCE = 1400;
+    private static final double SPAWN_DISTANCE = 1400;
 
     //generation state
     private double lastGeneratedX = 0;
@@ -47,6 +49,7 @@ public class LevelGeneration {
     //-----INIT-----
     public LevelGeneration() {
         structureGeneration = new StructureGeneration();
+        enemyGeneration = new EnemyGeneration();
     }
 
 
@@ -79,6 +82,7 @@ public class LevelGeneration {
         currentY = nextTerrainY(segmentW);
 
         spawnGroundSegment(lastGeneratedX, currentY, segmentW);
+        if(Math.random() < ENEMY_CHANCE) enemyGeneration.spawnEnemy(lastGeneratedX, currentY);
         lastGeneratedX += segmentW;
     }
 
