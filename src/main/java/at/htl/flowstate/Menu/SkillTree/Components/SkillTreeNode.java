@@ -1,7 +1,10 @@
 package at.htl.flowstate.Menu.SkillTree.Components;
 
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Game;
 import at.htl.flowstate.Skills.SkillList;
 import at.htl.flowstate.Skills.SkillType;
+import com.almasb.fxgl.entity.Entity;
 
 
 public class SkillTreeNode {
@@ -9,6 +12,7 @@ public class SkillTreeNode {
     private final SkillType parentSkillType;
     private final SkillTreeNode[] children;
     private final SkillList skillList;
+    private final Entity player;
     private int firstTimeUnlock = -1;
 
     public SkillTreeNode(SkillType skillType, SkillType parentSkillType, SkillTreeNode[] children) {
@@ -16,12 +20,14 @@ public class SkillTreeNode {
         this.parentSkillType = parentSkillType;
         this.children = children;
         this.skillList = SkillList.getInstance();
+        player = Game.getPlayer();
     }
     public SkillTreeNode(SkillType skillType, SkillType parentSkillType, SkillTreeNode[] children, boolean isCategoryNode) {
         this.skillType = skillType;
         this.parentSkillType = parentSkillType;
         this.children = children;
         this.skillList = SkillList.getInstance();
+        player = Game.getPlayer();
 
         if(isCategoryNode){
             this.firstTimeUnlock = 0;
@@ -47,8 +53,11 @@ public class SkillTreeNode {
 
     public void onClick() {
         if (!isUnlocked()) {
-            skillList.unlockSkill(skillType);
-            firstTimeUnlock = 1;
+            if(player.getComponent(PlayerStatsComponent.class).takeSkillPoints(skillList.getSkill(skillType).getCost())) {
+                skillList.unlockSkill(skillType);
+                firstTimeUnlock = 1;
+                //TODO: work out
+            }
         }
     }
 

@@ -36,6 +36,7 @@ public class Skill {
         public void select(){
             isSelected = true;
         }
+
         public void deselect(){
             isSelected = false;
         }
@@ -43,7 +44,12 @@ public class Skill {
         public void revoke() {
             isUnlocked = false;
         }
+
         public SkillType getType() {
             return type;
+        }
+
+        public int getCost() {
+            return cost;
         }
 }
