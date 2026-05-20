@@ -116,14 +116,6 @@ public class Game extends GameApplication {
                 if(!skillTree.isOpen()) player.getComponent(PlayerRouterComponent.class).doCurrentAction();
             }
         }, MouseButton.PRIMARY);
-
-        //-----Just For testing-----
-        getInput().addAction(new UserAction("SpawnTestEnemy") {
-            @Override protected void onActionBegin() {
-                spawnRangedEnemy(player.getX(), player.getY());
-            }
-        }, MouseButton.SECONDARY);
-        //------
     }
 
     @Override
@@ -288,14 +280,6 @@ public class Game extends GameApplication {
         double viewX = getGameScene().getViewport().getX();
         List<Entity> toRemove = getGameWorld().getEntitiesFiltered(e -> e.getX() < viewX - 3500);
         toRemove.forEach(Entity::removeFromWorld);
-    }
-
-    private void spawnMeleeEnemy(double x, double y) {
-        spawn("meleeEnemy", new SpawnData(x, y));
-    }
-
-    private void spawnRangedEnemy(double x, double y) {
-        spawn("rangedEnemy", new SpawnData(x, y));
     }
 
     public static void main(String[] args) {
