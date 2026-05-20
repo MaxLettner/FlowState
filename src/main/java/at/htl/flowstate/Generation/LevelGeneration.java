@@ -26,9 +26,6 @@ public class LevelGeneration {
     private static final double PIT_MIN_WIDTH = 160;
     private static final double PIT_MAX_WIDTH = 280;
 
-    private static final double STRUCTURE_CHANCE = 0.03;
-    private static final double ENEMY_CHANCE = 0.2;
-
     //how far ahead the world is generated
     private static final double SPAWN_DISTANCE = 1400;
 
@@ -70,8 +67,9 @@ public class LevelGeneration {
             return;
         }
 
-        if(Math.random() < STRUCTURE_CHANCE) {
-            lastGeneratedX = structureGeneration.spawnStructure(lastGeneratedX, currentY);
+        Double structureWidth = structureGeneration.trySpawn(lastGeneratedX, currentY);
+        if(structureWidth != null) {
+            lastGeneratedX = structureWidth;
             return;
         }
 
@@ -82,7 +80,7 @@ public class LevelGeneration {
         currentY = nextTerrainY(segmentW);
 
         spawnGroundSegment(lastGeneratedX, currentY, segmentW);
-        if(Math.random() < ENEMY_CHANCE) enemyGeneration.spawnEnemy(lastGeneratedX, currentY);
+        enemyGeneration.trySpawn(lastGeneratedX, currentY);
         lastGeneratedX += segmentW;
     }
 

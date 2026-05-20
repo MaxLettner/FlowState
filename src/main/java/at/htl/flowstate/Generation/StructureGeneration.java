@@ -11,14 +11,20 @@ import java.util.List;
 import static com.almasb.fxgl.dsl.FXGL.spawn;
 
 public class StructureGeneration {
+    private static final double STRUCTURE_CHANCE = 0.03;
+
     //list containing all chests on the map so it can be checked whether the player is inside
     private List<Entity> chests = new ArrayList<>();
 
     public StructureGeneration() { }
 
-    //-----STRUCTURES-----
+    public Double trySpawn(double lastGeneratedX, double currentY) {
+        if(Math.random() < STRUCTURE_CHANCE) return spawnStructure(lastGeneratedX, currentY);
+        return null;
+    }
 
-    public double spawnStructure(double lastGeneratedX, double currentY) {
+    //-----STRUCTURES-----
+    private double spawnStructure(double lastGeneratedX, double currentY) {
         int rand = FXGLMath.random(0,2);
 
         return switch (rand) {

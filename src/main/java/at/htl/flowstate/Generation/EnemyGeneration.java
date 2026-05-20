@@ -4,10 +4,15 @@ import static com.almasb.fxgl.dsl.FXGL.spawn;
 import com.almasb.fxgl.entity.SpawnData;
 
 public class EnemyGeneration {
+    private static final double ENEMY_CHANCE = 0.2;
     private static final double RANGED_CHANCE = 0.2;
     private static final double GANG_CHANCE = 0.05;
 
-    public void spawnEnemy(double x, double y) {
+    public void trySpawn(double x, double y) {
+        if(Math.random() < ENEMY_CHANCE) spawnEnemy(x, y);
+    }
+
+    private void spawnEnemy(double x, double y) {
         if(Math.random() < RANGED_CHANCE) {
             spawn("rangedEnemy", new SpawnData(x, y));
         }else {
