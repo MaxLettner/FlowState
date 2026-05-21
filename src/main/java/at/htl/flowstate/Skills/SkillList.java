@@ -119,15 +119,13 @@ public class SkillList {
             }
         }
     }
-    public boolean isSkillUnlocked(SkillType skillType) {
-        boolean isunlocked = false;
+    public Boolean isSkillUnlocked(SkillType skillType) {
         for (Skill skill : skills) {
             if (skill.getType().equals(skillType)) {
-                isunlocked = skill.isUnlocked();
-                break;
+                return skill.isUnlocked();
             }
         }
-        return isunlocked;
+        return null;
     }
 
     private void updateRouterSelection(){

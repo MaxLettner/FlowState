@@ -19,9 +19,9 @@ public class SkillTree extends SkillTreeParent {
     /*
      * false == first time unlocked
      * true == was already unlocked before
-     * 1 == magic
-     * 2 == melee
-     * 3 == ranged
+     * 0 == magic
+     * 1 == melee
+     * 2 == ranged
      * */
 
     private SkillTreeNode currentCategoryNode;
@@ -247,7 +247,7 @@ public class SkillTree extends SkillTreeParent {
         btn.setPrefHeight((int)(nodeSize / 2.2));
 
         boolean parentUnlocked = parentNode.isUnlocked();
-        boolean isUnlocked     = node.isUnlocked();
+        boolean isUnlocked = node.isUnlocked();
 
         String style;
         if (!parentUnlocked) {
@@ -277,7 +277,7 @@ public class SkillTree extends SkillTreeParent {
         btn.setWrapText(true);
 
         boolean parentUnlocked = parentSubCategoryNode.isUnlocked();
-        boolean isUnlocked     = skillNode.isUnlocked();
+        boolean isUnlocked = skillNode.isUnlocked();
 
         String style;
         if (!parentUnlocked) {
@@ -296,7 +296,7 @@ public class SkillTree extends SkillTreeParent {
                     : "-fx-font-size: 12px; -fx-background-color: #FF8C00; -fx-text-fill: white;");
         });
         btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(style); });
-        btn.setOnAction(e -> { skillList.unlockSkill(skillNode.getSkillType()); updateFullTree(); });
+        btn.setOnAction(e -> { skillNode.onClick(); updateFullTree(); });
 
         return btn;
     }
