@@ -69,11 +69,12 @@ public class PlayerStatsComponent extends Component {
     }
 
     public void raiseStrength() {
-        maxMana += 5;
+        strength += 5;
     }
 
     public void raiseDexterity() {
-        maxMana += 5;
+        strength += 5;
+        entity.getComponent(PlayerMovementComponent.class).updateMaxMoveSpeed();
     }
 
     //-----Getters-----
@@ -91,6 +92,14 @@ public class PlayerStatsComponent extends Component {
 
     public double getMaxHealth() {
         return maxHealth;
+    }
+
+    public double getDexterity() {
+        return dexterity;
+    }
+
+    public double getStrength() {
+        return strength;
     }
 
     public double getExperience() {

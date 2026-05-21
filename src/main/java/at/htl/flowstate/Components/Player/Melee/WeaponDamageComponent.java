@@ -27,7 +27,7 @@ public class WeaponDamageComponent extends Component {
 
     public WeaponDamageComponent(double damage, double stunDuration, double critChance, double knockbackStrength) {
         this.player = Game.getPlayer();
-        this.damage = damage;
+        this.damage = damage / 100 * Game.getPlayer().getComponent(PlayerStatsComponent.class).getStrength();
         this.stunDuration = stunDuration;
         this.critChance = critChance;
         this.knockbackStrength = knockbackStrength;

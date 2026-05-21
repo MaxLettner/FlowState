@@ -17,6 +17,7 @@ public class PlayerMovementComponent extends Component {
     private static final double JUMP_FORCE = 600.0;
     private static final double START_MOVE_SPEED_PCT = 60.0;
     private static final double MAX_MOVE_SPEED = 400;
+    private double currentMaxMoveSpeed = MAX_MOVE_SPEED;
     private static final double MAX_SPEED_FRAMES = 80;
     private static final double MAX_SPEED_THRESHOLD = 20;
     private static final int COYOTE_FRAMES = 5;
@@ -172,7 +173,7 @@ public class PlayerMovementComponent extends Component {
     }
 
     private void move(int direction) {
-        double speed = (MAX_MOVE_SPEED * entity.getComponent(MagicSkillComponent.class).getCurrentSpeedMult() / 100.0)
+        double speed = (currentMaxMoveSpeed * entity.getComponent(MagicSkillComponent.class).getCurrentSpeedMult() / 100.0)
                 * (START_MOVE_SPEED_PCT + ((100.0 - START_MOVE_SPEED_PCT) / 100.0) * (currentRunningFrames / MAX_SPEED_FRAMES) * 100.0);
 
         if (isGrounded) {
@@ -229,6 +230,10 @@ public class PlayerMovementComponent extends Component {
         } else if (coyoteTimer > 0) {
             coyoteTimer--;
         }
+    }
+
+    public void updateMaxMoveSpeed() {
+        currentMaxMoveSpeed = MAX_MOVE_SPEED/100*entity.getComponent(PlayerStatsComponent.class).getDexterity();
     }
 
     public int getCurrentWatchDirection() { return currentWatchDirection; }
