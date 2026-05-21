@@ -83,13 +83,13 @@ public abstract class EnemyBehaviourComponent extends Component {
 
         if (!isGrounded) {
             if (lastMoveDirection >= 0) sprite.setJumpRight();
-            else                        sprite.setJumpLeft();
+            else sprite.setJumpLeft();
         } else if (Math.abs(physics.getVelocityX()) > 1.0) {
             if (lastMoveDirection >= 0) sprite.setWalkRight();
-            else                        sprite.setWalkLeft();
+            else sprite.setWalkLeft();
         } else {
             if (lastMoveDirection >= 0) sprite.setIdleRight();
-            else                        sprite.setIdleLeft();
+            else sprite.setIdleLeft();
         }
     }
 
