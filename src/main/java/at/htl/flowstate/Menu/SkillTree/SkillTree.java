@@ -1,5 +1,7 @@
 package at.htl.flowstate.Menu.SkillTree;
 
+import at.htl.flowstate.Components.Player.PlayerStatsComponent;
+import at.htl.flowstate.Game;
 import at.htl.flowstate.Menu.SkillTree.Components.SkillTreeNode;
 import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.dsl.FXGL;
@@ -15,15 +17,6 @@ public class SkillTree extends SkillTreeParent {
     private SkillTreeNode meleeNode;
     private SkillTreeNode rangedNode;
 
-    private final boolean[] skillUnlockStatus = new boolean[3];
-    /*
-     * false == first time unlocked
-     * true == was already unlocked before
-     * 0 == magic
-     * 1 == melee
-     * 2 == ranged
-     * */
-
     private SkillTreeNode currentCategoryNode;
     private VBox contentBox;
     private VBox mainContainer;
@@ -36,8 +29,8 @@ public class SkillTree extends SkillTreeParent {
         super("Skill Tree");
         initializeHierarchy();
         setupUI();
+        Game.getPlayer().getComponent(PlayerStatsComponent.class).setOnSkillPointsChanged(this::updateDisplay);
     }
-
     private void initializeHierarchy() {
         // Magic sub-trees
         SkillTreeNode arcaneNode = new SkillTreeNode(SkillType.MAGIC_ARCANE, new SkillTreeNode[]{
@@ -127,8 +120,8 @@ public class SkillTree extends SkillTreeParent {
         contentBox.getChildren().clear();
         currentCategoryNode = null;
 
-        meleeBtn  = new Button(SkillType.MELEE.getName());
-        magicBtn  = new Button(SkillType.MAGIC.getName());
+        meleeBtn = new Button(SkillType.MELEE.getName());
+        magicBtn = new Button(SkillType.MAGIC.getName());
         rangedBtn = new Button(SkillType.RANGED.getName());
 
         for (Button btn : new Button[]{meleeBtn, magicBtn, rangedBtn}) {
@@ -140,16 +133,16 @@ public class SkillTree extends SkillTreeParent {
         meleeBtn.setStyle(baseStyle(SkillType.MELEE,  true, 18));
         rangedBtn.setStyle(baseStyle(SkillType.RANGED, true, 18));
 
-        magicBtn.setOnMouseEntered(e ->  magicBtn.setStyle(hoverStyle(SkillType.MAGIC,  true, 18)));
-        meleeBtn.setOnMouseEntered(e ->  meleeBtn.setStyle(hoverStyle(SkillType.MELEE,  true, 18)));
+        magicBtn.setOnMouseEntered(e -> magicBtn.setStyle(hoverStyle(SkillType.MAGIC,  true, 18)));
+        meleeBtn.setOnMouseEntered(e -> meleeBtn.setStyle(hoverStyle(SkillType.MELEE,  true, 18)));
         rangedBtn.setOnMouseEntered(e -> rangedBtn.setStyle(hoverStyle(SkillType.RANGED, true, 18)));
 
-        magicBtn.setOnMouseExited(e ->   magicBtn.setStyle(baseStyle(SkillType.MAGIC,  true, 18)));
-        meleeBtn.setOnMouseExited(e ->   meleeBtn.setStyle(baseStyle(SkillType.MELEE,  true, 18)));
-        rangedBtn.setOnMouseExited(e ->  rangedBtn.setStyle(baseStyle(SkillType.RANGED, true, 18)));
+        magicBtn.setOnMouseExited(e -> magicBtn.setStyle(baseStyle(SkillType.MAGIC,  true, 18)));
+        meleeBtn.setOnMouseExited(e -> meleeBtn.setStyle(baseStyle(SkillType.MELEE,  true, 18)));
+        rangedBtn.setOnMouseExited(e -> rangedBtn.setStyle(baseStyle(SkillType.RANGED, true, 18)));
 
-        magicBtn.setOnAction(e ->  handleMagicUnlock());
-        meleeBtn.setOnAction(e ->  handleMeleeUnlock());
+        magicBtn.setOnAction(e -> handleMagicUnlock());
+        meleeBtn.setOnAction(e -> handleMeleeUnlock());
         rangedBtn.setOnAction(e -> handleRangedUnlock());
 
         HBox categoryBox = new HBox(20);
@@ -162,33 +155,32 @@ public class SkillTree extends SkillTreeParent {
         magicNode.onClick();
         magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
         magicBtn.setOnMouseExited(e -> magicBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
-        if(skillUnlockStatus[0]) {
+        if(skillList.isSkillUnlocked(SkillType.MAGIC)) {
             displayFullTree(magicNode);
         } else {
-            skillUnlockStatus[0] = true;
+            updateDisplay();
         }
     }
     private void handleMeleeUnlock() {
         meleeNode.onClick();
         meleeBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
         meleeBtn.setOnMouseExited(e -> meleeBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
-        if(skillUnlockStatus[1]) {
+        if(skillList.isSkillUnlocked(SkillType.MELEE)) {
             displayFullTree(meleeNode);
         } else {
-            skillUnlockStatus[1] = true;
+            updateDisplay();
         }
     }
     private void handleRangedUnlock() {
         rangedNode.onClick();
         rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;");
         rangedBtn.setOnMouseExited(e -> rangedBtn.setStyle("-fx-font-size: 14px; -fx-background-color: #008000; -fx-text-fill: white;"));
-        if(skillUnlockStatus[2]) {
+        if(skillList.isSkillUnlocked(SkillType.RANGED)) {
             displayFullTree(rangedNode);
         } else {
-            skillUnlockStatus[2] = true;
+            updateDisplay();
         }
     }
-
 
     private void displayFullTree(SkillTreeNode categoryNode) {
         contentBox.getChildren().clear();
@@ -253,8 +245,8 @@ public class SkillTree extends SkillTreeParent {
         btn.setDisable(!parentUnlocked);
         btn.setStyle(baseStyle(node.getSkillType(), parentUnlocked, 14));
         btn.setOnMouseEntered(e -> { if (!btn.isDisabled()) btn.setStyle(hoverStyle(node.getSkillType(), parentUnlocked, 14)); });
-        btn.setOnMouseExited(e ->  { if (!btn.isDisabled()) btn.setStyle(baseStyle(node.getSkillType(), parentUnlocked, 14)); });
-        btn.setOnAction(e -> { node.onClick(); updateFullTree(); });
+        btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(baseStyle(node.getSkillType(), parentUnlocked, 14)); });
+        btn.setOnAction(e -> { node.onClick(); updateDisplay(); });
         return btn;
     }
 
@@ -268,38 +260,40 @@ public class SkillTree extends SkillTreeParent {
         btn.setDisable(!parentUnlocked);
         btn.setStyle(baseStyle(skillNode.getSkillType(), parentUnlocked, 12));
         btn.setOnMouseEntered(e -> { if (!btn.isDisabled()) btn.setStyle(hoverStyle(skillNode.getSkillType(), parentUnlocked, 12)); });
-        btn.setOnMouseExited(e ->  { if (!btn.isDisabled()) btn.setStyle(baseStyle(skillNode.getSkillType(), parentUnlocked, 12)); });
-        btn.setOnAction(e -> { skillNode.onClick(); updateFullTree(); });
+        btn.setOnMouseExited(e -> { if (!btn.isDisabled()) btn.setStyle(baseStyle(skillNode.getSkillType(), parentUnlocked, 12)); });
+        btn.setOnAction(e -> { skillNode.onClick(); updateDisplay(); });
         return btn;
     }
 
     private String baseStyle(SkillType skillType, boolean parentUnlocked, int fontSize) {
         String fs = "-fx-font-size: " + fontSize + "px; ";
-        if (!parentUnlocked)                                       return fs + "-fx-background-color: #444; -fx-text-fill: #888;";
-        boolean unlocked  = skillList.isSkillUnlocked(skillType);
-        boolean selected  = skillList.isSelected(skillType);
+        if (!parentUnlocked) return fs + "-fx-background-color: #444; -fx-text-fill: #888;";
+        boolean unlocked = skillList.isSkillUnlocked(skillType);
+        boolean selected = skillList.isSelected(skillType);
         boolean canAfford = skillList.getSkill(skillType).canAfford();
         if (unlocked && selected) return fs + "-fx-background-color: #1565C0; -fx-text-fill: white;";
-        if (unlocked)             return fs + "-fx-background-color: #008000; -fx-text-fill: white;";
-        if (canAfford)            return fs + "-fx-background-color: #FF8C00; -fx-text-fill: white;";
+        if (unlocked) return fs + "-fx-background-color: #008000; -fx-text-fill: white;";
+        if (canAfford) return fs + "-fx-background-color: #FF8C00; -fx-text-fill: white;";
         return fs + "-fx-background-color: #444;    -fx-text-fill: #888;";
     }
 
     private String hoverStyle(SkillType skillType, boolean parentUnlocked, int fontSize) {
         String fs = "-fx-font-size: " + fontSize + "px; ";
         if (!parentUnlocked)                                       return fs + "-fx-background-color: #444; -fx-text-fill: #888;";
-        boolean unlocked  = skillList.isSkillUnlocked(skillType);
-        boolean selected  = skillList.isSelected(skillType);
+        boolean unlocked = skillList.isSkillUnlocked(skillType);
+        boolean selected = skillList.isSelected(skillType);
         boolean canAfford = skillList.getSkill(skillType).canAfford();
         if (unlocked && selected) return fs + "-fx-background-color: #1976D2; -fx-text-fill: white;";
-        if (unlocked)             return fs + "-fx-background-color: #00a000; -fx-text-fill: white;";
-        if (canAfford)            return fs + "-fx-background-color: #FFA333; -fx-text-fill: white;";
+        if (unlocked) return fs + "-fx-background-color: #00a000; -fx-text-fill: white;";
+        if (canAfford) return fs + "-fx-background-color: #FFA333; -fx-text-fill: white;";
         return fs + "-fx-background-color: #444;    -fx-text-fill: #888;";
     }
 
-    private void updateFullTree() {
+    private void updateDisplay() {
         if (currentCategoryNode != null) {
             displayFullTree(currentCategoryNode);
+        } else {
+            displayTopLevel();
         }
     }
 }

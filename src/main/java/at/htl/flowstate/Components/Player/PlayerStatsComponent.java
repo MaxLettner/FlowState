@@ -22,6 +22,8 @@ public class PlayerStatsComponent extends Component {
     private static final int MAX_INVINCIBILITY_FRAMES = 60;
     private int currentInvincibilityFrames = 0;
 
+    private Runnable onSkillPointsChanged = null;
+
     @Override
     public void onUpdate(double tpf) {
         regenerate(tpf);
@@ -94,6 +96,7 @@ public class PlayerStatsComponent extends Component {
     public boolean takeSkillPoints(double s) {
         if(skillPoints - s < 0) return false;
         skillPoints -= s;
+        fireSkillPointsChanged();
         return true;
     }
 
@@ -104,14 +107,24 @@ public class PlayerStatsComponent extends Component {
             skillPoints++;
             maxExperience = Math.floor(maxExperience * 1.5);
             experience = 0;
+            fireSkillPointsChanged();
         }
     }
 
     public void addSkillPoint() {
         skillPoints++;
+        fireSkillPointsChanged();
     }
 
     public double getSkillPoints() {
         return skillPoints;
+    }
+
+    public void setOnSkillPointsChanged(Runnable callback) {
+        onSkillPointsChanged = callback;
+    }
+
+    private void fireSkillPointsChanged() {
+        if (onSkillPointsChanged != null) onSkillPointsChanged.run();
     }
 }

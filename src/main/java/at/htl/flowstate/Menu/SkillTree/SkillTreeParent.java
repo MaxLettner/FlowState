@@ -78,10 +78,6 @@ public abstract class SkillTreeParent {
         return button;
     }
 
-    protected Button createButton(String name, SkillType skillType) {
-        return createStyledButton(name, skillType, false);
-    }
-
     private void updateButtonStyle(Button button, boolean unlocked) {
         button.setStyle(unlocked ? STYLE_UNLOCKED : STYLE_DEFAULT);
     }
