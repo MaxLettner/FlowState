@@ -105,7 +105,7 @@ public class PlayerStatsComponent extends Component {
         if(experience == maxExperience) {
             level++;
             skillPoints++;
-            maxExperience = Math.floor(maxExperience * 1.5);
+            maxExperience++;
             experience = 0;
             fireSkillPointsChanged();
         }

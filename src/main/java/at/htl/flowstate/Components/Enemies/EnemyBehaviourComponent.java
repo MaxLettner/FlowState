@@ -30,7 +30,7 @@ public abstract class EnemyBehaviourComponent extends Component {
     protected static final double ENEMY_WIDTH = 40.0;
     protected static final double ENEMY_HEIGHT = 80.0;
 
-    protected static final double DAMAGE = 10.0;
+    protected static final double DAMAGE = 5.0;
 
     protected boolean isGrounded = false;
     protected boolean wasGrounded = false;
