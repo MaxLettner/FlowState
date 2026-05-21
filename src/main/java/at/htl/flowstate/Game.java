@@ -203,6 +203,7 @@ public class Game extends GameApplication {
         levelGeneration.generateLevel(player.getX());
         cleanupPlatforms();
         scrollBg();
+        checkIfPlayerIsDead();
         updateBars();
     }
 
@@ -274,6 +275,12 @@ public class Game extends GameApplication {
         mpBar.setMaxValue(statsComponent.getMaxMana());
         epBar.setMaxValue(statsComponent.getMaxExperience());
         epBar.setCurrentValue(statsComponent.getExperience());
+    }
+
+    private void checkIfPlayerIsDead() {
+        if(player.getComponent(PlayerStatsComponent.class).getHealth() < 0) {
+            getGameController().exit();
+        }
     }
 
     //-----HELPERS-----
