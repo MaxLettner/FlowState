@@ -119,6 +119,17 @@ public class SkillList {
             }
         }
     }
+
+    public void selectSkill(SkillType skillType) {
+        for (int i = 0; i < skills.length; i++) {
+            if (skills[i].getType().equals(skillType)) {
+                index_of_selected_skill = i;
+                updateRouterSelection();
+                return;
+            }
+        }
+    }
+
     public Boolean isSkillUnlocked(SkillType skillType) {
         for (Skill skill : skills) {
             if (skill.getType().equals(skillType)) {

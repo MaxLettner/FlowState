@@ -33,9 +33,11 @@ public class SkillTreeNode {
 
     public void onClick() {
         if (!isUnlocked()) {
-            if(player.getComponent(PlayerStatsComponent.class).takeSkillPoints(skillList.getSkill(skillType).getCost())) {
+            if (player.getComponent(PlayerStatsComponent.class).takeSkillPoints(skillList.getSkill(skillType).getCost())) {
                 skillList.unlockSkill(skillType);
             }
+        } else {
+            skillList.selectSkill(skillType);
         }
     }
 }
