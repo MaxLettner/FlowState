@@ -6,8 +6,6 @@ import at.htl.flowstate.Skills.SkillList;
 import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.entity.Entity;
 
-import static at.htl.flowstate.Skills.SubTreeType.*;
-
 public class SkillTreeNode {
     private final SkillType skillType;
     private final SkillTreeNode[] children;

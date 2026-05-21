@@ -268,10 +268,12 @@ public class Game extends GameApplication {
     }
 
     private void updateBars() {
-        hpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getHealth());
-        mpBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getMana());
-        epBar.setMaxValue(player.getComponent(PlayerStatsComponent.class).getMaxExperience());
-        epBar.setCurrentValue(player.getComponent(PlayerStatsComponent.class).getExperience());
+        PlayerStatsComponent statsComponent = player.getComponent(PlayerStatsComponent.class);
+        hpBar.setCurrentValue(statsComponent.getHealth());
+        mpBar.setCurrentValue(statsComponent.getMana());
+        mpBar.setMaxValue(statsComponent.getMaxMana());
+        epBar.setMaxValue(statsComponent.getMaxExperience());
+        epBar.setCurrentValue(statsComponent.getExperience());
     }
 
     //-----HELPERS-----

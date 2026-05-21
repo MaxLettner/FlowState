@@ -1,6 +1,7 @@
 package at.htl.flowstate.Components.Player;
 
 import at.htl.flowstate.Components.Player.Skills.MagicSkillComponent;
+import at.htl.flowstate.Game;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
 
@@ -64,6 +65,7 @@ public class PlayerStatsComponent extends Component {
 
     public void raiseMaxMana() {
         maxMana += 10;
+        mana += 10;
     }
 
     public void raiseStrength() {
