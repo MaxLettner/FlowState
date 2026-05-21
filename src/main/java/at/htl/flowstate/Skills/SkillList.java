@@ -130,6 +130,10 @@ public class SkillList {
         }
     }
 
+    public boolean isSelected(SkillType skillType) {
+        return skills[index_of_selected_skill].getType().equals(skillType);
+    }
+
     public Boolean isSkillUnlocked(SkillType skillType) {
         for (Skill skill : skills) {
             if (skill.getType().equals(skillType)) {
