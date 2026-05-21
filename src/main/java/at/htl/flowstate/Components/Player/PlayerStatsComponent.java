@@ -16,8 +16,8 @@ public class PlayerStatsComponent extends Component {
     private double level = 0;
     private double skillPoints = 0;
 
-    private final double HEAL_PERCENTAGE = 0.01; //healing per second
-    private final double MANA_PERCENTAGE = 0.05; //mana regen per second
+    private static final double HEAL_PERCENTAGE = 0.01; //healing per second
+    private static final double MANA_PERCENTAGE = 0.05; //mana regen per second
 
     private static final int MAX_INVINCIBILITY_FRAMES = 60;
     private int currentInvincibilityFrames = 0;
@@ -60,6 +60,18 @@ public class PlayerStatsComponent extends Component {
         if(health > maxHealth) {
             health = maxHealth;
         }
+    }
+
+    public void raiseMaxMana() {
+        maxMana += 10;
+    }
+
+    public void raiseStrength() {
+        maxMana += 5;
+    }
+
+    public void raiseDexterity() {
+        maxMana += 5;
     }
 
     //-----Getters-----

@@ -10,13 +10,15 @@ public class Skill {
         private final SkillType type;
         private final int cost;
         private final Entity player;
+        private final SubTreeType subTreeType;
 
-        public Skill(SkillType type, int cost) {
+        public Skill(SkillType type, int cost, SubTreeType subTreeType) {
             this.name = type.getName();
             this.isUnlocked = false;
             this.type = type;
             this.cost = cost;
             this.player = Game.getPlayer();
+            this.subTreeType = subTreeType;
         }
 
         public String getName() {
@@ -37,6 +39,10 @@ public class Skill {
 
         public int getCost() {
             return cost;
+        }
+
+        public SubTreeType getSubTreeType() {
+            return subTreeType;
         }
 
 

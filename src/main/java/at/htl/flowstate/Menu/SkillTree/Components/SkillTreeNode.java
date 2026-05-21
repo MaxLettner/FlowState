@@ -6,6 +6,8 @@ import at.htl.flowstate.Skills.SkillList;
 import at.htl.flowstate.Skills.SkillType;
 import com.almasb.fxgl.entity.Entity;
 
+import static at.htl.flowstate.Skills.SubTreeType.*;
+
 public class SkillTreeNode {
     private final SkillType skillType;
     private final SkillTreeNode[] children;
@@ -35,6 +37,11 @@ public class SkillTreeNode {
         if (!isUnlocked()) {
             if (player.getComponent(PlayerStatsComponent.class).takeSkillPoints(skillList.getSkill(skillType).getCost())) {
                 skillList.unlockSkill(skillType);
+                switch (skillList.getSkill(skillType).getSubTreeType()) {
+                    case MAGIC: player.getComponent(PlayerStatsComponent.class).raiseMaxMana(); break;
+                    case MELEE: player.getComponent(PlayerStatsComponent.class).raiseStrength(); break;
+                    case RANGED: player.getComponent(PlayerStatsComponent.class).raiseDexterity(); break;
+                }
             }
         } else {
             skillList.selectSkill(skillType);
