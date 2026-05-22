@@ -2,6 +2,7 @@ package at.htl.flowstate.Components.Player.MagicProjectiles;
 
 import at.htl.flowstate.Components.Player.Blasts.ExplosionBlastComponent;
 import com.almasb.fxgl.entity.Entity;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
@@ -34,7 +35,7 @@ public class FireballProjectileComponent extends PlayerProjectileComponent{
     private void createBlast() {
         entityBuilder()
                 .at(entity.getCenter())
-                .viewWithBBox(new Circle(1, Paint.valueOf("#835142")))
+                .viewWithBBox(new Circle(1, Color.ORANGERED))
                 .with(new ExplosionBlastComponent(blastDamage, blastRadius, blastDuration, blastFadeoutTime))
                 .zIndex(5)
                 .buildAndAttach();

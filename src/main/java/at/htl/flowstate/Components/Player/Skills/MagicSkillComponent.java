@@ -123,7 +123,7 @@ public class MagicSkillComponent extends SkillComponent {
                 30,
                 30,
                 30,
-                500,
+                800,
                 getInput().getVectorToMouse(entity.getCenter()),
                 new FireballProjectileComponent(30, 20, 200, 0.5, 2), false
         );
