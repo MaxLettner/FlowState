@@ -7,6 +7,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
@@ -40,12 +41,11 @@ public class LevelFactory implements EntityFactory {
 
     @Spawns("chest")
     public Entity newChest(SpawnData data) {
-        Color color = data.get("color");
         double w = data.get("width");
         double h = data.get("height");
 
         return FXGL.entityBuilder(data)
-                .viewWithBBox(new Rectangle(w, h, color))
+                .bbox(BoundingShape.box(w, h))
                 .with(new ChestComponent())
                 .collidable()
                 .zIndex(-1)

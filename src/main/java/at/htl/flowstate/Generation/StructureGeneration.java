@@ -60,7 +60,6 @@ public class StructureGeneration {
 
     private void spawnChest(double x, double y) {
         spawn("chest", new SpawnData(x, y)
-                .put("color", Color.RED)
                 .put("width", 80.0)
                 .put("height", 50.0));
     }
