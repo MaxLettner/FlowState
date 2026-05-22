@@ -12,10 +12,14 @@ import java.net.URL;
 
 public class ChestComponent extends Component {
     private boolean isClosed;
+    private boolean isCollected = false;
     private final Entity player;
+
+    private double timer = 0.3;
 
     private final Texture closedTexture;
     private final Texture openTexture;
+    private final Texture collectedTexture;
 
     public ChestComponent() {
         isClosed = true;
@@ -32,6 +36,12 @@ public class ChestComponent extends Component {
         openTexture = new Texture(new Image(url.toExternalForm(), 90, 90, false, true));
         openTexture.setTranslateY(-40);
         openTexture.setTranslateX(-5);
+
+        url = MeleeSkillComponent.class.getResource("/assets/textures/chest_collected.png");
+        assert url != null;
+        collectedTexture = new Texture(new Image(url.toExternalForm(), 90, 90, false, true));
+        collectedTexture.setTranslateY(-40);
+        collectedTexture.setTranslateX(-5);
     }
 
     @Override
@@ -41,11 +51,28 @@ public class ChestComponent extends Component {
 
     @Override
     public void onUpdate(double tpf) {
+        collisionCheck();
+        checkAnimationTimer(tpf);
+    }
+
+    private void collisionCheck() {
         if(entity.isColliding(player) && isClosed) {
             player.getComponent(PlayerStatsComponent.class).addSkillPoint();
             isClosed = false;
             entity.getViewComponent().removeChild(closedTexture);
             entity.getViewComponent().addChild(openTexture);
+        }
+    }
+
+    private void checkAnimationTimer(double tpf) {
+        if(!isClosed && !isCollected) {
+            if(timer > 0) {
+                timer -= tpf;
+            }else {
+                isCollected = true;
+                entity.getViewComponent().removeChild(openTexture);
+                entity.getViewComponent().addChild(collectedTexture);
+            }
         }
     }
 }
