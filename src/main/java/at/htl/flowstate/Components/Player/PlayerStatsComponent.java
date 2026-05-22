@@ -14,7 +14,6 @@ public class PlayerStatsComponent extends Component {
     private double experience = 0;
     private double maxExperience = 3;
     private double dexterity = 100;
-    private double level = 0;
     private double skillPoints = 0;
 
     private static final double HEAL_PERCENTAGE = 0.01; //healing per second
@@ -126,7 +125,6 @@ public class PlayerStatsComponent extends Component {
     public void addExperience() {
         experience++;
         if(experience == maxExperience) {
-            level++;
             skillPoints++;
             maxExperience++;
             experience = 0;
